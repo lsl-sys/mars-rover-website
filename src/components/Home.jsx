@@ -13,6 +13,7 @@ const Home = () => {
           <div className="cta-buttons">
             <Link to="/apply" className="btn-primary">立即申请</Link>
             <Link to="/schedule" className="btn-secondary">查看培训日程</Link>
+            <Link to="/materials" className="btn-secondary">查看培训资料</Link>
           </div>
         </div>
         <div className="hero-image">

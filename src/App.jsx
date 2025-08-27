@@ -4,6 +4,7 @@ import Layout from './components/Common/Layout'
 import Home from './components/Home'
 import ApplicationForm from './components/Recruitment/ApplicationForm'
 import TrainingSchedule from './components/TrainingSchedule/TrainingSchedule'
+import TrainingMaterials from './components/TrainingMaterials/TrainingMaterials'
 import './App.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="apply" element={<ApplicationForm />} />
           <Route path="schedule" element={<TrainingSchedule />} />
+          <Route path="materials" element={<TrainingMaterials />} />
           {/* 可以在这里添加更多路由 */}
         </Route>
       </Routes>

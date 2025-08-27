@@ -1,0 +1,441 @@
+/* 培训资料页面样式 */
+.training-materials-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.materials-header {
+  background-color: #fff;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.materials-header h1 {
+  color: #333;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.materials-header p {
+  color: #666;
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+.materials-content {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  gap: 20px;
+}
+
+.materials-sidebar {
+  flex: 0 0 300px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+/* 侧边栏头部样式 */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.sidebar-header h2 {
+  color: #333;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* 返回按钮样式 */
+.back-button {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+/* 分类卡片点击效果 */
+.category-card {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid #007bff;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #e9ecef;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+/* 一级标题样式 - 如电控、机械、硬件 */
+.section h3 {
+  color: #333;
+  margin: 0 0 16px 0;
+  font-size: 26px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  padding: 12px 0;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.section h3:hover {
+  color: #007bff;
+  background-color: #f8f9fa;
+}
+
+/* 二级标题样式 - 如嵌入式系统基础 */
+.sub-items.level-0 > li {
+  position: relative;
+  margin: 15px 0;
+  font-weight: 600;
+  color: #495057;
+  text-align: left;
+}
+
+.sub-items.level-0 > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #007bff, #e9ecef);
+}
+
+/* 确保所有级别列表项文本左对齐 */
+.sub-items li {
+  text-align: left;
+}
+
+.sub-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 16px;
+}
+
+.sub-items.level-0 {
+  margin-left: 0;
+}
+
+.sub-items.level-1 {
+  margin-left: 20px;
+}
+
+.sub-items.level-2 {
+  margin-left: 40px;
+}
+
+.sub-items li {
+  margin: 8px 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.sub-items li span {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.sub-items li span:hover {
+  color: #007bff;
+}
+
+.pdf-link {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  padding: 0;
+  transition: color 0.2s;
+  display: inline;
+}
+
+.pdf-link:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+/* 电控培训大纲特殊样式 */
+.sub-items.level-0 > li:first-child .pdf-link {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.external-link {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.external-link:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.materials-main {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.materials-welcome h2 {
+  color: #333;
+  margin: 0 0 16px 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.materials-welcome p {
+  color: #666;
+  margin: 0 0 24px 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* 分类概览样式 */
+.category-overview {
+  margin-bottom: 24px;
+}
+
+.category-overview h3 {
+  color: #333;
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 8px;
+}
+
+.category-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.category-card h4 {
+  color: #333;
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.category-card p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 使用指南样式 */
+.usage-guide {
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.usage-guide h3 {
+  color: #333;
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.usage-guide ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.usage-guide li {
+  color: #666;
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  padding-left: 16px;
+  position: relative;
+}
+
+.usage-guide li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #007bff;
+}
+
+/* 分类详情页面样式 */
+.category-detail {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.detail-header h2 {
+  color: #333;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.detail-content {
+  padding: 10px 0;
+}
+
+.detail-description {
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.detail-description p {
+  color: #666;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.detail-materials h3 {
+  color: #333;
+  margin: 0 0 30px 0;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  padding: 15px 0;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.materials-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.material-item {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.material-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.material-title {
+  font-weight: 700;
+  color: #333;
+  display: block;
+  margin-bottom: 15px;
+  font-size: 20px;
+  position: relative;
+}
+
+.material-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #007bff, #e9ecef);
+}
+
+.sub-materials-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 15px 0 0 0;
+}
+
+.sub-material-item {
+  margin: 10px 0;
+  color: #666;
+  font-size: 16px;
+  text-align: left;
+  padding-left: 20px;
+  position: relative;
+}
+
+.sub-material-item::before {
+  content: "•";
+  color: #007bff;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .materials-content {
+    flex-direction: column;
+  }
+  
+  .materials-sidebar {
+    flex: 1;
+    position: static;
+  }
+  
+  .materials-main {
+    flex: 1;
+  }
+  
+  .category-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
