@@ -1,253 +1,708 @@
+/* 首页容器样式 - 设置背景色 */
 .home-container {
   color: #334155;
+  position: relative;
+  overflow: hidden;
 }
 
-/* 英雄区域样式 */
+/* 英雄区域样式 - 设置flex布局、内边距、背景色和圆角 */
 .hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: white;
+  overflow: hidden;
+}
+
+/* 英雄区域渐变背景 */
+.hero-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(66, 153, 225, 0.15) 0%, rgba(15, 23, 42, 0) 50%);
+  z-index: 0;
+}
+
+/* 英雄区域覆盖层 */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 30%);
+  z-index: 0;
+}
+
+/* 英雄内容包装器 */
+.hero-content-wrapper {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 4rem 0;
-  background-color: #f8fafc;
-  border-radius: 10px;
-  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 2rem 0;
 }
 
+/* 英雄内容区域样式 */
 .hero-content {
   flex: 1;
   min-width: 300px;
-  padding: 0 2rem;
-}
-
-.hero-content h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: #0f172a;
-}
-
-.hero-content p {
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-  color: #64748b;
-}
-
-.cta-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  max-width: 100%;
-  justify-content: center;
-  margin-top: 2rem;
-}
-
-/* 增加按钮尺寸和视觉效果 */
-.btn-primary {
-  background-color: #2563eb;
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 700;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-  font-size: 1.1rem;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-}
-
-.btn-primary:hover {
-  background-color: #1d4ed8;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
-}
-
-.btn-secondary {
-  background-color: #ffffff;
-  color: #334155;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 700;
-  border: 2px solid #e2e8f0;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-  font-size: 1.1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.btn-secondary:hover {
-  background-color: #f8fafc;
-  border-color: #cbd5e1;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.btn-primary {
-  background-color: #2563eb;
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.3s;
-  flex-shrink: 0;
-}
-
-.btn-primary:hover {
-  background-color: #1d4ed8;
-}
-
-.btn-secondary {
-  background-color: #f1f5f9;
-  color: #334155;
-  padding: 0.8rem 1.5rem;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 600;
-  border: 1px solid #e2e8f0;
-  transition: all 0.3s;
-  flex-shrink: 0;
-}
-
-.btn-secondary:hover {
-  background-color: #e2e8f0;
-}
-
-.hero-image {
-  flex: 1;
-  min-width: 300px;
-  padding: 0 2rem;
-  display: flex;
-  justify-content: center;
-}
-
-.hero-image img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-/* 组织介绍区域样式 */
-.about-section {
-  margin-bottom: 3rem;
-}
-
-.about-section h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: #0f172a;
+  padding: 2rem;
   text-align: center;
 }
 
-.about-section p {
+/* 英雄标签样式 */
+.hero-tagline {
   font-size: 1.1rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards 0.3s;
+}
+
+/* 英雄标题样式 */
+.hero-title {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  color: white;
+  font-weight: 800;
+  line-height: 1.2;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards 0.5s;
+}
+
+/* 英雄描述文本样式 */
+.hero-description {
+  font-size: 1.25rem;
+  margin-bottom: 3rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards 0.7s;
+}
+
+/* 行动按钮容器样式 */
+.cta-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards 0.9s;
+}
+
+/* 次要按钮组 */
+.secondary-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* 主要按钮样式 - 设置背景色、文字颜色、内边距、圆角等 */
+.btn-primary {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 1.25rem 3rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+  border: none;
+  cursor: pointer;
+}
+
+/* 主要按钮悬停样式 - 更改背景色、添加上移效果和增强阴影 */
+.btn-primary:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px -8px rgba(16, 185, 129, 0.5);
+}
+
+/* 次要按钮样式 - 设置背景色、文字颜色、内边距、边框等 */
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  backdrop-filter: blur(10px);
+}
+
+/* 次要按钮悬停样式 - 更改背景色、边框颜色、添加上移效果和增强阴影 */
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 英雄图片容器样式 */
+.hero-image-container {
+  flex: 1;
+  min-width: 300px;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards 1.1s;
+}
+
+/* 英雄插图样式 */
+.hero-illustration {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 400px;
+}
+
+/* 火星车图标样式 */
+.rover-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 240px;
+  height: 200px;
+  animation: float 6s ease-in-out infinite;
+}
+
+/* 火星车主体样式 */
+.rover-body {
+  position: relative;
+  width: 180px;
+  height: 100px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
+}
+
+/* 火星车顶部样式 */
+.rover-top {
+  position: absolute;
+  top: -50px;
+  left: 30px;
+  width: 120px;
+  height: 60px;
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+}
+
+/* 火星车相机样式 */
+.rover-camera {
+  position: absolute;
+  top: -70px;
+  left: 70px;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, #ffffff 0%, #e2e8f0 100%);
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 火星车轮子容器样式 */
+.rover-wheels {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+/* 火星车轮子样式 */
+.wheel {
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 50%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  animation: spin 4s linear infinite;
+}
+
+/* 装饰元素样式 */
+.hero-decor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 装饰圆圈样式 */
+.decor-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.2;
+  animation: float 8s ease-in-out infinite;
+}
+
+.circle-1 {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  top: -50px;
+  left: -50px;
+  animation-delay: 0s;
+}
+
+.circle-2 {
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  bottom: -30px;
+  right: 50px;
+  animation-delay: 2s;
+}
+
+.circle-3 {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  top: 80px;
+  right: -20px;
+  animation-delay: 4s;
+}
+
+/* 英雄统计数据样式 */
+.hero-stats {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4rem;
+  margin-top: 0;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  width: 100%;
+  max-width: 1000px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards 1.3s;
+}
+
+/* 统计项样式 */
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* 统计数字样式 */
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #10b981;
+  margin-bottom: 0.5rem;
+}
+
+/* 统计标签样式 */
+.stat-label {
+  font-size: 1rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* 动画定义 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-10px) rotate(2deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 组织介绍区域样式 - 设置下边距 */
+.about-section {
+  padding: 4rem 2rem;
+  background-color: #f8fafc;
+  text-align: center;
+  margin-top: 0;
+}
+
+/* 组织介绍标题样式 - 设置字体大小、边距、颜色和居中对齐 */
+.about-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  margin-top: 0;
+  color: #0f172a;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+/* 标题装饰线 */
+.about-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+  border-radius: 2px;
+}
+
+/* 组织介绍描述文本样式 - 设置字体大小、边距、居中对齐和最大宽度 */
+.about-section p {
+  font-size: 1.2rem;
   margin-bottom: 2rem;
   text-align: center;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  color: #64748b;
+  line-height: 1.6;
 }
 
+/* 特性卡片容器样式 - 设置flex布局、换行、居中对齐和间距 */
 .features {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 2rem;
-  margin-top: 3rem;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+  padding-top: 0;
 }
 
+/* 特性卡片样式 - 设置背景色、内边距、圆角、阴影和过渡效果 */
 .feature-card {
   background-color: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   flex: 1;
-  min-width: 250px;
-  max-width: 350px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  min-width: 280px;
+  max-width: 380px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
+/* 特性卡片装饰角 */
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 50px 50px 0;
+  border-color: transparent #f0fdf4 transparent transparent;
+}
+
+/* 特性卡片悬停样式 - 添加上移效果和增强阴影 */
 .feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
+/* 特性卡片标题样式 - 设置字体大小、边距和颜色 */
 .feature-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+  font-size: 1.75rem;
+  margin-bottom: 1.25rem;
   color: #0f172a;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
+/* 特性卡片标题前的图标 */
+.feature-card h3::before {
+  content: '';
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: white;
+}
+
+/* 技术创新卡片图标内容 */
+.feature-card:nth-child(1) h3::before {
+  content: '💡';
+}
+
+/* 团队协作卡片图标内容 */
+.feature-card:nth-child(2) h3::before {
+  content: '🤝';
+}
+
+/* 实践育人卡片图标内容 */
+.feature-card:nth-child(3) h3::before {
+  content: '🎓';
+}
+
+/* 特性卡片描述文本样式 - 设置颜色和左对齐 */
 .feature-card p {
   color: #64748b;
   text-align: left;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
 /* 项目展示区域样式 */
 .projects-section {
-  margin-bottom: 3rem;
-}
-
-.projects-section h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #0f172a;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: white;
   text-align: center;
+  margin-top: 0;
 }
 
+/* 项目展示标题样式 - 设置字体大小、边距、颜色和居中对齐 */
+.projects-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  margin-top: 0;
+  color: white;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+/* 项目展示标题装饰线 */
+.projects-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+  border-radius: 2px;
+}
+
+/* 项目卡片网格样式 - 设置flex布局、换行、居中对齐和间距 */
 .project-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* 项目卡片样式 - 设置背景色、圆角、溢出隐藏、阴影和过渡效果 */
 .project-card {
-  background-color: white;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   flex: 1;
   min-width: 300px;
-  max-width: 400px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 450px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
 }
 
+/* 项目卡片悬停样式 - 添加上移效果和增强阴影 */
 .project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.project-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+/* 项目卡片内容样式 */
+.project-card-content {
+  padding: 2rem;
 }
 
+/* 项目卡片标题样式 - 设置字体大小、边距和颜色 */
 .project-card h3 {
-  font-size: 1.5rem;
-  margin: 1.5rem 1.5rem 0.5rem;
-  color: #0f172a;
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: white;
+  font-weight: 700;
 }
 
+/* 项目卡片描述文本样式 - 设置颜色和边距 */
 .project-card p {
-  color: #64748b;
-  margin: 0 1.5rem 1.5rem;
+  color: #cbd5e1;
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
-/* 响应式设计 */
+/* 项目卡片装饰元素 */
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+}
+
+/* 响应式设计 - 当屏幕宽度小于768px时应用的样式 */
 @media (max-width: 768px) {
+  /* 调整英雄区域内边距 */
   .hero-section {
-    padding: 2rem 0;
+    padding: 2rem;
+    min-height: auto;
   }
 
-  .hero-content h1 {
+  /* 缩小英雄区域标题字体大小 */
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  /* 缩小英雄描述字体大小 */
+  .hero-description {
+    font-size: 1.1rem;
+  }
+
+  /* 缩小标题字体大小 */
+  .about-section h2,
+  .projects-section h2 {
     font-size: 2rem;
   }
 
-  .about-section h2,
-  .projects-section h2 {
-    font-size: 1.8rem;
+  /* 调整英雄统计数据样式 */
+  .hero-stats {
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+
+  /* 调整统计数字大小 */
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  /* 调整特性卡片样式 */
+  .feature-card {
+    min-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  /* 调整项目卡片样式 */
+  .project-card {
+    min-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  /* 调整按钮样式 */
+  .btn-primary {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+  }
+
+  .btn-secondary {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  /* 调整火星车图标大小 */
+  .rover-icon {
+    width: 180px;
+    height: 150px;
+  }
+
+  .rover-body {
+    width: 140px;
+    height: 80px;
+  }
+
+  .rover-top {
+    top: -40px;
+    left: 20px;
+    width: 100px;
+    height: 50px;
+  }
+
+  .rover-camera {
+    top: -60px;
+    left: 50px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .wheel {
+    width: 25px;
+    height: 25px;
+  }
+
+  /* 调整装饰圆圈大小 */
+  .circle-1 {
+    width: 150px;
+    height: 150px;
+  }
+
+  .circle-2 {
+    width: 100px;
+    height: 100px;
+  }
+
+  .circle-3 {
+    width: 80px;
+    height: 80px;
   }
 }

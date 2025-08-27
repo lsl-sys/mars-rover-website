@@ -55,10 +55,10 @@ const mockTrainingEvents = [
     title: '小组项目讨论',
     start: new Date(2025, 8, 10, 10, 0, 0), // 9月10日 10:00
     end: new Date(2025, 8, 10, 12, 0, 0),   // 9月10日 12:00
-    description: '讨论项到的问题',
+    description: '讨论项目进展和遇到的技术问题',
     location: '创新中心 会议室',
     trainer: '全体',
-    category: '讨论',
+    category: '项目讨论',
   },
 ];
 
@@ -120,157 +120,196 @@ const TrainingSchedule = () => {
 
   return (
     <div className="training-schedule-container">
-      <h2>火星车组织培训日程</h2>
-      <p>以下是我们的培训安排，欢迎准时参加！</p>
-
-      {/* 日历控制栏 */}
-      <div className="calendar-controls">
-        <button 
-          className="control-btn"
-          onClick={() => setCurrentDate(moment(currentDate).subtract(1, view === 'week' ? 'week' : 'month').toDate())}
-        >
-          上{view === 'week' ? '周' : '月'}
-        </button>
-        <h3 className="current-date">
-          {view === 'week' 
-            ? `${moment(currentDate).startOf('week').format('YYYY年MM月DD日')} - ${moment(currentDate).endOf('week').format('YYYY年MM月DD日')}`
-            : moment(currentDate).format('YYYY年MM月')
-          }
-        </h3>
-        <button 
-          className="control-btn"
-          onClick={() => setCurrentDate(moment(currentDate).add(1, view === 'week' ? 'week' : 'month').toDate())}
-        >
-          下{view === 'week' ? '周' : '月'}
-        </button>
-        <div className="view-buttons">
-          <button 
-            className={`view-btn ${view === 'week' ? 'active' : ''}`}
-            onClick={() => setView('week')}
-          >
-            周视图
-          </button>
-          <button 
-            className={`view-btn ${view === 'month' ? 'active' : ''}`}
-            onClick={() => setView('month')}
-          >
-            月视图
-          </button>
-        </div>
+      <div className="schedule-header">
+        <h1>火星车组织培训日程</h1>
+        <p>以下是我们的培训安排，欢迎准时参加！</p>
       </div>
-
-      {/* 图例 */}
-      <div className="legend">
-        <h4>图例</h4>
-        <div className="legend-items">
-          <div className="legend-item">
-            <div className="legend-color" style={{ backgroundColor: '#3b82f6' }}></div>
-            <span>基础培训</span>
+      
+      <div className="schedule-content">
+        <div className="schedule-sidebar">
+          <h2>培训信息</h2>
+          
+          <div className="sidebar-info-item">
+            <div className="sidebar-info-title">培训类型</div>
+            <div className="sidebar-info-text">
+              • 基础培训：火星车基础知识介绍<br/>
+              • 技术培训：专业技能深入学习<br/>
+              • 实践课程：动手操作与实践<br/>
+              • 项目讨论：团队协作与项目规划
+            </div>
           </div>
-          <div className="legend-item">
-            <div className="legend-color" style={{ backgroundColor: '#10b981' }}></div>
-            <span>技术培训</span>
+          
+          <div className="sidebar-info-item">
+            <div className="sidebar-info-title">参与须知</div>
+            <div className="sidebar-info-text">
+              • 请提前5分钟到达培训地点<br/>
+              • 带好笔记本和相关学习资料<br/>
+              • 技术培训建议自带电脑<br/>
+            </div>
           </div>
-          <div className="legend-item">
-            <div className="legend-color" style={{ backgroundColor: '#f59e0b' }}></div>
-            <span>实践课程</span>
+          
+          <div className="sidebar-info-item">
+            <div className="sidebar-info-title">培训讲师</div>
+            <div className="sidebar-info-text">
+              我们的培训讲师由经验丰富的团队成员担任，涵盖机械、电子、编程等多个领域，确保您获得专业的指导。
+            </div>
           </div>
-          <div className="legend-item">
-            <div className="legend-color" style={{ backgroundColor: '#8b5cf6' }}></div>
-            <span>项目讨论</span>
+          
+          <div className="legend">
+            <h3>图例</h3>
+            <div className="legend-items">
+              <div className="legend-item">
+                <div className="legend-color" style={{ backgroundColor: '#3b82f6' }}></div>
+                <span className="legend-text">基础培训</span>
+              </div>
+              <div className="legend-item">
+                <div className="legend-color" style={{ backgroundColor: '#10b981' }}></div>
+                <span className="legend-text">技术培训</span>
+              </div>
+              <div className="legend-item">
+                <div className="legend-color" style={{ backgroundColor: '#f59e0b' }}></div>
+                <span className="legend-text">实践课程</span>
+              </div>
+              <div className="legend-item">
+                <div className="legend-color" style={{ backgroundColor: '#8b5cf6' }}></div>
+                <span className="legend-text">项目讨论</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="sidebar-info-item">
+            <div className="sidebar-info-title">联系我们</div>
+            <div className="sidebar-info-text">
+              如有任何疑问，请联系培训负责人：<br/>
+              邮箱：<br/>
+                电控：m15397763602.com<br/>
+              QQ：<br/>
+                电控：3513992041
+            </div>
           </div>
         </div>
-      </div>
+        
+        <div className="schedule-main">
+          {/* 日历控制栏 */}
+          <div className="calendar-controls">
+            <button 
+              className="control-btn"
+              onClick={() => setCurrentDate(moment(currentDate).subtract(1, view === 'week' ? 'week' : 'month').toDate())}
+            >
+              上{view === 'week' ? '周' : '月'}
+            </button>
+            <h3 className="current-date">
+              {view === 'week' 
+                ? `${moment(currentDate).startOf('week').format('YYYY年MM月DD日')} - ${moment(currentDate).endOf('week').format('YYYY年MM月DD日')}`
+                : moment(currentDate).format('YYYY年MM月')
+              }
+            </h3>
+            <button 
+              className="control-btn"
+              onClick={() => setCurrentDate(moment(currentDate).add(1, view === 'week' ? 'week' : 'month').toDate())}
+            >
+              下{view === 'week' ? '周' : '月'}
+            </button>
+            <div className="view-buttons">
+              <button 
+                className={`view-btn ${view === 'week' ? 'active' : ''}`}
+                onClick={() => setView('week')}
+              >
+                周视图
+              </button>
+              <button 
+                className={`view-btn ${view === 'month' ? 'active' : ''}`}
+                onClick={() => setView('month')}
+              >
+                月视图
+              </button>
+            </div>
+          </div>
 
-      {/* 日历组件 */}
-      <div className="calendar-container">
-        <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 600 }}
-          view={view}
-          views={['week', 'month']}
-          date={currentDate}
-          onNavigate={date => setCurrentDate(date)}
-          onView={newView => setView(newView)}
-          onSelectEvent={handleEventClick}
-          eventPropGetter={eventPropGetter}
-          components={{ event: EventComponent }}
-          step={60}
-          timeslots={1}
-          defaultTimedEventDuration={moment.duration(2, 'hours')}
-          min={new Date(0, 0, 0, 8, 0, 0)} // 最早显示8:00
-          max={new Date(0, 0, 0, 20, 0, 0)} // 最晚显示20:00
-        />
+          {/* 日历组件 */}
+          <div className="calendar-container">
+            <Calendar
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: 600 }}
+              view={view}
+              views={['week', 'month']}
+              date={currentDate}
+              onNavigate={date => setCurrentDate(date)}
+              onView={newView => setView(newView)}
+              onSelectEvent={handleEventClick}
+              eventPropGetter={eventPropGetter}
+              components={{ event: EventComponent }}
+              step={60}
+              timeslots={1}
+              defaultTimedEventDuration={moment.duration(2, 'hours')}
+              min={new Date(0, 0, 0, 8, 0, 0)} // 最早显示8:00
+              max={new Date(0, 0, 0, 20, 0, 0)} // 最晚显示20:00
+            />
+          </div>
+
+          {/* 即将开始的培训 */}
+          <div className="upcoming-trainings">
+            <h2>即将开始的培训</h2>
+            <ul className="upcoming-events">
+              {events
+                .filter(event => event.start >= new Date())
+                .sort((a, b) => a.start - b.start)
+                .slice(0, 3)
+                .map(event => (
+                  <li key={event.id} className="upcoming-event">
+                    <h3>{event.title}</h3>
+                    <p><span className="event-time">{moment(event.start).format('YYYY年MM月DD日 HH:mm')} - {moment(event.end).format('HH:mm')}</span></p>
+                    <p>{event.location}</p>
+                    <p>讲师：{event.trainer}</p>
+                    <p>类型：<span style={{ color: eventPropGetter(event).style.backgroundColor, fontWeight: 'bold' }}>{event.category}</span></p>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
       </div>
 
       {/* 事件详情弹窗 */}
       {selectedEvent && (
         <div className="event-detail-modal">
-          <div className="event-detail-overlay" onClick={closeEventDetail}></div>
-          <div className="event-detail-content">
-            <button className="close-btn" onClick={closeEventDetail}>×</button>
-            <h3>{selectedEvent.title}</h3>
-            <div className="event-detail-info">
-              <div className="info-row">
-                <span className="info-label">时间：</span>
-                <span className="info-value">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>{selectedEvent.title}</h2>
+              <button className="close-button" onClick={closeEventDetail}>×</button>
+            </div>
+            <div className="modal-body">
+              <div className="modal-detail">
+                <span className="modal-label">时间：</span>
+                <span className="modal-value">
                   {moment(selectedEvent.start).format('YYYY年MM月DD日 HH:mm')} - {moment(selectedEvent.end).format('HH:mm')}
                 </span>
               </div>
-              <div className="info-row">
-                <span className="info-label">地点：</span>
-                <span className="info-value">{selectedEvent.location}</span>
+              <div className="modal-detail">
+                <span className="modal-label">地点：</span>
+                <span className="modal-value">{selectedEvent.location}</span>
               </div>
-              <div className="info-row">
-                <span className="info-label">讲师：</span>
-                <span className="info-value">{selectedEvent.trainer}</span>
+              <div className="modal-detail">
+                <span className="modal-label">讲师：</span>
+                <span className="modal-value">{selectedEvent.trainer}</span>
               </div>
-              <div className="info-row">
-                <span className="info-label">类型：</span>
-                <span className="info-value category-badge" style={{ backgroundColor: eventPropGetter(selectedEvent).style.backgroundColor }}>
+              <div className="modal-detail">
+                <span className="modal-label">类型：</span>
+                <span className="modal-value" style={{ color: eventPropGetter(selectedEvent).style.backgroundColor, fontWeight: 'bold' }}>
                   {selectedEvent.category}
                 </span>
               </div>
-              <div className="info-row">
-                <span className="info-label">描述：</span>
-                <span className="info-value">{selectedEvent.description}</span>
+              <div className="modal-detail">
+                <span className="modal-label">描述：</span>
+                <span className="modal-value">{selectedEvent.description}</span>
               </div>
             </div>
           </div>
         </div>
       )}
-
-      {/* 即将开始的培训 */}
-      <div className="upcoming-trainings">
-        <h3>即将开始的培训</h3>
-        <div className="upcoming-events">
-          {events
-            .filter(event => event.start >= new Date())
-            .sort((a, b) => a.start - b.start)
-            .slice(0, 3)
-            .map(event => (
-              <div key={event.id} className="upcoming-event-card">
-                <div className="event-date">
-                  {moment(event.start).format('MM/DD')}
-                </div>
-                <div className="event-info">
-                  <h4>{event.title}</h4>
-                  <p>{moment(event.start).format('HH:mm')} - {moment(event.end).format('HH:mm')} | {event.location}</p>
-                </div>
-                <div 
-                  className="event-category" 
-                  style={{ backgroundColor: eventPropGetter(event).style.backgroundColor }}
-                >
-                  {event.category}
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
     </div>
   );
 };

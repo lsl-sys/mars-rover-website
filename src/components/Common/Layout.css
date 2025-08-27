@@ -1,3 +1,5 @@
+/* 布局容器样式 */
+/* 设置整个页面为flex布局，垂直排列，并确保占满整个视口高度 */
 .layout-container {
   display: flex;
   flex-direction: column;
@@ -5,8 +7,8 @@
   font-family: 'Arial', sans-serif;
 }
 
-
 /* 导航栏样式 */
+/* 设置导航栏为flex布局，两端对齐，垂直居中，设置深色背景和白色文字 */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -17,12 +19,16 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Logo区域样式 */
+/* 设置Logo区域为flex布局，垂直居中，设置Logo图片和文字之间的间距 */
 .logo {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
+/* Logo图片样式 */
+/* 设置Logo图片尺寸、圆角、背景色和内边距 */
 .logo img {
   height: 70px;
   width: 70px;
@@ -31,17 +37,23 @@
   padding: 7px;
 }
 
+/* Logo文字样式 */
+/* 设置Logo文字大小、边距和字重 */
 .logo h1 {
   font-size: 2rem;
   margin: 0;
   font-weight: 700;
 }
 
+/* 导航链接容器样式 */
+/* 设置导航链接区域为flex布局，设置链接之间的间距 */
 .nav-links {
   display: flex;
   gap: 2rem;
 }
 
+/* 导航链接样式 */
+/* 设置导航链接文字颜色、去除下划线、设置字重和颜色过渡效果 */
 .nav-links a {
   color: white;
   text-decoration: none;
@@ -49,20 +61,24 @@
   transition: color 0.3s;
 }
 
+/* 导航链接悬停样式 */
+/* 设置导航链接悬停时的文字颜色 */
 .nav-links a:hover {
   color: #94a3b8;
 }
 
 /* 主要内容区域样式 */
+/* 设置主要内容区域占据剩余空间，设置内边距和居中对齐 */
 .main-content {
   flex: 1;
   padding: 2rem;
-  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* 页脚样式 */
+/* 设置页脚背景色、文字颜色、内边距和文字居中 */
 .footer {
   background-color: #1e293b;
   color: white;
@@ -70,6 +86,8 @@
   text-align: center;
 }
 
+/* 社交媒体链接容器样式 */
+/* 设置社交媒体链接区域为flex布局，水平居中，设置链接之间的间距和上边距 */
 .social-links {
   display: flex;
   justify-content: center;
@@ -77,22 +95,29 @@
   margin-top: 1rem;
 }
 
+/* 社交媒体链接样式 */
+/* 设置社交媒体链接文字颜色和去除下划线 */
 .social-links a {
   color: white;
   text-decoration: none;
 }
 
+/* 社交媒体链接悬停样式 */
+/* 设置社交媒体链接悬停时的文字颜色 */
 .social-links a:hover {
   color: #94a3b8;
 }
 
 /* 响应式设计 */
+/* 当屏幕宽度小于768px时应用的样式 */
 @media (max-width: 768px) {
+  /* 导航栏垂直排列 */
   .navbar {
     flex-direction: column;
     gap: 1rem;
   }
 
+  /* 导航链接换行并居中 */
   .nav-links {
     flex-wrap: wrap;
     justify-content: center;
