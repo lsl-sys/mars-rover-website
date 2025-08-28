@@ -49,13 +49,36 @@ const ApplicationForm = () => {
   // 处理表单提交
   const handleSubmit = async (values, { setSubmitting, setStatus, resetForm }) => {
     try {
-      // 统一使用本地存储模式
+      // 创建腾讯问卷URL参数
+      const params = new URLSearchParams({
+        'field_1': values.name,
+        'field_2': values.studentId,
+        'field_3': values.major,
+        'field_4': values.grade === 'freshman' ? '2023级' : 
+                 values.grade === 'sophomore' ? '2024级' : 
+                 values.grade === 'junior' ? '2025级' : values.grade,
+        'field_5': values.email,
+        'field_6': values.phone,
+        'field_7': values.interestArea === 'mechanical' ? '机械设计' :
+                    values.interestArea === 'electrical' ? '电路设计' :
+                    values.interestArea === 'programming' ? '编程开发' :
+                    values.interestArea === 'control' ? '运营' : '其他',
+        'field_8': values.experience || '无',
+        'field_9': values.motivation || '无'
+      });
+
+      // 构建腾讯问卷URL
+      const wjUrl = `https://wj.qq.com/s2/23632150/3985.html?${params.toString()}`;
+
+      // 在新窗口打开腾讯问卷并预填数据
+      window.open(wjUrl, '_blank');
+
+      // 同时保存到本地作为备份
       const applicationData = {
         ...values,
         timestamp: new Date().toISOString(),
         id: Date.now().toString(),
-        source: '火星车官网',
-        // 转换显示格式
+        source: '火星车官网-已跳转腾讯问卷',
         displayGrade: values.grade === 'freshman' ? '2023级' : 
                      values.grade === 'sophomore' ? '2024级' : 
                      values.grade === 'junior' ? '2025级' : values.grade,
@@ -65,7 +88,7 @@ const ApplicationForm = () => {
                         values.interestArea === 'control' ? '运营' : '其他'
       };
 
-      // 保存到本地存储
+      // 保存到本地存储作为备份
       const existingApplications = JSON.parse(localStorage.getItem('applications') || '[]');
       existingApplications.push(applicationData);
       localStorage.setItem('applications', JSON.stringify(existingApplications));
@@ -383,9 +406,9 @@ const ApplicationForm = () => {
                       {status.success 
                         ? (
                           <>
-                            <div>🎉 申请提交成功！</div>
-                            <div>感谢您的申请，我们的团队将尽快审核</div>
-                            <div>请保持手机和邮箱畅通，我们会尽快联系您！</div>
+                            <div>🎉 正在跳转到腾讯问卷...</div>
+                            <div>请在新打开的窗口中确认并提交您的申请</div>
+                            <div>提交完成后，您可以在此页面下载申请备份</div>
                           </>
                         ) 
                         : status.error || '提交失败，请稍后重试'}
