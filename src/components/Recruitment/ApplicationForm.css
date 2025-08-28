@@ -17,10 +17,14 @@
 
 /* 页面头部标题样式 - 设置颜色、边距、字体大小和字重 */
 .application-form-header h1 {
-  color: #333;
+  color: #1e293b;
   margin: 0;
   font-size: 28px;
-  font-weight: 600;
+  font-weight: 800;
+  background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* 页面头部描述文本样式 - 设置颜色、上边距和字体大小 */

@@ -16,7 +16,7 @@ const mockTrainingEvents = [
     start: new Date(2025, 8, 1, 14, 0, 0), // 9月1日 14:00
     end: new Date(2025, 8, 1, 16, 0, 0),   // 9月1日 16:00
     description: '介绍火星车的基本结构、工作原理和发展历程',
-    location: '教学楼 B301',
+    location: '实验楼 B301',
     trainer: '廖',
     category: '基础培训',
   },
@@ -26,7 +26,7 @@ const mockTrainingEvents = [
     start: new Date(2025, 8, 3, 10, 0, 0), // 9月3日 10:00
     end: new Date(2025, 8, 3, 12, 0, 0),   // 9月3日 12:00
     description: '学习火星车机械结构设计的基本原则和方法',
-    location: '教学楼 B101',
+    location: '实验楼 B101',
     trainer: '李',
     category: '实践课程',
   },
@@ -36,7 +36,7 @@ const mockTrainingEvents = [
     start: new Date(2025, 8, 5, 14, 0, 0), // 9月5日 14:00
     end: new Date(2025, 8, 5, 17, 0, 0),   // 9月5日 17:00
     description: '学习火星车电子系统设计和电路原理',
-    location: '教学楼 A205',
+    location: '实验楼 A205',
     trainer: '刘',
     category: '技术培训',
   },

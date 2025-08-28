@@ -116,6 +116,11 @@ const Home = () => {
       <section className="about-section">
         <h2>关于我们</h2>
         <p>重邮-京东未来智能视觉联合研究实践基地汇聚机器人技术与智能视觉精英，以技术创新为驱动，培养面向未来的科技人才。</p>
+        <div className="team-gallery">
+          <img src="/photo/b1.jpg" alt="团队协作" className="team-photo"/>
+          <img src="/photo/b2.jpg" alt="技术研讨" className="team-photo"/>
+          <img src="/photo/b3.jpg" alt="项目实践" className="team-photo"/>
+        </div>
         <div className="features">
           <div className="feature-card">
             <h3>技术创新</h3>
@@ -141,15 +146,24 @@ const Home = () => {
         <h2>核心项目</h2>
         <div className="project-grid">
           <div className="project-card">
+            <img src="/photo/火星车.jpg" alt="智能火星探测车" className="project-image"/>
             <div className="project-card-content">
               <h3>智能火星探测系统</h3>
               <p>融合AI算法与精密机械，打造适应极端环境的智能探测平台，为未来太空探索奠定技术基础。</p>
             </div>
           </div>
           <div className="project-card">
+            <img src="/photo/c1.jpg" alt="机器人竞赛现场" className="project-image"/>
             <div className="project-card-content">
               <h3>国际机器人竞技</h3>
               <p>在全球顶级赛事中屡创佳绩，展现中国大学生的技术实力与创新精神。</p>
+            </div>
+          </div>
+          <div className="project-card">
+            <img src="/photo/c2.jpg" alt="技术研究成果" className="project-image"/>
+            <div className="project-card-content">
+              <h3>前沿技术研究</h3>
+              <p>深耕机器人视觉、SLAM算法、路径规划等核心技术领域，推动行业技术进步。</p>
             </div>
           </div>
         </div>

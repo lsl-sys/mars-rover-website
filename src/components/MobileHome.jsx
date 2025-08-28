@@ -102,6 +102,12 @@ const MobileHome = () => {
           以技术创新为驱动，培养面向未来的科技人才。
         </p>
         
+        <div className="mobile-team-gallery">
+          <img src="/photo/b1.jpg" alt="团队协作" className="mobile-team-photo"/>
+          <img src="/photo/b2.jpg" alt="技术研讨" className="mobile-team-photo"/>
+          <img src="/photo/b3.jpg" alt="项目实践" className="mobile-team-photo"/>
+        </div>
+        
         <div className="mobile-features">
           <div className="mobile-feature-item">
             <div className="mobile-feature-icon">🚀</div>
@@ -139,6 +145,7 @@ const MobileHome = () => {
         <h3 className="mobile-section-title">核心项目</h3>
         
         <div className="mobile-project-card">
+          <img src="/photo/火星车.jpg" alt="智能火星探测车" className="mobile-project-image"/>
           <div className="mobile-project-header">
             <div className="mobile-project-icon">🤖</div>
             <h4>智能火星探测系统</h4>
@@ -150,12 +157,24 @@ const MobileHome = () => {
         </div>
 
         <div className="mobile-project-card">
+          <img src="/photo/c1.jpg" alt="机器人竞赛现场" className="mobile-project-image"/>
           <div className="mobile-project-header">
             <div className="mobile-project-icon">🏆</div>
             <h4>国际机器人竞技</h4>
           </div>
           <p className="mobile-project-desc">
             在全球顶级赛事中屡创佳绩，展现中国大学生的技术实力与创新精神。
+          </p>
+        </div>
+
+        <div className="mobile-project-card">
+          <img src="/photo/c2.jpg" alt="技术研究成果" className="mobile-project-image"/>
+          <div className="mobile-project-header">
+            <div className="mobile-project-icon">🔬</div>
+            <h4>前沿技术研究</h4>
+          </div>
+          <p className="mobile-project-desc">
+            深耕机器人视觉、SLAM算法、路径规划等核心技术领域，推动行业技术进步。
           </p>
         </div>
       </section>
