@@ -47,97 +47,42 @@ const ApplicationForm = () => {
   const [downloadableData, setDownloadableData] = useState(null);
 
   // 处理表单提交
-  const handleSubmit = async (values, { setSubmitting, setStatus }) => {
+  const handleSubmit = async (values, { setSubmitting, setStatus, resetForm }) => {
     try {
-      setStatus(null);
-      
-      // 1. 准备提交数据
-      const submissionData = {
+      // 统一使用本地存储模式
+      const applicationData = {
         ...values,
         timestamp: new Date().toISOString(),
-        id: `app_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+        id: Date.now().toString(),
+        source: '火星车官网',
+        // 转换显示格式
+        displayGrade: values.grade === 'freshman' ? '2023级' : 
+                     values.grade === 'sophomore' ? '2024级' : 
+                     values.grade === 'junior' ? '2025级' : values.grade,
+        displayInterest: values.interestArea === 'mechanical' ? '机械设计' :
+                        values.interestArea === 'electrical' ? '电路设计' :
+                        values.interestArea === 'programming' ? '编程开发' :
+                        values.interestArea === 'control' ? '运营' : '其他'
       };
 
-      // 2. 构建腾讯问卷提交数据
-      const tencentData = {};
-      Object.keys(TENCENT_WJ_CONFIG.FIELD_MAP).forEach(key => {
-        const tencentKey = TENCENT_WJ_CONFIG.FIELD_MAP[key];
-        if (key === 'grade') {
-          tencentData[tencentKey] = TENCENT_WJ_CONFIG.GRADE_OPTIONS[values[key]] || values[key];
-        } else if (key === 'interestArea') {
-          tencentData[tencentKey] = TENCENT_WJ_CONFIG.INTEREST_OPTIONS[values[key]] || values[key];
-        } else {
-          tencentData[tencentKey] = values[key];
-        }
-      });
+      // 保存到本地存储
+      const existingApplications = JSON.parse(localStorage.getItem('applications') || '[]');
+      existingApplications.push(applicationData);
+      localStorage.setItem('applications', JSON.stringify(existingApplications));
 
-      // 3. 双通道提交策略
-      const results = {
-        tencentSuccess: false,
-        localSuccess: false,
-        tencentError: null,
-        localError: null
-      };
-
-      // 4. 提交到腾讯问卷（异步，不阻塞用户）
-      if (CLOUD_CONFIG.USE_CLOUD_STORAGE) {
-        try {
-          const tencentResponse = await fetch(TENCENT_WJ_CONFIG.API_URL, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify(tencentData),
-            mode: 'cors'
-          });
-          
-          if (tencentResponse.ok) {
-            results.tencentSuccess = true;
-            console.log('腾讯问卷提交成功');
-          } else {
-            console.warn('腾讯问卷提交失败:', tencentResponse.status);
-            results.tencentError = `腾讯问卷响应异常: ${tencentResponse.status}`;
-          }
-        } catch (tencentError) {
-          console.error('腾讯问卷提交错误:', tencentError);
-          results.tencentError = tencentError.message;
-        }
-      }
-
-      // 5. 本地存储（始终执行）
-      try {
-        const existingApplications = JSON.parse(localStorage.getItem('applications') || '[]');
-        existingApplications.push(submissionData);
-        localStorage.setItem('applications', JSON.stringify(existingApplications));
-        results.localSuccess = true;
-        console.log('本地存储成功');
-      } catch (localError) {
-        console.error('本地存储错误:', localError);
-        results.localError = localError.message;
-      }
-
-      // 6. 根据结果设置状态
-      if (results.localSuccess) {
-        setStatus({
-          success: true,
-          message: '申请提交成功！',
-          details: results.tencentSuccess 
-            ? '数据已同步到腾讯问卷和本地系统' 
-            : '数据已保存到本地系统，腾讯问卷可能需要手动填写',
-          data: submissionData,
-          tencentUrl: TENCENT_WJ_CONFIG.FORM_URL
-        });
-      } else {
-        throw new Error(results.localError || '本地存储失败');
-      }
-
+      // 保存提交的数据以便下载
+      setDownloadableData(applicationData);
+      
+      setStatus({ success: true });
+      resetForm();
+      
+      // 5秒后清除成功状态
+      setTimeout(() => {
+        setStatus(null);
+      }, 5000);
     } catch (error) {
-      setStatus({
-        success: false,
-        error: error.message || '提交失败，请稍后重试',
-        tencentUrl: TENCENT_WJ_CONFIG.FORM_URL
-      });
+      console.error('❌ 提交失败:', error);
+      setStatus({ success: false, error: '提交失败，请检查网络或联系管理员。' });
     } finally {
       setSubmitting(false);
     }
@@ -419,68 +364,31 @@ const ApplicationForm = () => {
                     </button>
                   </div>
                   
+                  {/* 腾讯问卷备用方案 */}
+                  <div className="tencent-wj-alternative">
+                    <p className="wj-hint">💡 如果提交遇到问题，也可以直接填写：</p>
+                    <a 
+                      href="https://wj.qq.com/s2/23632150/3985.html" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="wj-link"
+                    >
+                      腾讯问卷 - 火星车招新申请
+                    </a>
+                  </div>
+                  
                   {/* 提交状态反馈 */}
                   {status && (
                     <div className={`status-message ${status.success ? 'success' : 'error'}`}>
-                      {status.success ? (
-                        <>
-                          <div style={{fontSize: '20px', marginBottom: '10px'}}>🎉 {status.message}</div>
-                          <div style={{fontSize: '14px', opacity: 0.9}}>{status.details}</div>
-                          
-                          {status.tencentUrl && (
-                            <div style={{marginTop: '15px'}}>
-                              <a 
-                                href={status.tencentUrl} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                style={{
-                                  color: 'white',
-                                  textDecoration: 'underline',
-                                  fontSize: '14px',
-                                  display: 'inline-block',
-                                  padding: '8px 16px',
-                                  backgroundColor: 'rgba(255,255,255,0.2)',
-                                  borderRadius: '20px',
-                                  marginTop: '10px'
-                                }}
-                              >
-                                📋 查看腾讯问卷
-                              </a>
-                            </div>
-                          )}
-                          
-                          <div style={{fontSize: '12px', opacity: 0.8, marginTop: '10px'}}>
-                            申请ID: {status.data?.id}
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div>❌ 提交失败</div>
-                          <div style={{fontSize: '14px', marginTop: '8px'}}>{status.error}</div>
-                          
-                          {status.tencentUrl && (
-                            <div style={{marginTop: '15px'}}>
-                              <a 
-                                href={status.tencentUrl} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                style={{
-                                  color: '#007bff',
-                                  textDecoration: 'underline',
-                                  fontSize: '14px',
-                                  display: 'inline-block',
-                                  padding: '8px 16px',
-                                  backgroundColor: '#f8f9fa',
-                                  borderRadius: '20px',
-                                  marginTop: '10px'
-                                }}
-                              >
-                                🚀 直接填写腾讯问卷
-                              </a>
-                            </div>
-                          )}
-                        </>
-                      )}
+                      {status.success 
+                        ? (
+                          <>
+                            <div>🎉 申请提交成功！</div>
+                            <div>感谢您的申请，我们的团队将尽快审核</div>
+                            <div>请保持手机和邮箱畅通，我们会尽快联系您！</div>
+                          </>
+                        ) 
+                        : status.error || '提交失败，请稍后重试'}
                     </div>
                   )}
                 </Form>
