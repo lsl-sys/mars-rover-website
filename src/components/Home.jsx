@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useScreenSize } from '../hooks/useScreenSize';
+import MobileHome from './MobileHome';
 import './Home.css';
 
 const AnimatedNumber = ({ targetValue, duration = 2000 }) => {
@@ -28,11 +30,17 @@ const AnimatedNumber = ({ targetValue, duration = 2000 }) => {
 
 const Home = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const { isMobile } = useScreenSize();
   
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 1000);
     return () => clearTimeout(timer);
   }, []);
+
+  // 如果是移动端，渲染专门的移动端组件
+  if (isMobile) {
+    return <MobileHome />;
+  }
   
   return (
     <div className="home-container">
@@ -46,7 +54,8 @@ const Home = () => {
             <div className="hero-tagline">🚀 机器人技术与太空探索</div>
             <h1 className="hero-title">探索未知<br/>成就未来</h1>
             <p className="hero-description">
-              加入火星车创新团队，与志同道合的伙伴一起<br/>
+              加入重邮-京东未来智能视觉联合研究实践基地<br/>
+              与志同道合的伙伴一起<br/>
               突破技术边界，创造无限可能
             </p>
             <div className="cta-buttons">
@@ -106,7 +115,7 @@ const Home = () => {
       {/* 组织介绍 */}
       <section className="about-section">
         <h2>关于我们</h2>
-        <p>火星车团队汇聚机器人技术与太空探索精英，以技术创新为驱动，培养面向未来的科技人才。</p>
+        <p>重邮-京东未来智能视觉联合研究实践基地汇聚机器人技术与智能视觉精英，以技术创新为驱动，培养面向未来的科技人才。</p>
         <div className="features">
           <div className="feature-card">
             <h3>技术创新</h3>

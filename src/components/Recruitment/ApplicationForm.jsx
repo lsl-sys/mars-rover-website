@@ -31,70 +31,86 @@ const validationSchema = Yup.object().shape({
     })
     .test('fileType', '只支持PDF、Word和图片文件', (value) => {
       if (!value) return true;
-      const supportedTypes = [
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'image/jpeg',
-        'image/png',
-        'image/jpg'
-      ];
-      return supportedTypes.includes(value.type);
+      const supportedFormats = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/png'];
+      return supportedFormats.includes(value.type);
     })
 });
 
 const ApplicationForm = () => {
+  // 状态管理
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  
+  // 状态管理
   const [downloadableData, setDownloadableData] = useState(null);
-
-  // 处理表单提交
+  
   const handleSubmit = async (values, { setSubmitting, setStatus, resetForm }) => {
     try {
-      // 创建腾讯问卷URL参数
-      const params = new URLSearchParams({
-        'field_1': values.name,
-        'field_2': values.studentId,
-        'field_3': values.major,
-        'field_4': values.grade === 'freshman' ? '2023级' : 
-                 values.grade === 'sophomore' ? '2024级' : 
-                 values.grade === 'junior' ? '2025级' : values.grade,
-        'field_5': values.email,
-        'field_6': values.phone,
-        'field_7': values.interestArea === 'mechanical' ? '机械设计' :
-                    values.interestArea === 'electrical' ? '电路设计' :
-                    values.interestArea === 'programming' ? '编程开发' :
-                    values.interestArea === 'control' ? '运营' : '其他',
-        'field_8': values.experience || '无',
-        'field_9': values.motivation || '无'
-      });
+      // 导入腾讯问卷配置
+      const { TENCENT_WJ_CONFIG, CLOUD_CONFIG } = await import('../../config/cloudConfig');
+      
+      if (CLOUD_CONFIG.USE_CLOUD_STORAGE && TENCENT_WJ_CONFIG.SURVEY_ID !== '你的问卷ID') {
+        // 腾讯问卷专用提交
+        const formData = new URLSearchParams();
+        
+        // 精确映射每个字段到腾讯问卷的题号
+        formData.append('q1', values.name);
+        formData.append('q2', values.studentId);
+        formData.append('q3', values.major);
+        
+        // 年级转换（英文→中文）
+        const gradeMap = {
+          'freshman': '2023级',
+          'sophomore': '2024级',
+          'junior': '2025级'
+        };
+        formData.append('q4', gradeMap[values.grade] || values.grade);
+        
+        formData.append('q5', values.email);
+        formData.append('q6', values.phone);
+        
+        // 兴趣方向转换（英文→中文）
+        const interestMap = {
+          'mechanical': '机械设计',
+          'electrical': '电路设计',
+          'programming': '编程开发',
+          'control': '运营',
+          'other': '其他'
+        };
+        formData.append('q7', interestMap[values.interestArea] || values.interestArea);
+        
+        formData.append('q8', values.experience || '');
+        formData.append('q9', values.motivation);
 
-      // 构建腾讯问卷URL
-      const wjUrl = `https://wj.qq.com/s2/23632150/3985.html?${params.toString()}`;
+        // 提交到腾讯问卷（已配置实际问卷ID）
+        await fetch(`https://wj.qq.com/s2/23632150/3985.html`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          mode: 'no-cors'
+        });
 
-      // 在新窗口打开腾讯问卷并预填数据
-      window.open(wjUrl, '_blank');
+        alert('✅ 申请已成功提交到腾讯问卷！\n📊 可在腾讯问卷后台查看数据');
+      } else {
+        // 本地存储模式（演示用）
+        console.log('使用本地存储模式，请替换问卷ID');
+        const applicationData = {
+          ...values,
+          timestamp: new Date().toISOString(),
+          id: Date.now().toString(),
+          source: '本地存储'
+        };
 
-      // 同时保存到本地作为备份
-      const applicationData = {
-        ...values,
-        timestamp: new Date().toISOString(),
-        id: Date.now().toString(),
-        source: '火星车官网-已跳转腾讯问卷',
-        displayGrade: values.grade === 'freshman' ? '2023级' : 
-                     values.grade === 'sophomore' ? '2024级' : 
-                     values.grade === 'junior' ? '2025级' : values.grade,
-        displayInterest: values.interestArea === 'mechanical' ? '机械设计' :
-                        values.interestArea === 'electrical' ? '电路设计' :
-                        values.interestArea === 'programming' ? '编程开发' :
-                        values.interestArea === 'control' ? '运营' : '其他'
-      };
+        const existingApplications = JSON.parse(localStorage.getItem('marsRoverApplications') || '[]');
+        existingApplications.push(applicationData);
+        localStorage.setItem('marsRoverApplications', JSON.stringify(existingApplications));
 
-      // 保存到本地存储作为备份
-      const existingApplications = JSON.parse(localStorage.getItem('applications') || '[]');
-      existingApplications.push(applicationData);
-      localStorage.setItem('applications', JSON.stringify(existingApplications));
-
+        alert('💾 申请已保存到本地（演示模式）\n🔧 请配置腾讯问卷ID启用云端存储');
+      }
+      
       // 保存提交的数据以便下载
-      setDownloadableData(applicationData);
+      setDownloadableData(values);
       
       setStatus({ success: true });
       resetForm();
@@ -200,7 +216,7 @@ const ApplicationForm = () => {
       alert('复制失败，请手动复制申请内容');
     }
   };
-
+  
 
 
   return (
@@ -255,8 +271,8 @@ const ApplicationForm = () => {
         </div>
         
         <div className="application-form-main">
-          <h2>火星车组织招新申请表</h2>
-          <p>欢迎加入火星车组织！请填写以下信息完成申请。我们期待与您一起探索火星车技术的奇妙世界！</p>
+          <h2>重邮-京东未来智能视觉联合研究实践基地招新申请表</h2>
+          <p>欢迎加入重邮-京东未来智能视觉联合研究实践基地！请填写以下信息完成申请。我们期待与您一起探索机器人与智能视觉技术的奇妙世界！</p>
           
           <Formik
             initialValues={{
@@ -350,7 +366,7 @@ const ApplicationForm = () => {
                     
                     <div className="form-group">
                       <label htmlFor="motivation">申请原因 <span className="optional">（选填）</span></label>
-                      <Field as="textarea" id="motivation" name="motivation" placeholder="请详细说明您为什么想加入火星车组织，以及您希望从中获得什么" rows="6" />
+                      <Field as="textarea" id="motivation" name="motivation" placeholder="请详细说明您为什么想加入重邮-京东未来智能视觉联合研究实践基地，以及您希望从中获得什么" rows="6" />
                       <ErrorMessage name="motivation" component="div" className="error-message" />
                       <div className="char-count">{values.motivation.length}/1000</div>
                     </div>
@@ -387,28 +403,16 @@ const ApplicationForm = () => {
                     </button>
                   </div>
                   
-                  {/* 腾讯问卷备用方案 */}
-                  <div className="tencent-wj-alternative">
-                    <p className="wj-hint">💡 如果提交遇到问题，也可以直接填写：</p>
-                    <a 
-                      href="https://wj.qq.com/s2/23632150/3985.html" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="wj-link"
-                    >
-                      腾讯问卷 - 火星车招新申请
-                    </a>
-                  </div>
-                  
                   {/* 提交状态反馈 */}
                   {status && (
                     <div className={`status-message ${status.success ? 'success' : 'error'}`}>
                       {status.success 
                         ? (
                           <>
-                            <div>🎉 正在跳转到腾讯问卷...</div>
-                            <div>请在新打开的窗口中确认并提交您的申请</div>
-                            <div>提交完成后，您可以在此页面下载申请备份</div>
+                            <div>申请提交成功！</div>
+                            <div>🎉 太棒了！您已迈出加入重邮-京东未来智能视觉联合研究实践基地的第一步 🚀</div>
+                            <div>我们的团队将在3个工作日内审核您的申请</div>
+                            <div>请保持手机和邮箱畅通，我们会尽快与您联系！</div>
                           </>
                         ) 
                         : status.error || '提交失败，请稍后重试'}

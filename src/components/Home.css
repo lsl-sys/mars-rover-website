@@ -647,12 +647,61 @@
   background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
 }
 
-/* 响应式设计 - 当屏幕宽度小于768px时应用的样式 */
+/* 响应式设计 - 优化桌面端显示 */
+@media (max-width: 1200px) {
+  .hero-content-wrapper {
+    gap: 3rem;
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  
+  .hero-illustration {
+    max-width: 450px;
+    height: 360px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-content-wrapper {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+  }
+
+  .hero-description {
+    font-size: 1.2rem;
+  }
+
+  .hero-content {
+    padding: 1rem;
+  }
+
+  .hero-image-container {
+    padding: 1rem;
+  }
+  
+  .hero-illustration {
+    max-width: 400px;
+    height: 320px;
+  }
+}
+
 @media (max-width: 768px) {
   /* 调整英雄区域内边距 */
   .hero-section {
-    padding: 2rem;
+    padding: 2rem 1rem;
     min-height: auto;
+  }
+
+  .hero-content-wrapper {
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
   /* 缩小英雄区域标题字体大小 */
@@ -673,8 +722,10 @@
 
   /* 调整英雄统计数据样式 */
   .hero-stats {
-    gap: 2rem;
+    flex-direction: column;
+    gap: 1.5rem;
     padding: 1.5rem;
+    margin: 1rem 0;
   }
 
   /* 调整统计数字大小 */
@@ -684,7 +735,7 @@
   
   /* 调整统计项布局 */
   .stat-item {
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   .stat-label {
@@ -758,5 +809,41 @@
   .circle-3 {
     width: 80px;
     height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 1.5rem 1rem;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-stats {
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .about-section,
+  .projects-section {
+    padding: 2rem 1rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .project-card-content {
+    padding: 1.5rem;
   }
 }

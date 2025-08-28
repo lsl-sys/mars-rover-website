@@ -614,34 +614,3 @@
     margin: 20px;
   }
 }
-
-/* 腾讯问卷备用方案 */
-.tencent-wj-alternative {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.wj-hint {
-  margin-bottom: 10px;
-  color: #495057;
-  font-size: 14px;
-}
-
-.wj-link {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-}
-
-.wj-link:hover {
-  background-color: #0056b3;
-  text-decoration: none;
-}

@@ -121,8 +121,8 @@ const TrainingSchedule = () => {
   return (
     <div className="training-schedule-container">
       <div className="schedule-header">
-        <h1>火星车组织培训日程</h1>
-        <p>以下是我们的培训安排，欢迎准时参加！</p>
+        <h1>重邮-京东未来智能视觉联合研究实践基地培训日程</h1>
+        <p>系统化的培训计划，助您快速掌握机器人技术与智能视觉核心技能</p>
       </div>
       
       <div className="schedule-content">
@@ -182,11 +182,11 @@ const TrainingSchedule = () => {
             <div className="sidebar-info-text">
               如有任何疑问，请联系培训负责人：<br/>
               邮箱：<br/>
-                网站负责人：m15397763602.com<br/>
+                站长：m15397763602.com<br/>
               QQ：<br/>
-                电控：3513992041<br/>
                 机械：2046349636<br/>
-                电子：1211056910<br/>
+                硬件：1211056910<br/>
+                电控：3513992041<br/>
             </div>
           </div>
         </div>

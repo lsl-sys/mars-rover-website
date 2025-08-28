@@ -135,7 +135,7 @@ const TrainingMaterials = () => {
     <div className="training-materials-container">
       <div className="materials-header">
         <h1>培训资料</h1>
-        <p>火星车项目嵌入式开发相关资料</p>
+          <p>重邮-京东未来智能视觉联合研究实践基地嵌入式开发相关资料</p>
       </div>
       
       <div className="materials-content">
