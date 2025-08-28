@@ -108,6 +108,13 @@
   color: #94a3b8;
 }
 
+/* 社交媒体文本样式 */
+/* 为span元素设置与链接相同的样式 */
+.social-links span {
+  color: white;
+  cursor: default;
+}
+
 /* 响应式设计 */
 /* 当屏幕宽度小于768px时应用的样式 */
 @media (max-width: 768px) {

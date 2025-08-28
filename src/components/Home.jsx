@@ -1,8 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 
+const AnimatedNumber = ({ targetValue, duration = 2000 }) => {
+  const [currentValue, setCurrentValue] = useState(0);
+  
+  useEffect(() => {
+    const targetNum = parseInt(targetValue);
+    const increment = targetNum / (duration / 16);
+    let current = 0;
+    
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= targetNum) {
+        setCurrentValue(targetNum);
+        clearInterval(timer);
+      } else {
+        setCurrentValue(Math.floor(current));
+      }
+    }, 16);
+    
+    return () => clearInterval(timer);
+  }, [targetValue, duration]);
+  
+  return <>{currentValue}{targetValue.includes('+') ? '+' : ''}</>;
+};
+
 const Home = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+  
   return (
     <div className="home-container">
       {/* 英雄区域 */}
@@ -12,17 +43,17 @@ const Home = () => {
         
         <div className="hero-content-wrapper">
           <div className="hero-content">
-            <div className="hero-tagline">🚀 探索与创新的起点</div>
+            <div className="hero-tagline">🚀 机器人技术与太空探索</div>
             <h1 className="hero-title">探索未知<br/>成就未来</h1>
             <p className="hero-description">
-              加入火星车组织，一起参与激动人心的机器人技术与太空探索<br/>
-              无论你是机械爱好者、编程达人还是小白，我们都欢迎你的加入
+              加入火星车创新团队，与志同道合的伙伴一起<br/>
+              突破技术边界，创造无限可能
             </p>
             <div className="cta-buttons">
-              <Link to="/apply" className="btn-primary">立即申请加入</Link>
+              <Link to="/apply" className="btn-primary">立即加入我们</Link>
               <div className="secondary-buttons">
-                <Link to="/schedule" className="btn-secondary">查看培训日程</Link>
-                <Link to="/materials" className="btn-secondary">查看培训资料</Link>
+                <Link to="/schedule" className="btn-secondary">培训日程</Link>
+                <Link to="/materials" className="btn-secondary">学习资料</Link>
               </div>
             </div>
           </div>
@@ -52,15 +83,21 @@ const Home = () => {
         
         <div className="hero-stats">
           <div className="stat-item">
-            <div className="stat-number">5000+</div>
-            <div className="stat-label">项目小时</div>
+            <div className="stat-number">
+              {isVisible ? <AnimatedNumber targetValue="1000+" /> : '0+'}
+            </div>
+            <div className="stat-label">创新项目</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">20+</div>
-            <div className="stat-label">获奖经历</div>
+            <div className="stat-number">
+              {isVisible ? <AnimatedNumber targetValue="50+" /> : '0+'}
+            </div>
+            <div className="stat-label">技术突破</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">100+</div>
+            <div className="stat-number">
+              {isVisible ? <AnimatedNumber targetValue="100+" /> : '0+'}
+            </div>
             <div className="stat-label">团队成员</div>
           </div>
         </div>
@@ -69,37 +106,41 @@ const Home = () => {
       {/* 组织介绍 */}
       <section className="about-section">
         <h2>关于我们</h2>
-        <p>火星车组织是一个致力于机器人技术研发和太空探索的创新团队。我们的成员来自不同背景，但都怀揣着对科技的热爱和对未知的好奇。</p>
+        <p>火星车团队汇聚机器人技术与太空探索精英，以技术创新为驱动，培养面向未来的科技人才。</p>
         <div className="features">
           <div className="feature-card">
             <h3>技术创新</h3>
-            <p>我们不断探索前沿技术，研发先进的机器人系统</p>
+            <p>突破机器人技术边界，引领行业未来发展</p>
           </div>
           <div className="feature-card">
             <h3>团队协作</h3>
-            <p>多元化的团队成员共同协作，解决复杂挑战</p>
+            <p>跨学科融合，激发无限创新潜能</p>
           </div>
           <div className="feature-card">
             <h3>实践育人</h3>
-            <p>通过实际项目培养成员的技术能力和创新思维</p>
+            <p>真实项目历练，塑造未来科技领袖</p>
+          </div>
+          <div className="feature-card">
+            <h3>创业孵化</h3>
+            <p>技术商业化，成就科技创新梦想</p>
           </div>
         </div>
       </section>
 
       {/* 项目展示 */}
       <section className="projects-section">
-        <h2>我们的项目</h2>
+        <h2>核心项目</h2>
         <div className="project-grid">
           <div className="project-card">
             <div className="project-card-content">
-              <h3>智能火星车研发</h3>
-              <p>开发适应复杂地形的智能火星探测车，搭载先进的传感器系统和自主导航算法，能够在极端环境中完成科学探测任务。</p>
+              <h3>智能火星探测系统</h3>
+              <p>融合AI算法与精密机械，打造适应极端环境的智能探测平台，为未来太空探索奠定技术基础。</p>
             </div>
           </div>
           <div className="project-card">
             <div className="project-card-content">
-              <h3>机器人竞赛</h3>
-              <p>参与各类机器人竞赛，包括FRC、RoboMaster等国际赛事，屡获佳绩，展示我们的技术实力和团队协作精神。</p>
+              <h3>国际机器人竞技</h3>
+              <p>在全球顶级赛事中屡创佳绩，展现中国大学生的技术实力与创新精神。</p>
             </div>
           </div>
         </div>

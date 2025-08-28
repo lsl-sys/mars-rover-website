@@ -172,7 +172,7 @@ const TrainingSchedule = () => {
               </div>
               <div className="legend-item">
                 <div className="legend-color" style={{ backgroundColor: '#8b5cf6' }}></div>
-                <span className="legend-text">项目讨论</span>
+                <span className="legend-text">培训讨论</span>
               </div>
             </div>
           </div>
@@ -182,9 +182,11 @@ const TrainingSchedule = () => {
             <div className="sidebar-info-text">
               如有任何疑问，请联系培训负责人：<br/>
               邮箱：<br/>
-                电控：m15397763602.com<br/>
+                网站负责人：m15397763602.com<br/>
               QQ：<br/>
-                电控：3513992041
+                电控：3513992041<br/>
+                机械：2046349636<br/>
+                电子：1211056910<br/>
             </div>
           </div>
         </div>

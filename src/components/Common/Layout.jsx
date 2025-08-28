@@ -16,6 +16,7 @@ const Layout = () => {
           <Link to="/apply">招新申请</Link>
           <Link to="/schedule">培训日程</Link>
           <Link to="/contact">联系我们</Link>
+          <Link to="/stats">申请统计</Link>
         </nav>
       </header>
 
@@ -28,9 +29,9 @@ const Layout = () => {
       <footer className="footer">
         <p>© {new Date().getFullYear()} 火星车组织. 保留所有权利.</p>
         <div className="social-links">
-          <a href="#">GitHub</a>
-          <a href="#">微博</a>
-          <a href="#">微信公众号</a>
+          <span>邮箱</span>
+          <span>QQ</span>
+          <span>GitHub</span>
         </div>
       </footer>
     </div>

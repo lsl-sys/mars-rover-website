@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import './ApplicationForm.css';
-import { useState } from 'react';
 
 // 表单验证规则
 const validationSchema = Yup.object().shape({
@@ -44,100 +43,156 @@ const ApplicationForm = () => {
   // 状态管理
   const [downloadableData, setDownloadableData] = useState(null);
   
-  // 密码保护下载相关状态
-  const [downloadPassword, setDownloadPassword] = useState('');
-  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
-  
-  // 表单提交处理
   const handleSubmit = async (values, { setSubmitting, setStatus, resetForm }) => {
     try {
-      // 在实际项目中，这里会发送表单数据到服务器
-      console.log('表单数据:', values);
+      // 导入腾讯问卷配置
+      const { TENCENT_WJ_CONFIG, CLOUD_CONFIG } = await import('../../config/cloudConfig');
+      
+      if (CLOUD_CONFIG.USE_CLOUD_STORAGE && TENCENT_WJ_CONFIG.SURVEY_ID !== '你的问卷ID') {
+        // 腾讯问卷专用提交
+        const formData = new URLSearchParams();
+        
+        // 精确映射每个字段到腾讯问卷的题号
+        formData.append('q1', values.name);
+        formData.append('q2', values.studentId);
+        formData.append('q3', values.major);
+        
+        // 年级转换（英文→中文）
+        const gradeMap = {
+          'freshman': '2023级',
+          'sophomore': '2024级',
+          'junior': '2025级'
+        };
+        formData.append('q4', gradeMap[values.grade] || values.grade);
+        
+        formData.append('q5', values.email);
+        formData.append('q6', values.phone);
+        
+        // 兴趣方向转换（英文→中文）
+        const interestMap = {
+          'mechanical': '机械设计',
+          'electrical': '电路设计',
+          'programming': '编程开发',
+          'control': '运营',
+          'other': '其他'
+        };
+        formData.append('q7', interestMap[values.interestArea] || values.interestArea);
+        
+        formData.append('q8', values.experience || '');
+        formData.append('q9', values.motivation);
+
+        // 提交到腾讯问卷（已配置实际问卷ID）
+        await fetch(`https://wj.qq.com/s2/23632150/3985.html`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          mode: 'no-cors'
+        });
+
+        alert('✅ 申请已成功提交到腾讯问卷！\n📊 可在腾讯问卷后台查看数据');
+      } else {
+        // 本地存储模式（演示用）
+        console.log('使用本地存储模式，请替换问卷ID');
+        const applicationData = {
+          ...values,
+          timestamp: new Date().toISOString(),
+          id: Date.now().toString(),
+          source: '本地存储'
+        };
+
+        const existingApplications = JSON.parse(localStorage.getItem('marsRoverApplications') || '[]');
+        existingApplications.push(applicationData);
+        localStorage.setItem('marsRoverApplications', JSON.stringify(existingApplications));
+
+        alert('💾 申请已保存到本地（演示模式）\n🔧 请配置腾讯问卷ID启用云端存储');
+      }
       
       // 保存提交的数据以便下载
       setDownloadableData(values);
       
-      // 模拟提交成功
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
       setStatus({ success: true });
+      resetForm();
       
       // 5秒后清除成功状态
       setTimeout(() => {
         setStatus(null);
       }, 5000);
     } catch (error) {
-      setStatus({ success: false, error: '提交失败，请稍后重试' });
+      console.error('❌ 提交失败:', error);
+      setStatus({ success: false, error: '提交失败，请检查网络或联系管理员。' });
     } finally {
       setSubmitting(false);
     }
   };
   
-  // 打开密码输入模态框
-  const openPasswordModal = () => {
-    setPasswordModalOpen(true);
-  };
+
   
-  // 关闭密码输入模态框
-  const closePasswordModal = () => {
-    setPasswordModalOpen(false);
-    setDownloadPassword('');
-  };
-  
-  // 简单的加密/解密函数（实际应用中应使用更安全的加密方法）
-  const simpleEncrypt = (data, password) => {
-    // 使用简单的异或加密（仅用于演示，实际项目应使用更安全的加密库）
+  // 下载申请内容为CSV格式（WPS表格兼容）
+  const downloadFormData = () => {
+    if (!downloadableData) return;
+    
     try {
-      const text = JSON.stringify(data);
-      let result = '';
-      for (let i = 0; i < text.length; i++) {
-        const charCode = text.charCodeAt(i) ^ password.charCodeAt(i % password.length);
-        result += String.fromCharCode(charCode);
-      }
-      return btoa(result); // Base64编码确保数据可以被正确保存
+      // 定义CSV表头
+      const headers = [
+        '姓名',
+        '学号',
+        '专业',
+        '年级',
+        '邮箱',
+        '手机号',
+        '兴趣领域',
+        '个人经历',
+        '申请原因',
+        '提交时间'
+      ];
+
+      // 将单条申请数据转换为CSV格式，使用制表符分隔和特殊格式处理
+      const csvContent = [
+        headers.join('\t'), // 使用制表符分隔，更适合Excel
+        [
+          `"${downloadableData.name || ''}"`,
+          `"=""${downloadableData.studentId || ''}"""`, // 强制文本格式，防止0被去掉
+          `"${downloadableData.major || ''}"`,
+          `"${downloadableData.grade === 'freshman' ? '2023级' : downloadableData.grade === 'sophomore' ? '2024级' : downloadableData.grade === 'junior' ? '2025级' : ''}"`,
+          `"${downloadableData.email || ''}"`,
+          `"=""${downloadableData.phone || ''}"""`, // 强制文本格式，防止手机号被转换
+          `"${downloadableData.interestArea === 'mechanical' ? '机械设计' : downloadableData.interestArea === 'electrical' ? '电路设计' : downloadableData.interestArea === 'programming' ? '编程开发' : downloadableData.interestArea === 'control' ? '运营' : '其他'}"`,
+          `"${(downloadableData.experience || '').replace(/"/g, '""')}"`,
+          `"${(downloadableData.motivation || '').replace(/"/g, '""')}"`,
+          `"${new Date().toLocaleString('zh-CN')}"`
+        ].join('\t')
+      ].join('\n');
+
+      // 创建UTF-8 BOM，确保中文正常显示
+      const BOM = '\uFEFF';
+      const csvBlob = new Blob([BOM + csvContent], { 
+        type: 'text/tab-separated-values;charset=utf-8;' 
+      });
+      
+      // 创建文件名（包含日期和申请人姓名）
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const fileName = `火星车申请_${downloadableData.name || '匿名'}_${timestamp}.tsv`;
+      
+      // 创建下载链接
+      const url = URL.createObjectURL(csvBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      link.style.visibility = 'hidden';
+      
+      // 触发下载并清理
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('加密失败:', error);
-      return JSON.stringify({ error: '加密失败' });
+      console.error('下载失败:', error);
+      alert('下载失败，请重试');
     }
   };
-  
-  // 带密码验证的下载函数
-  const downloadFormDataWithPassword = () => {
-    if (!downloadableData || !downloadPassword) return;
-    
-    // 设置密码验证逻辑
-    // 注意：在实际项目中，这里应该与后端配合进行密码验证
-    const validPasswords = ['mars2025', 'rover2025']; // 示例密码，实际应用中应使用更安全的方式
-    
-    if (!validPasswords.includes(downloadPassword)) {
-      alert('密码错误，请重试！');
-      return;
-    }
-    
-    // 加密数据
-    const encryptedData = simpleEncrypt(downloadableData, downloadPassword);
-    
-    // 创建文件名（包含日期和申请人姓名）
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const fileName = `火星车组织申请_${downloadableData.name || '匿名'}_${timestamp}_encrypted.json`;
-    
-    // 创建Blob和下载链接
-    const blob = new Blob([encryptedData], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
-    
-    // 触发下载并清理
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    
-    // 关闭模态框
-    closePasswordModal();
-  };
-  
+
   // 复制申请内容到剪贴板
   const copyApplicationData = async () => {
     if (!downloadableData) return;
@@ -162,21 +217,7 @@ const ApplicationForm = () => {
     }
   };
   
-  // 简单的解密函数（用于演示）
-  const simpleDecrypt = (encryptedText, password) => {
-    try {
-      const decryptedText = atob(encryptedText); // Base64解码
-      let result = '';
-      for (let i = 0; i < decryptedText.length; i++) {
-        const charCode = decryptedText.charCodeAt(i) ^ password.charCodeAt(i % password.length);
-        result += String.fromCharCode(charCode);
-      }
-      return JSON.parse(result);
-    } catch (error) {
-      console.error('解密失败:', error);
-      return { error: '解密失败，请检查密码是否正确' };
-    }
-  };
+
 
   return (
     <div className="application-form-container">
@@ -211,6 +252,7 @@ const ApplicationForm = () => {
             <div className="sidebar-info-title">注意事项</div>
             <div className="sidebar-info-text">
               • 请确保填写的信息真实有效<br/>
+              • 如果填写失败，请将错误信息截图发送至邮箱<br/>
               • 如有任何问题，请联系我们的招新负责人
             </div>
           </div>
@@ -219,9 +261,11 @@ const ApplicationForm = () => {
             <div className="sidebar-info-title">联系方式</div>
             <div className="sidebar-info-text">
               邮箱：<br/>
-                  电控：m15397763602.com<br/>
+                站长：m15397763602@163.com<br/>
               QQ： <br/>
-                  电控：3513992041
+                机械：2046349636<br/>
+                硬件：1211056910<br/>
+                电控：3513992041<br/>
             </div>
           </div>
         </div>
@@ -275,8 +319,9 @@ const ApplicationForm = () => {
                         <label htmlFor="grade">年级</label>
                         <Field as="select" id="grade" name="grade">
                           <option value="">请选择年级</option>
-                          <option value="freshman">大一</option>
-                          <option value="sophomore">大二</option>
+                          <option value="freshman">2023级</option>
+                          <option value="sophomore">2024级</option>
+                          <option value="junior">2025级</option>
                         </Field>
                         <ErrorMessage name="grade" component="div" className="error-message" />
                       </div>
@@ -304,9 +349,8 @@ const ApplicationForm = () => {
                       <Field as="select" id="interestArea" name="interestArea">
                         <option value="">请选择感兴趣的领域</option>
                         <option value="mechanical">机械设计</option>
-                        <option value="electrical">电子电路</option>
+                        <option value="electrical">电路设计</option>
                         <option value="programming">编程开发</option>
-                        <option value="algorithm">控制理论</option>
                         <option value="control">运营</option>
                         <option value="other">其他</option>
                       </Field>
@@ -383,9 +427,9 @@ const ApplicationForm = () => {
                     <div className="download-actions">
                       <button 
                         className="download-button"
-                        onClick={openPasswordModal}
+                        onClick={downloadFormData}
                       >
-                        下载加密内容（管理员选项）
+                        下载表格文件
                       </button>
                       <button 
                         className="copy-button"
@@ -395,52 +439,8 @@ const ApplicationForm = () => {
                       </button>
                     </div>
                     <p className="email-hint">
-                      提示：如果申请失败，您可以将复制的内容通过邮件发送到 <strong>m15397763602.com</strong>
+                      提示：您也可以将复制的内容通过邮件发送到 <strong>m15397763602@163.com</strong>
                     </p>
-                  </div>
-                )}
-                
-                {/* 密码输入模态框 */}
-                {passwordModalOpen && (
-                  <div className="modal-overlay">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h3>密码保护下载</h3>
-                        <button 
-                          className="modal-close" 
-                          onClick={closePasswordModal}
-                        >
-                          ×
-                        </button>
-                      </div>
-                      <div className="modal-body">
-                        <p>请输入密码以下载加密的申请内容：</p>
-                        <input
-                          type="password"
-                          value={downloadPassword}
-                          onChange={(e) => setDownloadPassword(e.target.value)}
-                          placeholder="请输入密码"
-                          className="password-input"
-                          onKeyPress={(e) => e.key === 'Enter' && downloadFormDataWithPassword()}
-                        />
-                        <p className="password-hint">此文件已加密，请妥善保管密码</p>
-                      </div>
-                      <div className="modal-footer">
-                        <button 
-                          className="cancel-button" 
-                          onClick={closePasswordModal}
-                        >
-                          取消
-                        </button>
-                        <button 
-                          className="confirm-button" 
-                          onClick={downloadFormDataWithPassword}
-                          disabled={!downloadPassword}
-                        >
-                          确认下载
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 )}
               </div>
