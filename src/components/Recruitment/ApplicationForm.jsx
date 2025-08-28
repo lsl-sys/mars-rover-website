@@ -31,86 +31,47 @@ const validationSchema = Yup.object().shape({
     })
     .test('fileType', '只支持PDF、Word和图片文件', (value) => {
       if (!value) return true;
-      const supportedFormats = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/png'];
-      return supportedFormats.includes(value.type);
+      const supportedTypes = [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'image/jpeg',
+        'image/png',
+        'image/jpg'
+      ];
+      return supportedTypes.includes(value.type);
     })
 });
 
 const ApplicationForm = () => {
-  // 状态管理
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  
-  // 状态管理
   const [downloadableData, setDownloadableData] = useState(null);
-  
+
+  // 处理表单提交
   const handleSubmit = async (values, { setSubmitting, setStatus, resetForm }) => {
     try {
-      // 导入腾讯问卷配置
-      const { TENCENT_WJ_CONFIG, CLOUD_CONFIG } = await import('../../config/cloudConfig');
-      
-      if (CLOUD_CONFIG.USE_CLOUD_STORAGE && TENCENT_WJ_CONFIG.SURVEY_ID !== '你的问卷ID') {
-        // 腾讯问卷专用提交
-        const formData = new URLSearchParams();
-        
-        // 精确映射每个字段到腾讯问卷的题号
-        formData.append('q1', values.name);
-        formData.append('q2', values.studentId);
-        formData.append('q3', values.major);
-        
-        // 年级转换（英文→中文）
-        const gradeMap = {
-          'freshman': '2023级',
-          'sophomore': '2024级',
-          'junior': '2025级'
-        };
-        formData.append('q4', gradeMap[values.grade] || values.grade);
-        
-        formData.append('q5', values.email);
-        formData.append('q6', values.phone);
-        
-        // 兴趣方向转换（英文→中文）
-        const interestMap = {
-          'mechanical': '机械设计',
-          'electrical': '电路设计',
-          'programming': '编程开发',
-          'control': '运营',
-          'other': '其他'
-        };
-        formData.append('q7', interestMap[values.interestArea] || values.interestArea);
-        
-        formData.append('q8', values.experience || '');
-        formData.append('q9', values.motivation);
+      // 统一使用本地存储模式
+      const applicationData = {
+        ...values,
+        timestamp: new Date().toISOString(),
+        id: Date.now().toString(),
+        source: '火星车官网',
+        // 转换显示格式
+        displayGrade: values.grade === 'freshman' ? '2023级' : 
+                     values.grade === 'sophomore' ? '2024级' : 
+                     values.grade === 'junior' ? '2025级' : values.grade,
+        displayInterest: values.interestArea === 'mechanical' ? '机械设计' :
+                        values.interestArea === 'electrical' ? '电路设计' :
+                        values.interestArea === 'programming' ? '编程开发' :
+                        values.interestArea === 'control' ? '运营' : '其他'
+      };
 
-        // 提交到腾讯问卷（已配置实际问卷ID）
-        await fetch(`https://wj.qq.com/s2/23632150/3985.html`, {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          mode: 'no-cors'
-        });
+      // 保存到本地存储
+      const existingApplications = JSON.parse(localStorage.getItem('applications') || '[]');
+      existingApplications.push(applicationData);
+      localStorage.setItem('applications', JSON.stringify(existingApplications));
 
-        alert('✅ 申请已成功提交到腾讯问卷！\n📊 可在腾讯问卷后台查看数据');
-      } else {
-        // 本地存储模式（演示用）
-        console.log('使用本地存储模式，请替换问卷ID');
-        const applicationData = {
-          ...values,
-          timestamp: new Date().toISOString(),
-          id: Date.now().toString(),
-          source: '本地存储'
-        };
-
-        const existingApplications = JSON.parse(localStorage.getItem('marsRoverApplications') || '[]');
-        existingApplications.push(applicationData);
-        localStorage.setItem('marsRoverApplications', JSON.stringify(existingApplications));
-
-        alert('💾 申请已保存到本地（演示模式）\n🔧 请配置腾讯问卷ID启用云端存储');
-      }
-      
       // 保存提交的数据以便下载
-      setDownloadableData(values);
+      setDownloadableData(applicationData);
       
       setStatus({ success: true });
       resetForm();
@@ -216,7 +177,7 @@ const ApplicationForm = () => {
       alert('复制失败，请手动复制申请内容');
     }
   };
-  
+
 
 
   return (
@@ -403,16 +364,28 @@ const ApplicationForm = () => {
                     </button>
                   </div>
                   
+                  {/* 腾讯问卷备用方案 */}
+                  <div className="tencent-wj-alternative">
+                    <p className="wj-hint">💡 如果提交遇到问题，也可以直接填写：</p>
+                    <a 
+                      href="https://wj.qq.com/s2/23632150/3985.html" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="wj-link"
+                    >
+                      腾讯问卷 - 火星车招新申请
+                    </a>
+                  </div>
+                  
                   {/* 提交状态反馈 */}
                   {status && (
                     <div className={`status-message ${status.success ? 'success' : 'error'}`}>
                       {status.success 
                         ? (
                           <>
-                            <div>申请提交成功！</div>
-                            <div>🎉 太棒了！您已迈出加入火星车组织的第一步 🚀</div>
-                            <div>我们的团队将在3个工作日内审核您的申请</div>
-                            <div>请保持手机和邮箱畅通，我们会尽快与您联系！</div>
+                            <div>🎉 申请提交成功！</div>
+                            <div>感谢您的申请，我们的团队将尽快审核</div>
+                            <div>请保持手机和邮箱畅通，我们会尽快联系您！</div>
                           </>
                         ) 
                         : status.error || '提交失败，请稍后重试'}
