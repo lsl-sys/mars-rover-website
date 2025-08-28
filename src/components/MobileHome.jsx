@@ -104,8 +104,8 @@ const MobileHome = () => {
         
         <div className="mobile-team-gallery">
           <img src="/photo/b1.jpg" alt="团队协作" className="mobile-team-photo"/>
-          <img src="/photo/b2.jpg" alt="技术研讨" className="mobile-team-photo"/>
-          <img src="/photo/b3.jpg" alt="项目实践" className="mobile-team-photo"/>
+            <img src="/photo/b2.jpg" alt="技术研讨" className="mobile-team-photo"/>
+            <img src="/photo/b3.jpg" alt="项目实践" className="mobile-team-photo"/>
         </div>
         
         <div className="mobile-features">

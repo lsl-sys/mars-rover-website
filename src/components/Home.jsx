@@ -118,8 +118,8 @@ const Home = () => {
         <p>重邮-京东未来智能视觉联合研究实践基地汇聚机器人技术与智能视觉精英，以技术创新为驱动，培养面向未来的科技人才。</p>
         <div className="team-gallery">
           <img src="/photo/b1.jpg" alt="团队协作" className="team-photo"/>
-          <img src="/photo/b2.jpg" alt="技术研讨" className="team-photo"/>
-          <img src="/photo/b3.jpg" alt="项目实践" className="team-photo"/>
+            <img src="/photo/b2.jpg" alt="技术研讨" className="team-photo"/>
+            <img src="/photo/b3.jpg" alt="项目实践" className="team-photo"/>
         </div>
         <div className="features">
           <div className="feature-card">

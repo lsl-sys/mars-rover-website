@@ -5,7 +5,7 @@ const Contact = () => {
   const contacts = [
     {
       title: '网站负责人',
-      email: 'm15397763602',
+      email: 'm15397763602@163.c0m',
       type: 'email'
     },
     {
