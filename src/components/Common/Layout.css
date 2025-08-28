@@ -7,17 +7,18 @@
   font-family: 'Arial', sans-serif;
 }
 
-/* 导航栏样式 */
-/* 现代化导航栏布局，采用网格布局实现更合理的空间分配 */
+/* 导航栏样式 - 与页面内容融为一体 */
 .navbar {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   color: white;
-  padding: 0.75rem 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 100;
 }
 
 /* Logo区域样式 */
@@ -97,7 +98,7 @@
 /* 导航链接活跃状态 */
 .nav-links a.active {
   color: white;
-  background-color: rgba(16, 185, 129, 0.2);
+  background-color: rgba(59, 130, 246, 0.2);
   font-weight: 600;
 }
 
@@ -109,7 +110,7 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #10b981, #059669);
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
   transition: all 0.3s ease;
   transform: translateX(-50%);
 }
@@ -119,45 +120,51 @@
   width: 80%;
 }
 
-/* 主要内容区域样式 */
-/* 设置主要内容区域占据剩余空间，设置内边距和居中对齐 */
+/* 主要内容区域样式 - 与整体页面融合 */
 .main-content {
   flex: 1;
-  padding: 2rem;
+  padding: 0;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
 }
 
-/* 页脚样式 */
-/* 设置页脚背景色、文字颜色、内边距和文字居中 */
+/* 页脚样式 - 与页面内容融为一体 */
 .footer {
-  background-color: #1e293b;
+  background: linear-gradient(135deg, #475569 0%, #1e293b 100%);
   color: white;
-  padding: 1.5rem 2rem;
+  padding: 3rem 2rem 2rem;
   text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 0;
 }
 
 /* 社交媒体链接容器样式 */
-/* 设置社交媒体链接区域为flex布局，水平居中，设置链接之间的间距和上边距 */
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
+  gap: 2rem;
+  margin-top: 1.5rem;
 }
 
 /* 社交媒体链接样式 */
-/* 设置社交媒体链接文字颜色和去除下划线 */
 .social-links a {
-  color: white;
+  color: #cbd5e1;
   text-decoration: none;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* 社交媒体链接悬停样式 */
-/* 设置社交媒体链接悬停时的文字颜色 */
 .social-links a:hover {
-  color: #94a3b8;
+  color: white;
+  background: rgba(59, 130, 246, 0.2);
+  transform: translateY(-2px);
 }
 
 /* 社交媒体文本样式 */
@@ -209,12 +216,14 @@
 }
 
 @media (max-width: 768px) {
-  /* 手机端导航栏优化布局 */
+  /* 手机端导航栏优化布局 - 保留悬挂功能 */
   .navbar {
     grid-template-columns: 1fr;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
     text-align: center;
+    position: sticky;
+    top: 0;
   }
 
   /* 手机端Logo区域优化 */

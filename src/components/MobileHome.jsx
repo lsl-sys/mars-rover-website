@@ -160,16 +160,7 @@ const MobileHome = () => {
         </div>
       </section>
 
-      {/* 移动端底部行动区 */}
-      <section className="mobile-footer-cta">
-        <h3 className="mobile-footer-title">准备好加入我们了吗？</h3>
-        <p className="mobile-footer-text">
-          立即申请，成为未来科技创新的引领者！
-        </p>
-        <Link to="/apply" className="mobile-footer-btn">
-          立即申请
-        </Link>
-      </section>
+
     </div>
   );
 };
