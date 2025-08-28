@@ -41,11 +41,11 @@
 
 /* 侧边栏样式 - 设置宽度、背景色、圆角、内边距、阴影、高度和粘性定位 */
 .schedule-sidebar {
-  flex: 0 0 300px;
+  flex: 0 0 320px;
   background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   height: fit-content;
   position: sticky;
   top: 20px;
@@ -53,30 +53,79 @@
 
 /* 侧边栏头部样式 - 设置字体大小、字重和下边距 */
 .schedule-sidebar h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  color: #333;
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: #1e293b;
+  background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.schedule-sidebar h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e293b 100%);
+  border-radius: 2px;
 }
 
 /* 侧边栏信息项样式 - 设置下边距和行高 */
 .sidebar-info-item {
   margin-bottom: 20px;
-  line-height: 1.6;
+  line-height: 1.7;
+  padding: 15px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+  transition: all 0.3s ease;
+}
+
+.sidebar-info-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+  background-color: #f1f5f9;
 }
 
 /* 侧边栏信息标题样式 - 设置字重和颜色 */
 .sidebar-info-title {
-  font-weight: 600;
-  color: #333;
+  font-weight: 700;
+  color: #1e293b;
   margin-bottom: 8px;
-  font-size: 15px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-info-title::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e293b 100%);
+  border-radius: 50%;
+  margin-right: 8px;
 }
 
 /* 侧边栏信息文本样式 - 设置颜色和字体大小 */
 .sidebar-info-text {
-  color: #666;
+  color: #475569;
   font-size: 14px;
+  line-height: 1.6;
+}
+
+.sidebar-info-text strong {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.sidebar-info-text em {
+  color: #64748b;
+  font-style: italic;
 }
 
 /* 图例样式 - 设置背景色、圆角、内边距和阴影 */

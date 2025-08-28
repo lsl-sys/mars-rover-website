@@ -45,41 +45,74 @@
 
 /* 侧边栏样式 - 设置宽度、背景色、圆角、内边距、阴影、高度和粘性定位 */
 .application-form-sidebar {
-  flex: 0 0 300px;
+  flex: 0 0 320px;
   background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
   height: fit-content;
   position: sticky;
   top: 20px;
 }
 
-/* 侧边栏头部样式 - 设置字体大小、字重和下边距 */
 .application-form-sidebar h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  color: #333;
+  color: #1e293b;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* 侧边栏信息项样式 - 设置下边距和行高 */
 .sidebar-info-item {
-  margin-bottom: 15px;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.sidebar-info-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-info-title {
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar-info-title::before {
+  content: '';
+  width: 4px;
+  height: 16px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border-radius: 2px;
+}
+
+.sidebar-info-text {
+  color: #475569;
+  font-size: 0.875rem;
   line-height: 1.6;
 }
 
-/* 侧边栏信息标题样式 - 设置字重和颜色 */
-.sidebar-info-title {
+.sidebar-info-text strong {
+  color: #3b82f6;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 5px;
 }
 
-/* 侧边栏信息文本样式 - 设置颜色和字体大小 */
-.sidebar-info-text {
-  color: #666;
-  font-size: 14px;
+.sidebar-info-text br {
+  margin-bottom: 0.5rem;
 }
 
 /* 主表单区域样式 - 设置flex布局、背景色、圆角、内边距和阴影 */
