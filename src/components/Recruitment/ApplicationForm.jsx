@@ -67,35 +67,91 @@ const ApplicationForm = () => {
         };
 
         // 构建腾讯问卷提交数据
-        const submitData = {
-          q1: values.name,
-          q2: values.studentId,
-          q3: values.major,
-          q4: gradeMap[values.grade] || values.grade,
-          q5: values.email,
-          q6: values.phone,
-          q7: interestMap[values.interestArea] || values.interestArea,
-          q8: values.experience || '',
-          q9: values.motivation
-        };
+        const formData = new FormData();
+        formData.append('q1', values.name);
+        formData.append('q2', values.studentId);
+        formData.append('q3', values.major);
+        formData.append('q4', gradeMap[values.grade] || values.grade);
+        formData.append('q5', values.email);
+        formData.append('q6', values.phone);
+        formData.append('q7', interestMap[values.interestArea] || values.interestArea);
+        formData.append('q8', values.experience || '');
+        formData.append('q9', values.motivation);
 
-        // 使用AJAX方式静默提交到腾讯问卷
-        const response = await fetch(`https://wj.qq.com/s2/${TENCENT_WJ_CONFIG.SURVEY_ID}.html`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-          },
-          body: new URLSearchParams(submitData),
-          mode: 'no-cors' // 允许跨域请求
-        });
+        // 使用隐藏的iframe方式提交到腾讯问卷
+        return new Promise((resolve) => {
+          // 创建唯一的iframe名称
+          const iframeName = `tencent-form-${Date.now()}`;
+          
+          // 创建隐藏的iframe
+          const iframe = document.createElement('iframe');
+          iframe.name = iframeName;
+          iframe.style.display = 'none';
+          document.body.appendChild(iframe);
 
-        // 由于no-cors模式无法获取响应状态，我们假设提交成功
-        // 显示成功消息（无需用户跳转）
-        setSubmitStatus({
-          success: true,
-          message: '✅ 申请已成功提交！感谢您的参与，我们会尽快与您联系。'
+          // 创建表单
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `https://wj.qq.com/s2/${TENCENT_WJ_CONFIG.SURVEY_ID}.html`;
+        form.target = iframeName;
+        form.acceptCharset = 'UTF-8';
+
+          // 添加所有字段 - 使用腾讯问卷正确的字段名称
+          const fieldData = {
+            'entry.23632151': values.name,        // 姓名
+            'entry.23632152': values.studentId, // 学号
+            'entry.23632153': values.major,     // 专业
+            'entry.23632154': gradeMap[values.grade] || values.grade, // 年级
+            'entry.23632155': values.email,     // 邮箱
+            'entry.23632156': values.phone,     // 手机号
+            'entry.23632157': interestMap[values.interestArea] || values.interestArea, // 兴趣领域
+            'entry.23632158': values.experience || '', // 个人经历
+            'entry.23632159': values.motivation  // 申请动机
+          };
+          
+          Object.entries(fieldData).forEach(([key, value]) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            form.appendChild(input);
+          });
+          
+          // 添加腾讯问卷必要字段
+          const metaFields = {
+            't': Date.now(),
+            'source': 'direct_link',
+            'so': 'direct_link',
+            'from': 'singlemessage'
+          };
+          
+          Object.entries(metaFields).forEach(([key, value]) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            form.appendChild(input);
+          });
+
+          // 监听iframe加载完成
+          iframe.onload = () => {
+            // 延迟一下确保数据已提交
+            setTimeout(() => {
+              document.body.removeChild(iframe);
+              document.body.removeChild(form);
+              
+              // 显示成功消息
+              setSubmitStatus({
+                success: true,
+                message: '✅ 申请已成功提交！感谢您的参与，我们会尽快与您联系。'
+              });
+              
+              resolve();
+            }, 1000);
+          };
+
+          document.body.appendChild(form);
+          form.submit();
         });
         
       } else {
