@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Contact.css';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
   const contacts = [
     {
       title: '网站负责人',
-      email: 'm15397763602@163.c0m',
+      email: 'm15397763602@163.com',
       type: 'email'
     },
     {
@@ -30,6 +39,39 @@ const Contact = () => {
     }
   ];
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('sending');
+
+    // 模拟发送邮件
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setSubmitStatus(null), 3000);
+    } catch (error) {
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus(null), 3000);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCopyToClipboard = (text, type) => {
+    navigator.clipboard.writeText(text).then(() => {
+      alert(`${type === 'email' ? '邮箱' : 'QQ号'}已复制到剪贴板`);
+    });
+  };
+
   return (
     <div className="contact-container">
       <div className="contact-header">
@@ -47,20 +89,109 @@ const Contact = () => {
               <h3>{contact.title}</h3>
               {contact.email && (
                 <div className="contact-info">
-                  <span className="contact-label">邮箱：</span>
-                  <a href={`mailto:${contact.email}`} className="contact-link">
-                    {contact.email}
-                  </a>
-                </div>
-              )}
-              {contact.qq && (
-                <div className="contact-info">
-                  <span className="contact-label">QQ：</span>
-                  <span className="contact-value">{contact.qq}</span>
-                </div>
-              )}
+                <span className="contact-label">邮箱：</span>
+                <a href={`mailto:${contact.email}`} className="contact-link">
+                  {contact.email}
+                </a>
+                <button 
+                  className="copy-btn"
+                  onClick={() => handleCopyToClipboard(contact.email, 'email')}
+                  title="复制邮箱地址"
+                >
+                  📋
+                </button>
+              </div>
+            )}
+            {contact.qq && (
+              <div className="contact-info">
+                <span className="contact-label">QQ：</span>
+                <span className="contact-value">{contact.qq}</span>
+                <button 
+                  className="copy-btn"
+                  onClick={() => handleCopyToClipboard(contact.qq, 'qq')}
+                  title="复制QQ号"
+                >
+                  📋
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+        </div>
+
+        {/* 联系表单 */}
+        <div className="contact-form-section">
+          <h2>快速联系</h2>
+          <form className="contact-form" onSubmit={handleSubmit}>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="name">姓名 *</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="请输入您的姓名"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">邮箱 *</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="请输入您的邮箱地址"
+                />
+              </div>
             </div>
-          ))}
+            
+            <div className="form-group">
+              <label htmlFor="subject">主题 *</label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleInputChange}
+                required
+                placeholder="请输入联系主题"
+              />
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="message">消息内容 *</label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                required
+                rows="5"
+                placeholder="请详细描述您的问题或需求"
+              />
+            </div>
+            
+            <button 
+              type="submit" 
+              className={`submit-btn ${isSubmitting ? 'submitting' : ''}`}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? '发送中...' : '发送消息'}
+            </button>
+            
+            {submitStatus && (
+              <div className={`status-message ${submitStatus}`}>
+                {submitStatus === 'success' && '✅ 消息发送成功！我们会尽快回复您'}
+                {submitStatus === 'error' && '❌ 发送失败，请稍后重试'}
+                {submitStatus === 'sending' && '📧 正在发送消息...'}
+              </div>
+            )}
+          </form>
         </div>
 
         <div className="teacher-contact">

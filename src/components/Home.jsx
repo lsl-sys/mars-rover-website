@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useScreenSize } from '../hooks/useScreenSize';
 import MobileHome from './MobileHome';
+import LoadingSpinner from './Common/LoadingSpinner';
 import './Home.css';
 
 const AnimatedNumber = ({ targetValue, duration = 2000 }) => {
@@ -30,6 +31,8 @@ const AnimatedNumber = ({ targetValue, duration = 2000 }) => {
 
 const Home = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [imagesLoaded, setImagesLoaded] = useState(0);
   const { isMobile } = useScreenSize();
   
   useEffect(() => {
@@ -37,9 +40,26 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    // 模拟图片加载
+    const loadTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    
+    return () => clearTimeout(loadTimer);
+  }, []);
+
   // 如果是移动端，渲染专门的移动端组件
   if (isMobile) {
     return <MobileHome />;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="home-loading">
+        <LoadingSpinner size="large" text="正在加载精彩内容..." />
+      </div>
+    );
   }
   
   return (

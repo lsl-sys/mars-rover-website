@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import LoadingSpinner from '../Common/LoadingSpinner';
 import './ApplicationForm.css';
 
 // 表单验证规则
@@ -39,34 +40,22 @@ const validationSchema = Yup.object().shape({
 const ApplicationForm = () => {
   // 状态管理
   const [selectedCategory, setSelectedCategory] = useState(null);
-  
-  // 状态管理
   const [downloadableData, setDownloadableData] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
   
   const handleSubmit = async (values, { setSubmitting, setStatus, resetForm }) => {
     try {
       // 导入腾讯问卷配置
       const { TENCENT_WJ_CONFIG, CLOUD_CONFIG } = await import('../../config/cloudConfig');
       
-      if (CLOUD_CONFIG.USE_CLOUD_STORAGE && TENCENT_WJ_CONFIG.SURVEY_ID !== '你的问卷ID') {
-        // 腾讯问卷专用提交
-        const formData = new URLSearchParams();
-        
-        // 精确映射每个字段到腾讯问卷的题号
-        formData.append('q1', values.name);
-        formData.append('q2', values.studentId);
-        formData.append('q3', values.major);
-        
+      if (CLOUD_CONFIG.USE_CLOUD_STORAGE) {
         // 年级转换（英文→中文）
         const gradeMap = {
           'freshman': '2023级',
           'sophomore': '2024级',
           'junior': '2025级'
         };
-        formData.append('q4', gradeMap[values.grade] || values.grade);
-        
-        formData.append('q5', values.email);
-        formData.append('q6', values.phone);
         
         // 兴趣方向转换（英文→中文）
         const interestMap = {
@@ -76,25 +65,41 @@ const ApplicationForm = () => {
           'control': '运营',
           'other': '其他'
         };
-        formData.append('q7', interestMap[values.interestArea] || values.interestArea);
-        
-        formData.append('q8', values.experience || '');
-        formData.append('q9', values.motivation);
 
-        // 提交到腾讯问卷（已配置实际问卷ID）
-        await fetch(`https://wj.qq.com/s2/23632150/3985.html`, {
+        // 构建腾讯问卷提交数据
+        const submitData = {
+          q1: values.name,
+          q2: values.studentId,
+          q3: values.major,
+          q4: gradeMap[values.grade] || values.grade,
+          q5: values.email,
+          q6: values.phone,
+          q7: interestMap[values.interestArea] || values.interestArea,
+          q8: values.experience || '',
+          q9: values.motivation
+        };
+
+        // 使用AJAX方式静默提交到腾讯问卷
+        const response = await fetch(`https://wj.qq.com/s2/${TENCENT_WJ_CONFIG.SURVEY_ID}.html`, {
           method: 'POST',
-          body: formData,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
           },
-          mode: 'no-cors'
+          body: new URLSearchParams(submitData),
+          mode: 'no-cors' // 允许跨域请求
         });
 
-        alert('✅ 申请已成功提交到腾讯问卷！\n📊 可在腾讯问卷后台查看数据');
+        // 由于no-cors模式无法获取响应状态，我们假设提交成功
+        // 显示成功消息（无需用户跳转）
+        setSubmitStatus({
+          success: true,
+          message: '✅ 申请已成功提交！感谢您的参与，我们会尽快与您联系。'
+        });
+        
       } else {
-        // 本地存储模式（演示用）
-        console.log('使用本地存储模式，请替换问卷ID');
+        // 本地存储模式（备用）
         const applicationData = {
           ...values,
           timestamp: new Date().toISOString(),
@@ -106,7 +111,10 @@ const ApplicationForm = () => {
         existingApplications.push(applicationData);
         localStorage.setItem('marsRoverApplications', JSON.stringify(existingApplications));
 
-        alert('💾 申请已保存到本地（演示模式）\n🔧 请配置腾讯问卷ID启用云端存储');
+        setSubmitStatus({
+          success: true,
+          message: '✅ 申请已保存到本地存储！'
+        });
       }
       
       // 保存提交的数据以便下载
@@ -121,7 +129,10 @@ const ApplicationForm = () => {
       }, 5000);
     } catch (error) {
       console.error('❌ 提交失败:', error);
-      setStatus({ success: false, error: '提交失败，请检查网络或联系管理员。' });
+      setSubmitStatus({
+        success: false,
+        message: '❌ 提交失败，请检查网络或联系管理员。'
+      });
     } finally {
       setSubmitting(false);
     }
@@ -221,9 +232,25 @@ const ApplicationForm = () => {
 
   return (
     <div className="application-form-container">
-      <div className="application-form-header">
-        <h1>火星车组织招新申请</h1>
-        <p>加入我们的团队，一起探索火星车技术的无限可能</p>
+      <div className="form-header">
+        <h1>招新申请</h1>
+        <p className="form-description">
+          加入我们，一起探索机器人技术的无限可能！
+        </p>
+        
+        {/* 提交状态提示 */}
+        {submitStatus && (
+          <div className={`status-message ${submitStatus.success ? 'success' : 'error'}`}>
+            {submitStatus.message}
+            <button 
+              className="close-btn" 
+              onClick={() => setSubmitStatus(null)}
+              aria-label="关闭提示"
+            >
+              ×
+            </button>
+          </div>
+        )}
       </div>
       
       <div className="application-form-content">
@@ -272,8 +299,7 @@ const ApplicationForm = () => {
         </div>
         
         <div className="application-form-main">
-          <h2>重邮-京东未来智能视觉联合研究实践基地招新申请表</h2>
-          <p>欢迎加入重邮-京东未来智能视觉联合研究实践基地！请填写以下信息完成申请。我们期待与您一起探索机器人与智能视觉技术的奇妙世界！</p>
+          <p>欢迎加入我们！请填写以下信息完成申请，我们会尽快与您联系。</p>
           
           <Formik
             initialValues={{

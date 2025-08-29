@@ -1,8 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import ScrollToTop from './ScrollToTop';
+import LoadingSpinner from './LoadingSpinner';
 import './Layout.css';
 
 const Layout = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  // 页面加载动画
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <LoadingSpinner size="large" text="正在加载..." />
+      </div>
+    );
+  }
+
   return (
     <div className="layout-container">
       {/* 导航栏 */}
@@ -18,7 +39,7 @@ const Layout = () => {
           <NavLink to="/apply" className={({ isActive }) => isActive ? 'active' : ''}>招新申请</NavLink>
           <NavLink to="/schedule" className={({ isActive }) => isActive ? 'active' : ''}>培训日程</NavLink>
           <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>联系我们</NavLink>
-          <NavLink to="/stats" className={({ isActive }) => isActive ? 'active' : ''}>申请统计</NavLink>
+          <NavLink to="/stats" className={({ isActive }) => isActive ? 'active' : ''}>📊 申请统计</NavLink>
         </nav>
       </header>
 
@@ -29,13 +50,21 @@ const Layout = () => {
 
       {/* 页脚 */}
       <footer className="footer">
-        <p>© {new Date().getFullYear()} 重邮-京东未来智能视觉联合研究实践基地. 保留所有权利.</p>
-        <div className="social-links">
-          <span>邮箱</span>
-          <span>QQ</span>
-          <span>GitHub</span>
+        <div className="footer-content">
+          <div className="footer-info">
+            <p>© {new Date().getFullYear()} 重邮-京东未来智能视觉联合研究实践基地. 保留所有权利.</p>
+            <p>地址：重庆市南岸区崇文路2号重庆邮电大学</p>
+          </div>
+          <div className="social-links">
+            <a href="mailto:m15397763602@163.com" className="social-link" title="发送邮件">📧</a>
+            <a href="https://github.com" className="social-link" title="GitHub" target="_blank" rel="noopener noreferrer">🐙</a>
+            <a href="https://space.bilibili.com" className="social-link" title="B站" target="_blank" rel="noopener noreferrer">📺</a>
+          </div>
         </div>
       </footer>
+      
+      {/* 回到顶部按钮 */}
+      <ScrollToTop />
     </div>
   );
 };
