@@ -616,38 +616,59 @@
   box-shadow: none;
 }
 
-/* 响应式设计 - 当屏幕宽度小于768px时应用的样式 */
+/* 响应式设计 - 当屏幕宽度小于768px时应用的样式 - 统一移动端宽度 */
 @media (max-width: 768px) {
-  /* 页面内容区域垂直排列 */
+  /* 统一移动端容器设置 */
+  .application-form-container {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
   .application-form-content {
     flex-direction: column;
+    padding: 0;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
   }
   
   /* 侧边栏重置定位 */
   .application-form-sidebar {
     flex: 1;
     position: static;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
   }
   
   /* 主表单区域重置 */
   .application-form-main {
     flex: 1;
-    padding: 20px;
+    padding: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   /* 表单组最小宽度 */
   .form-group {
     min-width: 100%;
+    box-sizing: border-box;
   }
   
   /* 表单行间距 */
   .form-row {
     gap: 0;
+    flex-direction: column;
   }
   
   /* 模态框响应式调整 */
   .modal-content {
-    width: 95%;
-    margin: 20px;
+    width: 90%;
+    max-width: 400px;
+    margin: 20px auto;
+    box-sizing: border-box;
   }
 }

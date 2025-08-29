@@ -105,7 +105,7 @@ const Home = () => {
           </div>
           <div className="stat-item">
             <div className="stat-number">
-              {isVisible ? <AnimatedNumber targetValue="100+" /> : '0+'}
+              {isVisible ? <AnimatedNumber targetValue="50+" /> : '0+'}
             </div>
             <div className="stat-label">团队成员</div>
           </div>
