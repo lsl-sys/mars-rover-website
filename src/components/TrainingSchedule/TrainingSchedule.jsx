@@ -182,8 +182,9 @@ const TrainingSchedule = () => {
             <div className="sidebar-info-text">
               如有任何疑问，请联系培训负责人：<br/>
               邮箱：<br/>
-                站长：m15397763602.com<br/>
+                站长：m15397763602@163.com<br/>
               QQ：<br/>
+                基地总负责人:2177707887<br/>
                 机械：2046349636<br/>
                 硬件：1211056910<br/>
                 电控：3513992041<br/>
