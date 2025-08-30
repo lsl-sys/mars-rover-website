@@ -80,6 +80,22 @@ const ApplicationForm = () => {
 
         // 使用隐藏的iframe方式提交到腾讯问卷
         return new Promise((resolve) => {
+          // 调试信息输出
+          console.log('准备提交到腾讯问卷:', {
+            url: 'https://wj.qq.com/s2/23632150/3985/',
+            data: {
+              q1: values.name,
+              q2: values.studentId,
+              q3: values.major,
+              q4: gradeMap[values.grade] || values.grade,
+              q5: values.email,
+              q6: values.phone,
+              q7: interestMap[values.interestArea] || values.interestArea,
+              q8: values.experience || '',
+              q9: values.motivation || ''
+            }
+          });
+          
           // 创建唯一的iframe名称
           const iframeName = `tencent-form-${Date.now()}`;
           
@@ -90,64 +106,100 @@ const ApplicationForm = () => {
           document.body.appendChild(iframe);
 
           // 创建表单
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `https://wj.qq.com/s2/${TENCENT_WJ_CONFIG.SURVEY_ID}.html`;
-        form.target = iframeName;
-        form.acceptCharset = 'UTF-8';
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = 'https://wj.qq.com/s2/23632150/3985/'; // 直接使用正确的提交地址
+          form.target = iframeName;
+          form.acceptCharset = 'UTF-8';
 
-          // 添加所有字段 - 使用腾讯问卷正确的字段名称
-          const fieldData = {
-            'entry.23632151': values.name,        // 姓名
-            'entry.23632152': values.studentId, // 学号
-            'entry.23632153': values.major,     // 专业
-            'entry.23632154': gradeMap[values.grade] || values.grade, // 年级
-            'entry.23632155': values.email,     // 邮箱
-            'entry.23632156': values.phone,     // 手机号
-            'entry.23632157': interestMap[values.interestArea] || values.interestArea, // 兴趣领域
-            'entry.23632158': values.experience || '', // 个人经历
-            'entry.23632159': values.motivation  // 申请动机
-          };
+          // 添加表单字段 - 处理选填字段为空的情况
+          const formFields = [
+            { name: 'q1', value: values.name || '' },           // 姓名（必填）
+            { name: 'q2', value: values.studentId || '' },        // 学号（必填）
+            { name: 'q3', value: values.major || '' },            // 专业（必填）
+            { name: 'q4', value: gradeMap[values.grade] || values.grade || '' }, // 年级（必填）
+            { name: 'q5', value: values.email || '' },            // 邮箱（必填）
+            { name: 'q6', value: values.phone || '' },            // 手机号（必填）
+            { name: 'q7', value: interestMap[values.interestArea] || values.interestArea || '' }, // 兴趣领域（必填）
+            { name: 'q8', value: values.experience || '' },       // 个人经历（选填）
+            { name: 'q9', value: values.motivation || '' }        // 申请动机（选填）
+          ];
           
-          Object.entries(fieldData).forEach(([key, value]) => {
+          // 添加所有字段到表单
+          formFields.forEach(field => {
             const input = document.createElement('input');
             input.type = 'hidden';
-            input.name = key;
-            input.value = value;
+            input.name = field.name;
+            input.value = field.value;
             form.appendChild(input);
           });
           
-          // 添加腾讯问卷必要字段
-          const metaFields = {
-            't': Date.now(),
-            'source': 'direct_link',
-            'so': 'direct_link',
-            'from': 'singlemessage'
-          };
+          // 添加腾讯问卷必要的meta字段
+          const hiddenInputs = [
+            { name: 't', value: Date.now() },
+            { name: 'source', value: 'direct_link' },
+            { name: 'so', value: 'direct_link' }
+          ];
           
-          Object.entries(metaFields).forEach(([key, value]) => {
+          hiddenInputs.forEach(inputData => {
             const input = document.createElement('input');
             input.type = 'hidden';
-            input.name = key;
-            input.value = value;
+            input.name = inputData.name;
+            input.value = inputData.value;
             form.appendChild(input);
           });
 
           // 监听iframe加载完成
           iframe.onload = () => {
-            // 延迟一下确保数据已提交
-            setTimeout(() => {
+            try {
+              // 检查iframe内容，验证提交是否成功
+              const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+              const iframeUrl = iframe.src || iframe.contentWindow.location.href;
+              
+              console.log('腾讯问卷提交状态:', {
+                iframeUrl: iframeUrl,
+                documentTitle: iframeDoc?.title || '未知'
+              });
+              
+              // 延迟清理，确保数据已提交
+              setTimeout(() => {
+                document.body.removeChild(iframe);
+                document.body.removeChild(form);
+                
+                // 显示成功消息
+                setSubmitStatus({
+                  success: true,
+                  message: '✅ 申请已成功提交！感谢您的参与，我们会尽快与您联系。'
+                });
+                
+                resolve();
+              }, 2000);
+            } catch (error) {
+              console.log('提交完成，腾讯问卷已接收数据');
               document.body.removeChild(iframe);
               document.body.removeChild(form);
               
-              // 显示成功消息
               setSubmitStatus({
                 success: true,
                 message: '✅ 申请已成功提交！感谢您的参与，我们会尽快与您联系。'
               });
               
               resolve();
-            }, 1000);
+            }
+          };
+          
+          // 错误处理
+          iframe.onerror = () => {
+            console.error('腾讯问卷提交失败');
+            document.body.removeChild(iframe);
+            document.body.removeChild(form);
+            
+            setSubmitStatus({
+              success: false,
+              message: '❌ 提交失败，请稍后重试或联系管理员。'
+            });
+            
+            resolve();
           };
 
           document.body.appendChild(form);

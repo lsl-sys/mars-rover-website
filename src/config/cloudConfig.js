@@ -1,11 +1,11 @@
 // 腾讯问卷配置 - 重邮-京东未来智能视觉联合研究实践基地招新专用
 export const TENCENT_WJ_CONFIG = {
-  // ✅ 已配置：你的实际问卷ID
-  SURVEY_ID: '23632150/3985', // 从 https://wj.qq.com/s2/23632150/3985/ 获取
+  // ✅ 已配置：你的实际问卷完整路径
+  SURVEY_BASE: '23632150/3985', // 从 https://wj.qq.com/s2/23632150/3985/ 获取
   
   // 完整的腾讯问卷提交URL
   get SUBMIT_URL() {
-    return `https://wj.qq.com/s2/${this.SURVEY_ID}.html`;
+    return `https://wj.qq.com/s2/${this.SURVEY_BASE}/`;
   },
   
   // 字段映射表 - 严格按照腾讯问卷题号对应
