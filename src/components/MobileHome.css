@@ -1,43 +1,87 @@
-/* 移动端首页容器 */
+/* 现代化移动端样式 */
+* {
+  box-sizing: border-box;
+}
+
 .mobile-home-container {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   color: white;
   min-height: 100vh;
   overflow-x: hidden;
-  width: 100vw;
-  max-width: 100vw;
+  width: 100%;
+  max-width: 100%;
   margin: 0;
   padding: 0;
+  position: relative;
 }
 
-/* 移动端英雄区域 */
+/* 背景渐变动画 */
+.mobile-bg-gradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 滚动显示动画 */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 英雄区域 */
 .mobile-hero-section {
-  padding: 2rem 1.5rem 3rem;
+  padding: 3rem 1rem 4rem;
   text-align: center;
   position: relative;
-  width: 100%;
-  box-sizing: border-box;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.mobile-hero-content {
-  max-width: 400px;
-  margin: 0 auto;
-  width: 100%;
+.mobile-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  margin-bottom: 1.5rem;
 }
 
-.mobile-hero-tagline {
+.badge-icon {
+  font-size: 1rem;
+}
+
+.badge-text {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #94a3b8;
-  margin-bottom: 1rem;
+  color: #cbd5e1;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
 }
 
 .mobile-hero-title {
-  font-size: 2.25rem;
+  font-size: 2.5rem;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.1;
   margin-bottom: 1.5rem;
   background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
   -webkit-background-clip: text;
@@ -45,24 +89,39 @@
   background-clip: text;
 }
 
-.mobile-hero-description {
-  font-size: 1rem;
-  color: #cbd5e1;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  max-width: 100%;
+.title-line {
+  display: block;
 }
 
-/* 移动端行动按钮区域 */
-.mobile-cta-section {
+.title-line.highlight {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mobile-hero-description {
+  font-size: 1.125rem;
+  color: #cbd5e1;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  max-width: 100%;
+  padding: 0 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mobile-hero-actions {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   align-items: center;
+  width: 100%;
+  max-width: 100%;
 }
 
 .mobile-btn-primary {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
   padding: 1rem 2rem;
   border-radius: 12px;
@@ -70,15 +129,48 @@
   font-weight: 700;
   font-size: 1rem;
   width: 100%;
-  max-width: 320px;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.mobile-btn-primary:hover::before {
+  left: 100%;
 }
 
 .mobile-btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+.mobile-btn-primary.large {
+  padding: 1.25rem 2.5rem;
+  font-size: 1.125rem;
+}
+
+.btn-arrow {
+  transition: transform 0.3s ease;
+}
+
+.mobile-btn-primary:hover .btn-arrow {
+  transform: translateX(4px);
 }
 
 .mobile-btn-group {
@@ -86,6 +178,7 @@
   gap: 0.75rem;
   justify-content: center;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .mobile-btn-secondary {
@@ -98,193 +191,319 @@
   font-size: 0.875rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .mobile-btn-secondary:hover {
   background: rgba(255, 255, 255, 0.15);
   transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* 移动端统计数据区域 */
+/* 统计数据区域 */
 .mobile-stats-section {
-  padding: 2rem 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  width: 100%;
-  box-sizing: border-box;
+  padding: 4rem 1rem;
+  position: relative;
+  z-index: 1;
 }
 
-.mobile-stats-title {
-  font-size: 1.25rem;
+.section-title {
+  font-size: 2rem;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
   color: white;
 }
 
 .mobile-stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
-  max-width: 100%;
+  gap: 1rem;
+  max-width: 400px;
   margin: 0 auto;
 }
 
-.mobile-stat-item {
+.mobile-stat-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem 1rem;
   text-align: center;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
   backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.mobile-stat-number {
+.mobile-stat-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.stat-icon {
   font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-number {
+  font-size: 1.75rem;
   font-weight: 800;
   color: #10b981;
   margin-bottom: 0.25rem;
 }
 
-.mobile-stat-label {
-  font-size: 0.75rem;
+.stat-label {
+  font-size: 0.875rem;
   color: #94a3b8;
   font-weight: 500;
 }
 
-/* 移动端关于我们区域 */
+/* 关于我们区域 */
 .mobile-about-section {
-  padding: 2rem 1.5rem;
-  width: 100%;
-  box-sizing: border-box;
+  padding: 4rem 1rem;
+  position: relative;
+  z-index: 1;
 }
 
-.mobile-section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: white;
-}
-
-.mobile-about-text {
-  font-size: 1rem;
+.mobile-about-description {
+  font-size: 1.125rem;
   color: #cbd5e1;
-  line-height: 1.6;
+  line-height: 1.7;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.mobile-team-gallery {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin: 1.5rem 0;
+.mobile-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin: 2rem 0;
 }
 
-.mobile-team-photo {
+.mobile-gallery-item {
   width: 100%;
-  height: 150px;
+  height: 100px;
   object-fit: cover;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
 }
 
-.mobile-features {
+.mobile-gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.mobile-features-grid {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin-top: 2rem;
 }
 
-.mobile-feature-item {
+.mobile-feature-card {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
+  padding: 1.25rem;
   background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid;
   border-radius: 12px;
   backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
-.mobile-feature-icon {
+.mobile-feature-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(4px);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.5rem;
   flex-shrink: 0;
 }
 
-.mobile-feature-text {
-  display: flex;
-  flex-direction: column;
+.feature-content {
+  flex: 1;
 }
 
-.mobile-feature-text strong {
+.feature-title {
   font-size: 1rem;
-  color: white;
   font-weight: 600;
+  color: white;
+  margin: 0 0 0.25rem 0;
 }
 
-.mobile-feature-text span {
+.feature-description {
   font-size: 0.875rem;
   color: #94a3b8;
+  margin: 0;
 }
 
-/* 移动端项目展示区域 */
+/* 项目展示区域 */
 .mobile-projects-section {
-  padding: 2rem 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  width: 100%;
-  box-sizing: border-box;
+  padding: 4rem 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.mobile-projects-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .mobile-project-card {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.mobile-project-image {
+.mobile-project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.project-image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-image {
   width: 100%;
-  height: 150px;
+  height: 200px;
   object-fit: cover;
-  border-radius: 12px 12px 0 0;
-  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
 }
 
-.mobile-project-header {
+.mobile-project-card:hover .project-image {
+  transform: scale(1.05);
+}
+
+.project-overlay {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+}
+
+.project-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-  padding: 0 1.5rem;
-}
-
-.mobile-project-icon {
+  justify-content: center;
   font-size: 1.5rem;
-  flex-shrink: 0;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.mobile-project-card h4 {
-  font-size: 1.125rem;
+.project-content {
+  padding: 1.5rem;
+}
+
+.project-title {
+  font-size: 1.25rem;
   font-weight: 700;
   color: white;
-  margin: 0;
+  margin: 0 0 0.75rem 0;
 }
 
-.mobile-project-desc {
+.project-description {
   font-size: 0.875rem;
   color: #cbd5e1;
-  line-height: 1.5;
+  line-height: 1.6;
   margin: 0;
-  padding: 0 1.5rem 1.5rem;
 }
 
+/* 底部号召行动 */
+.mobile-footer-cta {
+  padding: 4rem 1rem 5rem;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
 
+.footer-cta-content {
+  max-width: 400px;
+  margin: 0 auto;
+}
 
-/* 小屏幕优化 */
+.footer-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.footer-description {
+  font-size: 1.125rem;
+  color: #cbd5e1;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+/* 响应式设计 */
 @media (max-width: 375px) {
+  .mobile-hero-section {
+    padding: 2rem 1rem 3rem;
+  }
+  
+  .mobile-hero-title {
+    font-size: 2.25rem;
+  }
+  
+  .mobile-hero-description {
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .mobile-stats-grid {
+    gap: 0.75rem;
+  }
+  
+  .mobile-stat-card {
+    padding: 1rem 0.75rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .mobile-gallery {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .mobile-gallery-item {
+    height: 120px;
+  }
+  
+  .mobile-projects-grid {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 320px) {
   .mobile-hero-section,
   .mobile-stats-section,
   .mobile-about-section,
@@ -295,58 +514,7 @@
   }
   
   .mobile-hero-title {
-    font-size: 1.875rem;
-  }
-  
-  .mobile-hero-description {
-    font-size: 0.875rem;
-  }
-  
-  .mobile-btn-primary {
-    font-size: 0.875rem;
-    padding: 0.875rem 1.5rem;
-    max-width: 280px;
-  }
-  
-  .mobile-btn-secondary {
-    font-size: 0.75rem;
-    padding: 0.625rem 1rem;
-  }
-  
-  .mobile-stats-grid {
-    gap: 0.5rem;
-  }
-  
-  .mobile-stat-item {
-    padding: 0.75rem 0.25rem;
-  }
-  
-  .mobile-stat-number {
-    font-size: 1.25rem;
-  }
-  
-  .mobile-stat-label {
-    font-size: 0.625rem;
-  }
-  
-  .mobile-hero-content {
-    max-width: 100%;
-  }
-}
-
-/* 超小屏幕优化 */
-@media (max-width: 320px) {
-  .mobile-hero-section,
-  .mobile-stats-section,
-  .mobile-about-section,
-  .mobile-projects-section,
-  .mobile-footer-cta {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-  }
-  
-  .mobile-hero-title {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
   
   .mobile-btn-group {
@@ -356,6 +524,62 @@
   
   .mobile-btn-secondary {
     width: 100%;
-    max-width: 200px;
+    max-width: 280px;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-hero-section {
+    padding: 4rem 2rem 5rem;
+  }
+  
+  .mobile-hero-title {
+    font-size: 3rem;
+  }
+  
+  .mobile-hero-description {
+    max-width: 500px;
+    font-size: 1.25rem;
+  }
+  
+  .mobile-stats-grid {
+    max-width: 600px;
+    gap: 1.5rem;
+  }
+  
+  .mobile-gallery {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  
+  .mobile-gallery-item {
+    height: 150px;
+  }
+  
+  .mobile-projects-grid {
+    max-width: 600px;
+  }
+  
+  .project-image {
+    height: 250px;
+  }
+}
+
+/* 性能优化 */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    transition: none;
+  }
+  
+  .mobile-btn-primary,
+  .mobile-btn-secondary,
+  .mobile-stat-card,
+  .mobile-feature-card,
+  .mobile-project-card {
+    transition: none;
+  }
+  
+  .mobile-bg-gradient {
+    animation: none;
   }
 }

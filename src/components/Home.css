@@ -2,8 +2,12 @@
 .home-container {
   color: white;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* 英雄区域样式 - 优化为页面起始部分 */
@@ -26,8 +30,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   background: radial-gradient(circle at 70% 30%, rgba(66, 153, 225, 0.15) 0%, rgba(15, 23, 42, 0) 50%);
   z-index: 0;
 }
@@ -37,8 +41,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   background-image: 
     radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 20%),
     radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 20%),
@@ -746,8 +750,8 @@
   .projects-section {
     padding: 2rem 1.5rem;
     min-height: auto;
-    width: 100vw;
-    max-width: 100vw;
+    width: 100%;
+    max-width: 100%;
     margin: 0;
     box-sizing: border-box;
   }

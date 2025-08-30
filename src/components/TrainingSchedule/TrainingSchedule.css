@@ -693,9 +693,137 @@
   }
 }
 
-/* 移动端样式由MobileWidth.css统一管理 */
+/* 响应式设计 - 当屏幕宽度小于768px时应用的样式 - 统一移动端宽度 */
+@media (max-width: 768px) {
+  /* 统一移动端容器设置 */
+  .training-schedule-container {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
 
-/* 移动端样式由MobileWidth.css统一管理 */
+  .schedule-content {
+    flex-direction: column;
+    padding: 0;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* 侧边栏重置定位 */
+  .schedule-sidebar {
+    flex: 1;
+    position: static;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+  }
+  
+  /* 主日历区域重置 */
+  .schedule-main {
+    flex: 1;
+    padding: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* 日历控制区域垂直排列 */
+  .calendar-controls {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  
+  .current-date {
+    order: 2;
+    font-size: 16px;
+  }
+  
+  .calendar-controls > .control-btn:first-child {
+    order: 1;
+  }
+  
+  .calendar-controls > .control-btn:last-child {
+    order: 3;
+  }
+  
+  /* 控制按钮宽度 */
+  .control-btn {
+    width: 100%;
+    max-width: none;
+    padding: 12px;
+  }
+  
+  /* 视图按钮容器 */
+  .view-buttons {
+    order: 4;
+    width: 100%;
+  }
+  
+  .view-btn {
+    flex: 1;
+    padding: 10px;
+  }
+  
+  /* 图例项容器居中对齐 */
+  .legend-items {
+    justify-content: center;
+  }
+  
+  /* 日历高度减小 */
+  .rbc-calendar {
+    height: 400px;
+  }
+  
+  /* 模态框内容宽度 */
+  .modal-content {
+    width: 90%;
+    max-width: 400px;
+    margin: 10px auto;
+    box-sizing: border-box;
+  }
+  
+  /* 修复小屏幕下的日历对齐 */
+  .rbc-calendar {
+    font-size: 12px;
+  }
+  
+  .rbc-header {
+    font-size: 12px;
+    padding: 8px 4px;
+  }
+  
+  .rbc-event {
+    font-size: 11px;
+    padding: 2px 4px;
+  }
+}
+
+/* 超小屏幕优化 */
+@media (max-width: 480px) {
+  .schedule-header {
+    padding: 15px 10px;
+  }
+  
+  .schedule-header h1 {
+    font-size: 24px;
+  }
+  
+  .schedule-header p {
+    font-size: 14px;
+  }
+  
+  .rbc-calendar {
+    height: 350px;
+  }
+  
+  .current-date {
+    font-size: 14px;
+  }
+}
 
 /* 滚动条样式优化 - Webkit浏览器 */
 ::-webkit-scrollbar {

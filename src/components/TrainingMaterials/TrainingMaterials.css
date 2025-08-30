@@ -465,10 +465,44 @@
   top: 0;
 }
 
-/* 移动端样式由MobileWidth.css统一管理 */
-
-/* 分类卡片网格单列显示 */
+/* 响应式设计 - 当屏幕宽度小于768px时应用的样式 - 统一移动端宽度 */
 @media (max-width: 768px) {
+  /* 统一移动端容器设置 */
+  .training-materials-container {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .materials-content {
+    flex-direction: column;
+    padding: 0;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* 侧边栏重置定位 */
+  .materials-sidebar {
+    flex: 1;
+    position: static;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+  }
+  
+  /* 主内容区域重置 */
+  .materials-main {
+    flex: 1;
+    padding: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* 分类卡片网格单列显示 */
   .category-cards {
     grid-template-columns: 1fr;
     max-width: 100%;
