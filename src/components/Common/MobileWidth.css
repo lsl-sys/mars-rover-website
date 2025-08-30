@@ -1,0 +1,165 @@
+/* 统一移动端界面宽度样式 */
+/* 以培训日程界面的400px宽度为标准 */
+
+/* 通用移动端容器样式 */
+@media (max-width: 768px) {
+  /* 全局容器重置 */
+  * {
+    box-sizing: border-box;
+  }
+
+  /* 统一移动端主容器宽度 */
+  .mobile-container,
+  .training-schedule-container,
+  .training-materials-container,
+  .contact-container,
+  .application-form-container,
+  .mobile-home-container {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+  /* 统一内容区域宽度 - 400px标准 */
+  .schedule-content,
+  .materials-content,
+  .contact-content,
+  .application-form-content {
+    max-width: 400px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    padding: 0 1rem !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 统一卡片和区块宽度 */
+  .contact-card,
+  .teacher-card,
+  .application-guide,
+  .tencent-form-container,
+  .schedule-sidebar,
+  .materials-sidebar,
+  .schedule-main,
+  .materials-main {
+    width: 100% !important;
+    max-width: 400px !important;
+    margin: 0 auto 1rem auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 统一网格布局 */
+  .contact-grid,
+  .category-cards,
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    max-width: 400px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    gap: 1rem !important;
+  }
+
+  /* 统一表单布局 */
+  .form-row {
+    grid-template-columns: 1fr !important;
+    max-width: 400px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    gap: 0 !important;
+  }
+
+  /* 统一按钮宽度 */
+  .mobile-btn-primary,
+  .mobile-btn-secondary,
+  .action-btn,
+  .submit-btn,
+  .control-btn {
+    max-width: 400px !important;
+    width: 100% !important;
+    margin: 0 auto 0.5rem auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 统一头部样式 */
+  .contact-header,
+  .form-header,
+  .page-header {
+    max-width: 400px !important;
+    margin: 0 auto 1.5rem auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 统一模态框宽度 */
+  .modal-content,
+  .event-modal {
+    max-width: 380px !important;
+    width: 95% !important;
+    margin: 10px auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 统一小屏幕优化 */
+  .mobile-hero-content,
+  .mobile-stats-grid,
+  .mobile-features,
+  .mobile-team-gallery {
+    max-width: 400px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+}
+
+/* 更小屏幕的优化 */
+@media (max-width: 480px) {
+  /* 保持400px标准，但减少内边距 */
+  .schedule-content,
+  .materials-content,
+  .contact-content,
+  .application-form-content {
+    padding: 0 0.5rem !important;
+  }
+
+  /* 调整模态框在小屏幕下的宽度 */
+  .modal-content,
+  .event-modal {
+    max-width: 360px !important;
+    width: 92% !important;
+  }
+}
+
+/* 超小屏幕优化 */
+@media (max-width: 400px) {
+  /* 当屏幕小于400px时，使用全屏宽度 */
+  .schedule-content,
+  .materials-content,
+  .contact-content,
+  .application-form-content {
+    max-width: 100% !important;
+    padding: 0 0.5rem !important;
+  }
+
+  .contact-card,
+  .teacher-card,
+  .application-guide,
+  .tencent-form-container {
+    max-width: 100% !important;
+  }
+}
+
+/* 防止水平溢出 */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  html {
+    overflow-x: hidden;
+  }
+
+  /* 确保所有内容都在视口内 */
+  * {
+    max-width: 100vw;
+  }
+}

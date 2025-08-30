@@ -8,6 +8,7 @@ import TrainingMaterials from './components/TrainingMaterials/TrainingMaterials'
 import Contact from './components/Contact/Contact'
 import ApplicationStats from './components/Recruitment/ApplicationStats'
 import './App.css'
+import './components/Common/MobileWidth.css'
 
 function App() {
   return (
