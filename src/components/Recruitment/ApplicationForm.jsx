@@ -83,8 +83,7 @@ const ApplicationForm = () => {
             <h4>联系方式</h4>
             <p>如有疑问，请联系：</p>
             <ul>
-              <li><strong>邮箱：marsrover@example.com</strong></li>
-              <li><strong>QQ群：123456789</strong></li>
+              <li><strong>QQ群：942812409</strong></li>
             </ul>
           </div>
         </div>

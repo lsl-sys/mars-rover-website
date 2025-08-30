@@ -74,6 +74,217 @@
   background: #4b5563;
 }
 
+.stats-actions .tencent-btn {
+  background: #1890ff;
+  color: white;
+}
+
+.stats-actions .tencent-btn:hover {
+  background: #40a9ff;
+}
+
+.tencent-stats {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tencent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.tencent-header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.tencent-links {
+  display: flex;
+  gap: 10px;
+}
+
+.tencent-links a {
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.admin-link {
+  background: #1890ff;
+  color: white;
+}
+
+.admin-link:hover {
+  background: #40a9ff;
+}
+
+.public-link {
+  background: #52c41a;
+  color: white;
+}
+
+.public-link:hover {
+  background: #73d13d;
+}
+
+.tencent-embed {
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tencent-embed iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+.tencent-info {
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border-left: 4px solid #1890ff;
+}
+
+.tencent-info p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.tencent-links-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.tencent-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: white;
+  text-align: center;
+}
+
+.admin-link-btn {
+  background: linear-gradient(135deg, #1890ff, #096dd9);
+}
+
+.admin-link-btn:hover {
+  background: linear-gradient(135deg, #40a9ff, #1890ff);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+}
+
+.public-link-btn {
+  background: linear-gradient(135deg, #52c41a, #389e0d);
+}
+
+.public-link-btn:hover {
+  background: linear-gradient(135deg, #73d13d, #52c41a);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
+}
+
+.stats-link-btn {
+  background: linear-gradient(135deg, #722ed1, #531dab);
+}
+
+.stats-link-btn:hover {
+  background: linear-gradient(135deg, #9254de, #722ed1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(114, 46, 209, 0.3);
+}
+
+.tencent-info h4 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.tencent-info ol {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+
+.tencent-info li {
+  margin: 8px 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+.warning-box {
+  margin: 20px 0;
+  padding: 15px;
+  background: #fff7e6;
+  border: 1px solid #ffd591;
+  border-radius: 6px;
+  border-left: 4px solid #faad14;
+}
+
+.warning-box strong {
+  color: #d48806;
+}
+
+.warning-box p {
+  margin: 5px 0 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.stats-preview {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f0f5ff;
+  border: 1px solid #b7e3ff;
+  border-radius: 6px;
+  border-left: 4px solid #1890ff;
+}
+
+.stats-preview h4 {
+  margin: 0 0 10px 0;
+  color: #0050b3;
+}
+
+.stats-preview ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.stats-preview li {
+  margin: 5px 0;
+  color: #003a8c;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .tencent-links-container {
+    gap: 10px;
+  }
+  
+  .tencent-link-btn {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+}
+
 .stats-content {
   max-width: 1200px;
   margin: 0 auto;

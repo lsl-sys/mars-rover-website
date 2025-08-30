@@ -6,9 +6,19 @@ const ApplicationStats = () => {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showTencentStats, setShowTencentStats] = useState(false);
 
   // 管理员密码
   const ADMIN_PASSWORD = 'mars2025';
+
+  // 腾讯问卷配置
+  const TENCENT_SURVEY_CONFIG = {
+    surveyId: '23632150',
+    publicUrl: 'https://wj.qq.com/s2/23632150/3985/',
+    adminUrl: 'https://wj.qq.com/stat/1/overview?sid=23632150',
+    correctAdminUrl: 'https://wj.qq.com/manage/survey/23632150/statistics',
+    embedUrl: 'https://wj.qq.com/s2/23632150/3985/'
+  };
 
   // 从本地存储加载申请数据
   useEffect(() => {
@@ -169,76 +179,132 @@ const ApplicationStats = () => {
         <div className="stats-actions">
           <button onClick={exportData} className="export-btn">导出表格文件</button>
           <button onClick={clearData} className="clear-btn">清空数据</button>
+          <button onClick={() => setShowTencentStats(!showTencentStats)} className="tencent-btn">
+            {showTencentStats ? '查看本地数据' : '查看腾讯问卷统计'}
+          </button>
           <button onClick={() => setIsAuthenticated(false)} className="logout-btn">退出</button>
         </div>
       </div>
 
-      <div className="stats-grid">
-        <div className="stat-card">
-          <h3>总申请数</h3>
-          <div className="stat-number">{stats.total}</div>
+      {showTencentStats ? (
+        <div className="tencent-stats">
+          <div className="tencent-header">
+            <h3>腾讯问卷实时统计</h3>
+          </div>
+          
+          <div className="tencent-links-container">
+            <a 
+              href={TENCENT_SURVEY_CONFIG.publicUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="tencent-link-btn public-link-btn"
+            >
+              📊 查看问卷填写页面
+            </a>
+            <a 
+              href={TENCENT_SURVEY_CONFIG.adminUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="tencent-link-btn stats-link-btn"
+            >
+              📈 查看统计概览
+            </a>
+          </div>
+          
+           <div className="tencent-info">
+            <h4>📋 使用说明</h4>
+            <ol>
+              <li><strong>问卷页面</strong>：查看申请者填写的问卷界面</li>
+              <li><strong>统计概览</strong>：查看问卷的实时统计数据</li>
+            </ol>
+            
+            <div className="warning-box">
+              <strong>⚠️ 注意：</strong>
+              <p>腾讯问卷的统计页面需要登录权限，建议使用微信扫码登录或联系问卷创建者获取访问权限。</p>
+            </div>
+            
+            <div className="stats-preview">
+              <h4>📊 预期可查看的统计内容：</h4>
+              <ul>
+                <li>总填写人数和完成率</li>
+                <li>每日/每周填写趋势</li>
+                <li>各题目的回答分布</li>
+                <li>填写来源分析</li>
+                <li>数据导出为Excel</li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <div className="stat-card">
-          <h3>今日申请</h3>
-          <div className="stat-number">{stats.today}</div>
-        </div>
-      </div>
+      ) : (
+        <>
+          <div className="stats-grid">
+            <div className="stat-card">
+              <h3>总申请数</h3>
+              <div className="stat-number">{stats.total}</div>
+            </div>
+            <div className="stat-card">
+              <h3>今日申请</h3>
+              <div className="stat-number">{stats.today}</div>
+            </div>
+          </div>
 
-      <div className="stats-section">
-        <h3>按兴趣领域分布</h3>
-        <div className="stats-bars">
-          {Object.entries(stats.byInterest).map(([area, count]) => (
-            <div key={area} className="stat-bar">
-              <span className="bar-label">{getInterestLabel(area)}</span>
-              <div className="bar-container">
-                <div 
-                  className="bar-fill" 
-                  style={{ width: `${(count / stats.total) * 100}%` }}
-                >
-                  {count}
+          <div className="stats-section">
+            <h3>按兴趣领域分布</h3>
+            <div className="stats-bars">
+              {Object.entries(stats.byInterest).map(([area, count]) => (
+                <div key={area} className="stat-bar">
+                  <span className="bar-label">{getInterestLabel(area)}</span>
+                  <div className="bar-container">
+                    <div 
+                      className="bar-fill" 
+                      style={{ width: `${stats.total > 0 ? (count / stats.total) * 100 : 0}%` }}
+                    >
+                      {count}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
 
-      <div className="stats-section">
-        <h3>按年级分布</h3>
-        <div className="stats-bars">
-          {Object.entries(stats.byGrade).map(([grade, count]) => (
-            <div key={grade} className="stat-bar">
-              <span className="bar-label">{getGradeLabel(grade)}</span>
-              <div className="bar-container">
-                <div 
-                  className="bar-fill" 
-                  style={{ width: `${(count / stats.total) * 100}%` }}
-                >
-                  {count}
+          <div className="stats-section">
+            <h3>按年级分布</h3>
+            <div className="stats-bars">
+              {Object.entries(stats.byGrade).map(([grade, count]) => (
+                <div key={grade} className="stat-bar">
+                  <span className="bar-label">{getGradeLabel(grade)}</span>
+                  <div className="bar-container">
+                    <div 
+                      className="bar-fill" 
+                      style={{ width: `${stats.total > 0 ? (count / stats.total) * 100 : 0}%` }}
+                    >
+                      {count}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
 
-      <div className="stats-section">
-        <h3>最新申请</h3>
-        <div className="applications-list">
-          {applications.slice(-5).reverse().map((app, index) => (
-            <div key={app.id} className="application-item">
-              <div className="app-info">
-                <span className="app-name">{app.name}</span>
-                <span className="app-major">{app.major}</span>
-                <span className="app-interest">{getInterestLabel(app.interestArea)}</span>
-              </div>
-              <div className="app-time">
-                {new Date(app.timestamp).toLocaleString('zh-CN')}
-              </div>
+          <div className="stats-section">
+            <h3>最新申请</h3>
+            <div className="applications-list">
+              {applications.slice(-5).reverse().map((app, index) => (
+                <div key={app.id} className="application-item">
+                  <div className="app-info">
+                    <span className="app-name">{app.name}</span>
+                    <span className="app-major">{app.major}</span>
+                    <span className="app-interest">{getInterestLabel(app.interestArea)}</span>
+                  </div>
+                  <div className="app-time">
+                    {new Date(app.timestamp).toLocaleString('zh-CN')}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
