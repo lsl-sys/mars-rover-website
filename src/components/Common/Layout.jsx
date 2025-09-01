@@ -29,7 +29,7 @@ const Layout = () => {
       {/* 导航栏 */}
       <header className="navbar">
         <div className="logo">
-          <img src="/team_logo.jpg" alt="重邮-京东未来智能视觉联合研究实践基地 Logo" />
+          <img src="/photo/NEWLOGO.jpg" alt="重邮-京东未来智能视觉联合研究实践基地 Logo" />
           <div className="logo-text">
             <h1>重邮-京东未来智能视觉联合研究实践基地</h1>
           </div>

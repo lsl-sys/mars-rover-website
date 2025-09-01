@@ -30,21 +30,33 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  min-width: 0; /* 允许收缩 */
-  height: 60px; /* 固定高度确保垂直居中 */
+  gap: 1rem;
+  padding: 0.5rem 0;
+  height: 80px; /* 增加导航栏高度 */
 }
 
 /* Logo图片样式 */
 /* 优化Logo图片尺寸，在不同屏幕下保持比例 */
 .logo img {
-  height: 50px;
-  width: 50px;
+  height: 70px;
+  width: 70px;
   border-radius: 50%;
   background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-  padding: 5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   flex-shrink: 0; /* 防止图片被压缩 */
+}
+
+/* Logo主标题 */
+.logo h1 {
+  font-size: 1.6rem;
+  margin: 0;
+  font-weight: 700;
+  color: white;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Logo文字容器 */
@@ -354,6 +366,42 @@
 @media (max-width: 480px) {
   .navbar {
     padding: 0.75rem 1rem;
+  }
+
+  /* 手机端Logo区域优化 */
+  @media (max-width: 768px) {
+    .logo {
+      gap: 0.75rem;
+      height: 70px; /* 移动端稍小一些 */
+    }
+  
+    .logo img {
+      height: 55px;
+      width: 55px;
+      padding: 6px;
+    }
+  
+    .logo h1 {
+      font-size: 1.3rem;
+    }
+  }
+  
+  /* 超小屏幕团队名称优化 */
+  @media (max-width: 480px) {
+    .logo {
+      gap: 0.5rem;
+      height: 65px;
+    }
+  
+    .logo img {
+      height: 50px;
+      width: 50px;
+      padding: 5px;
+    }
+  
+    .logo h1 {
+      font-size: 1.1rem;
+    }
   }
 
   .logo {
