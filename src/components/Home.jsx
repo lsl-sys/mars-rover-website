@@ -188,6 +188,34 @@ const Home = () => {
           </div>
         </div>
       </section>
+      {/* 招新视频区域 */}
+      <section className="recruitment-video-section">
+        <div className="video-container">
+          <div className="video-wrapper">
+            <video 
+              controls 
+              poster="/photo/a1.jpg"
+              className="recruitment-video"
+              aria-label="重邮-京东未来智能视觉联合研究实践基地招新宣传片"
+            >
+              <source src="/recruitment_video.mp4" type="video/mp4" />
+              您的浏览器不支持视频播放，请使用现代浏览器或
+              <a href="/recruitment_video.mp4" download>下载视频</a>观看。
+            </video>
+          </div>
+          <div className="video-description">
+            <h3>了解我们，加入未来</h3>
+            <p>
+              通过这支宣传片，深入了解我们的团队文化、技术实力和成长机会。
+              无论你是技术爱好者、创新梦想家，还是未来领袖，这里都有属于你的舞台。
+            </p>
+            <div className="video-cta">
+              <Link to="/apply" className="btn-primary">立即报名</Link>
+              <Link to="/schedule" className="btn-secondary">了解培训计划</Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
