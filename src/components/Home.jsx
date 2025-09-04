@@ -90,6 +90,9 @@ const Home = () => {
           <div className="hero-image-container">
             <div className="hero-illustration">
               <div className="video-container">
+                <div className="video-caption">
+                  <span>🎬 组织招新宣传片</span>
+                </div>
                 <video 
                   className="promo-video" 
                   controls 
@@ -98,9 +101,6 @@ const Home = () => {
                   <source src="/视频/视频1.mp4" type="video/mp4" />
                   您的浏览器不支持视频播放。
                 </video>
-                <div className="video-caption">
-                  <span>🎬 组织招新宣传片</span>
-                </div>
               </div>
               <div className="rover-icon">
                 <div className="rover-body">
