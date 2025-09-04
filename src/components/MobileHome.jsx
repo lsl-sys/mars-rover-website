@@ -144,32 +144,6 @@ const MobileHome = () => {
       {/* 固定背景渐变 */}
       <div className="mobile-bg-gradient" style={{ transform: `translateY(${scrollY * 0.5}px)` }}></div>
       
-      {/* 宣传片区域 */}
-      <section className="mobile-promo-section">
-        <div className="promo-container">
-          <h2 className="promo-title">🎬 Video</h2>
-          <div className="promo-video-wrapper">
-            <video 
-              className="promo-video"
-              src="/recruitment_video.mp4" 
-              controls 
-              poster="/photo/火星车.jpg"
-              preload="metadata"
-            >
-              您的浏览器不支持视频播放。
-            </video>
-          </div>
-          <p className="promo-description">
-            感受科技创新的魅力，了解我们如何培养未来的机器人工程师！
-          </p>
-          <div className="promo-actions">
-            <Link to="/apply" className="promo-btn-primary">
-              🚀 立即加入
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* 英雄区域 */}
       <section className="mobile-hero-section">
         <ScrollReveal>
@@ -224,7 +198,7 @@ const MobileHome = () => {
             <div className="mobile-stat-card">
               <div className="stat-icon">💡</div>
               <div className="stat-number">
-                <AnimatedNumber targetValue="50+" />
+                <AnimatedNumber targetValue="1000+" />
               </div>
               <div className="stat-label">创新项目</div>
             </div>
@@ -232,11 +206,11 @@ const MobileHome = () => {
           
           <ScrollReveal delay={200}>
             <div className="mobile-stat-card">
-              <div className="stat-icon">🏆</div>
+              <div className="stat-icon">🔬</div>
               <div className="stat-number">
-                <AnimatedNumber targetValue="20+" />
+                <AnimatedNumber targetValue="50+" />
               </div>
-              <div className="stat-label">竞赛奖项</div>
+              <div className="stat-label">技术突破</div>
             </div>
           </ScrollReveal>
           
@@ -244,19 +218,9 @@ const MobileHome = () => {
             <div className="mobile-stat-card">
               <div className="stat-icon">👥</div>
               <div className="stat-number">
-                <AnimatedNumber targetValue="200+" />
+                <AnimatedNumber targetValue="100+" />
               </div>
-              <div className="stat-label">培养人才</div>
-            </div>
-          </ScrollReveal>
-          
-          <ScrollReveal delay={400}>
-            <div className="mobile-stat-card">
-              <div className="stat-icon">🤝</div>
-              <div className="stat-number">
-                <AnimatedNumber targetValue="10+" />
-              </div>
-              <div className="stat-label">合作企业</div>
+              <div className="stat-label">团队成员</div>
             </div>
           </ScrollReveal>
         </div>

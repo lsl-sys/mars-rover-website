@@ -64,211 +64,154 @@ const Home = () => {
   
   return (
     <div className="home-container">
-      {/* 宣传片区域 - 放在最顶部 */}
-      <section className="promo-section">
-        <div className="promo-container">
-          <h2 className="promo-title">
-            🚀 2025火星车团队招新宣传片
-          </h2>
-          <div className="promo-video-wrapper">
-            <video 
-              className="promo-video"
-              controls 
-              poster="/recruitment_video_poster.jpg"
-              preload="metadata"
-            >
-              <source src="/recruitment_video.mp4" type="video/mp4" />
-              您的浏览器不支持视频播放。
-            </video>
-          </div>
-          <p className="promo-description">
-            加入我们，一起探索火星的奥秘！观看2025年火星车团队招新宣传片，
-            了解我们的创新项目、技术突破和团队精神。
-          </p>
-          <div className="promo-actions">
-            <a href="/recruitment" className="promo-btn-primary">
-              🎯 立即报名
-            </a>
-            <a href="/about" className="promo-btn-secondary">
-              📖 了解计划详情
-            </a>
-          </div>
-        </div>
-      </section>
-
       {/* 英雄区域 */}
       <section className="hero-section">
-        <div className="hero-content">
-          <div className="hero-badge">
-            <span className="badge-icon">🚀</span>
-            <span className="badge-text">火星探索先锋</span>
-          </div>
-          <h1 className="hero-title">
-            <span className="title-line">探索红色星球</span>
-            <span className="title-line highlight">创造无限可能</span>
-          </h1>
-          <p className="hero-description">
-            我们是一支充满激情的火星车研发团队，致力于推动中国深空探测技术发展。
-            通过创新设计与精密工程，我们正在打造下一代火星探索机器人。
-          </p>
-          <div className="hero-actions">
-            <a href="/projects" className="btn-primary large">
-              探索我们的项目
-              <span className="btn-arrow">→</span>
-            </a>
-            <div className="btn-group">
-              <a href="/team" className="btn-secondary">
-                <span>👥</span>
-                认识团队
-              </a>
-              <a href="/contact" className="btn-secondary">
-                <span>📧</span>
-                联系我们
-              </a>
+        <div className="hero-gradient"></div>
+        <div className="hero-overlay"></div>
+        
+        <div className="hero-content-wrapper">
+          <div className="hero-content">
+            <div className="hero-tagline">🚀 机器人技术与太空探索</div>
+            <h1 className="hero-title">探索未知<br/>成就未来</h1>
+            <p className="hero-description">
+              加入重邮-京东未来智能视觉联合研究实践基地<br/>
+              与志同道合的伙伴一起<br/>
+              突破技术边界，创造无限可能
+            </p>
+            <div className="cta-buttons">
+              <Link to="/apply" className="btn-primary">立即加入我们</Link>
+              <div className="secondary-buttons">
+                <Link to="/schedule" className="btn-secondary">培训日程</Link>
+                <Link to="/materials" className="btn-secondary">学习资料</Link>
+              </div>
             </div>
+          </div>
+          
+          <div className="hero-image-container">
+            <div className="hero-illustration">
+              <div className="rover-icon">
+                <div className="rover-body">
+                  <div className="rover-top"></div>
+                  <div className="rover-camera"></div>
+                  <div className="rover-wheels">
+                    <div className="wheel"></div>
+                    <div className="wheel"></div>
+                    <div className="wheel"></div>
+                    <div className="wheel"></div>
+                  </div>
+                </div>
+              </div>
+              <div className="hero-decor">
+                <div className="decor-circle circle-1"></div>
+                <div className="decor-circle circle-2"></div>
+                <div className="decor-circle circle-3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="hero-stats">
+          <div className="stat-item">
+            <div className="stat-number">
+              {isVisible ? <AnimatedNumber targetValue="1000+" /> : '0+'}
+            </div>
+            <div className="stat-label">创新项目</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">
+              {isVisible ? <AnimatedNumber targetValue="50+" /> : '0+'}
+            </div>
+            <div className="stat-label">技术突破</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">
+              {isVisible ? <AnimatedNumber targetValue="50+" /> : '0+'}
+            </div>
+            <div className="stat-label">团队成员</div>
           </div>
         </div>
       </section>
 
-      {/* 统计数据 */}
-      <section className="stats-section">
-        <div className="stats-container">
-          <h2 className="section-title">我们的成就</h2>
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-icon">🏆</div>
-              <div className="stat-number">
-                <AnimatedNumber value={15} />
-              </div>
-              <div className="stat-label">获奖项目</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon">👨‍💻</div>
-              <div className="stat-number">
-                <AnimatedNumber value={50} />
-              </div>
-              <div className="stat-label">团队成员</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon">📅</div>
-              <div className="stat-number">
-                <AnimatedNumber value={3} />
-              </div>
-              <div className="stat-label">年研发经验</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 关于我们 */}
+      {/* 组织介绍 */}
       <section className="about-section">
-        <div className="about-container">
-          <h2 className="section-title">关于我们</h2>
-          <p className="about-description">
-            火星车团队汇聚了来自机械工程、电子工程、计算机科学、人工智能等多个领域的优秀人才。
-            我们秉持着探索未知、追求卓越的精神，致力于开发能够在火星极端环境下稳定运行的智能机器人系统。
-          </p>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #3b82f6, #2563eb)' }}>
-                🤖
-              </div>
-              <div className="feature-content">
-                <h3 className="feature-title">智能机器人技术</h3>
-                <p className="feature-description">
-                  开发具备自主导航、环境感知和任务执行能力的火星车系统
-                </p>
-              </div>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #10b981, #059669)' }}>
-                🛰️
-              </div>
-              <div className="feature-content">
-                <h3 className="feature-title">深空通信系统</h3>
-                <p className="feature-description">
-                  研究火星与地球之间的高效通信解决方案
-                </p>
-              </div>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)' }}>
-                🔬
-              </div>
-              <div className="feature-content">
-                <h3 className="feature-title">科学探测设备</h3>
-                <p className="feature-description">
-                  设计能够在火星环境下工作的科学探测仪器
-                </p>
-              </div>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon" style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)' }}>
-                ⚡
-              </div>
-              <div className="feature-content">
-                <h3 className="feature-title">能源管理系统</h3>
-                <p className="feature-description">
-                  优化火星车的能源利用效率和续航能力
-                </p>
-              </div>
-            </div>
+        <h2>关于我们</h2>
+        <p>重邮-京东未来智能视觉联合研究实践基地汇聚机器人技术与智能视觉精英，以技术创新为驱动，培养面向未来的科技人才。</p>
+        <div className="team-gallery">
+          <img src="/photo/b1.jpg" alt="团队协作" className="team-photo"/>
+            <img src="/photo/b2.jpg" alt="技术研讨" className="team-photo"/>
+            <img src="/photo/b3.jpg" alt="项目实践" className="team-photo"/>
+        </div>
+        <div className="features">
+          <div className="feature-card">
+            <h3>技术创新</h3>
+            <p>突破机器人技术边界，引领行业未来发展</p>
+          </div>
+          <div className="feature-card">
+            <h3>团队协作</h3>
+            <p>跨学科融合，激发无限创新潜能</p>
+          </div>
+          <div className="feature-card">
+            <h3>实践育人</h3>
+            <p>真实项目历练，塑造未来科技领袖</p>
+          </div>
+          <div className="feature-card">
+            <h3>创业孵化</h3>
+            <p>技术商业化，成就科技创新梦想</p>
           </div>
         </div>
       </section>
 
       {/* 项目展示 */}
       <section className="projects-section">
-        <div className="projects-container">
-          <h2 className="section-title">重点项目</h2>
-          <div className="projects-grid">
-            <div className="project-card">
-              <div className="project-image-container">
-                <img src="/project-mars-rover.jpg" alt="火星车原型" className="project-image" />
-                <div className="project-overlay">
-                  <div className="project-icon" style={{ background: 'rgba(59, 130, 246, 0.9)' }}>
-                    🤖
-                  </div>
-                </div>
-              </div>
-              <div className="project-content">
-                <h3 className="project-title">火星车原型</h3>
-                <p className="project-description">
-                  基于真实火星环境需求设计的六轮驱动火星车原型，具备强大的越障能力和科学探测功能。
-                </p>
-              </div>
+        <h2>核心项目</h2>
+        <div className="project-grid">
+          <div className="project-card">
+            <img src="/photo/火星车.jpg" alt="智能火星探测车" className="project-image"/>
+            <div className="project-card-content">
+              <h3>智能火星探测系统</h3>
+              <p>融合AI算法与精密机械，打造适应极端环境的智能探测平台，为未来太空探索奠定技术基础。</p>
             </div>
-            <div className="project-card">
-              <div className="project-image-container">
-                <img src="/project-ai-navigation.jpg" alt="AI导航系统" className="project-image" />
-                <div className="project-overlay">
-                  <div className="project-icon" style={{ background: 'rgba(16, 185, 129, 0.9)' }}>
-                    🧠
-                  </div>
-                </div>
-              </div>
-              <div className="project-content">
-                <h3 className="project-title">AI导航系统</h3>
-                <p className="project-description">
-                  利用深度学习和计算机视觉技术，实现火星车在复杂地形中的自主导航和路径规划。
-                </p>
-              </div>
+          </div>
+          <div className="project-card">
+            <img src="/photo/c1.jpg" alt="机器人竞赛现场" className="project-image"/>
+            <div className="project-card-content">
+              <h3>国际机器人竞技</h3>
+              <p>在全球顶级赛事中屡创佳绩，展现中国大学生的技术实力与创新精神。</p>
             </div>
-            <div className="project-card">
-              <div className="project-image-container">
-                <img src="/project-solar-panel.jpg" alt="太阳能系统" className="project-image" />
-                <div className="project-overlay">
-                  <div className="project-icon" style={{ background: 'rgba(245, 158, 11, 0.9)' }}>
-                    ☀️
-                  </div>
-                </div>
-              </div>
-              <div className="project-content">
-                <h3 className="project-title">高效太阳能系统</h3>
-                <p className="project-description">
-                  专为火星环境设计的太阳能发电系统，具备自动清洁和角度调节功能，确保稳定供电。
-                </p>
-              </div>
+          </div>
+          <div className="project-card">
+            <img src="/photo/c2.jpg" alt="技术研究成果" className="project-image"/>
+            <div className="project-card-content">
+              <h3>前沿技术研究</h3>
+              <p>深耕机器人视觉、SLAM算法、路径规划等核心技术领域，推动行业技术进步。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* 招新视频区域 */}
+      <section className="recruitment-video-section">
+        <div className="video-container">
+          <div className="video-wrapper">
+            <video 
+              controls 
+              poster="/photo/a1.jpg"
+              className="recruitment-video"
+              aria-label="重邮-京东未来智能视觉联合研究实践基地招新宣传片"
+            >
+              <source src="/recruitment_video.mp4" type="video/mp4" />
+              您的浏览器不支持视频播放，请使用现代浏览器或
+              <a href="/recruitment_video.mp4" download>下载视频</a>观看。
+            </video>
+          </div>
+          <div className="video-description">
+            <h3>了解我们，加入未来</h3>
+            <p>
+              通过这支宣传片，深入了解我们的团队文化、技术实力和成长机会。
+              无论你是技术爱好者、创新梦想家，还是未来领袖，这里都有属于你的舞台。
+            </p>
+            <div className="video-cta">
+              <Link to="/apply" className="btn-primary">立即报名</Link>
+              <Link to="/schedule" className="btn-secondary">了解培训计划</Link>
             </div>
           </div>
         </div>
