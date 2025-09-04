@@ -194,25 +194,25 @@
 /* 视频容器样式 */
 .video-container {
   position: absolute;
-  top: 20px;
+  top: 0;
   right: 0;
-  width: 280px;
+  width: 420px;
   z-index: 10;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 15px;
+  border-radius: 20px;
+  padding: 25px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* 宣传视频样式 */
 .promo-video {
   width: 100%;
-  height: 160px;
-  border-radius: 10px;
+  height: 260px;
+  border-radius: 15px;
   object-fit: cover;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
 }
 
 /* 视频标题样式 */
@@ -227,11 +227,11 @@
 /* 火星车图标样式 */
 .rover-icon {
   position: absolute;
-  top: 65%;
+  top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 240px;
-  height: 200px;
+  width: 220px;
+  height: 180px;
   animation: float 6s ease-in-out infinite;
 }
 
@@ -747,13 +747,19 @@
   }
   
   .video-container {
-    width: 250px;
-    top: 10px;
-    right: 10px;
+    width: 380px;
+    top: 0;
+    right: 0;
   }
   
   .promo-video {
-    height: 140px;
+    height: 240px;
+  }
+  
+  .rover-icon {
+    top: 80%;
+    width: 200px;
+    height: 160px;
   }
 }
 
@@ -790,12 +796,12 @@
     top: auto;
     right: auto;
     width: 100%;
-    max-width: 320px;
+    max-width: 420px;
     margin: 0 auto 2rem;
   }
   
   .promo-video {
-    height: 180px;
+    height: 250px;
   }
 }
 
@@ -952,16 +958,21 @@
   }
   
   .video-container {
-    max-width: 280px;
-    padding: 10px;
+    max-width: 340px;
+    padding: 20px;
   }
   
   .promo-video {
-    height: 150px;
+    height: 200px;
   }
   
   .video-caption {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .rover-icon {
+    width: 180px;
+    height: 140px;
   }
 }
 
