@@ -42,13 +42,49 @@
   transform: translateY(0);
 }
 
+/* 视频宣传片区域 */
+.mobile-video-section {
+  padding: 1rem 1rem 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.mobile-video-container {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  margin-bottom: 1rem;
+}
+
+.mobile-video-caption {
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-promo-video {
+  width: 100%;
+  height: 200px;
+  border-radius: 15px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
 /* 英雄区域 */
 .mobile-hero-section {
-  padding: 3rem 1rem 4rem;
+  padding: 2rem 1rem 4rem;
   text-align: center;
   position: relative;
   z-index: 1;
-  min-height: 100vh;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -460,6 +496,69 @@
 }
 
 /* 响应式设计 */
+@media (max-width: 480px) {
+  .mobile-hero-title {
+    font-size: 2rem;
+  }
+  
+  .mobile-hero-description {
+    font-size: 1rem;
+  }
+  
+  .mobile-btn-primary {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .mobile-btn-secondary {
+    padding: 0.625rem 1rem;
+    font-size: 0.75rem;
+  }
+  
+  .mobile-video-section {
+    padding: 0.5rem 1rem 0;
+  }
+  
+  .mobile-video-container {
+    padding: 12px;
+    border-radius: 15px;
+  }
+  
+  .mobile-video-caption {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+  
+  .mobile-promo-video {
+    height: 180px;
+    border-radius: 12px;
+  }
+  
+  .mobile-stats-section {
+    padding: 2rem 1rem;
+  }
+  
+  .mobile-stat-card {
+    padding: 1.5rem;
+  }
+  
+  .mobile-about-section,
+  .mobile-projects-section {
+    padding: 2rem 1rem;
+  }
+  
+  .feature-card,
+  .mobile-project-card {
+    padding: 1.5rem;
+  }
+  
+  .project-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}
+
 @media (max-width: 375px) {
   .mobile-hero-section {
     padding: 2rem 1rem 3rem;

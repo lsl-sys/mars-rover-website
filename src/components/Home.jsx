@@ -97,6 +97,10 @@ const Home = () => {
                   className="promo-video" 
                   controls 
                   preload="metadata"
+                  onEnded={(e) => {
+                    e.target.currentTime = 0;
+                    e.target.load();
+                  }}
                 >
                   <source src="/video.mp4" type="video/mp4" />
                   您的浏览器不支持视频播放。

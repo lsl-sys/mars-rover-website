@@ -144,6 +144,29 @@ const MobileHome = () => {
       {/* 固定背景渐变 */}
       <div className="mobile-bg-gradient" style={{ transform: `translateY(${scrollY * 0.5}px)` }}></div>
       
+      {/* 视频宣传片区域 - 放在顶部 */}
+      <section className="mobile-video-section">
+        <ScrollReveal>
+          <div className="mobile-video-container">
+            <div className="mobile-video-caption">
+              <span>🎬 Video</span>
+            </div>
+            <video 
+              className="mobile-promo-video" 
+              controls 
+              preload="metadata"
+              onEnded={(e) => {
+                e.target.currentTime = 0;
+                e.target.load();
+              }}
+            >
+              <source src="/video.mp4" type="video/mp4" />
+              您的浏览器不支持视频播放。
+            </video>
+          </div>
+        </ScrollReveal>
+      </section>
+
       {/* 英雄区域 */}
       <section className="mobile-hero-section">
         <ScrollReveal>
