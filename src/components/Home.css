@@ -191,10 +191,43 @@
   height: 400px;
 }
 
+/* 视频容器样式 */
+.video-container {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  width: 280px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* 宣传视频样式 */
+.promo-video {
+  width: 100%;
+  height: 160px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* 视频标题样式 */
+.video-caption {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
 /* 火星车图标样式 */
 .rover-icon {
   position: absolute;
-  top: 50%;
+  top: 65%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 240px;
@@ -712,6 +745,16 @@
     max-width: 450px;
     height: 360px;
   }
+  
+  .video-container {
+    width: 250px;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .promo-video {
+    height: 140px;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -740,6 +783,19 @@
   .hero-illustration {
     max-width: 400px;
     height: 320px;
+  }
+  
+  .video-container {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 2rem;
+  }
+  
+  .promo-video {
+    height: 180px;
   }
 }
 
@@ -894,6 +950,20 @@
   .hero-title {
     font-size: 2rem;
   }
+  
+  .video-container {
+    max-width: 280px;
+    padding: 10px;
+  }
+  
+  .promo-video {
+    height: 150px;
+  }
+  
+  .video-caption {
+    font-size: 0.8rem;
+  }
+}
 
   .hero-description {
     font-size: 1rem;
@@ -920,197 +990,3 @@
   .project-card-content {
     padding: 1.5rem;
   }
-}
-
-/* 移除之前单独的招新视频区域样式 */
-.recruitment-video-section {
-  display: none;
-}
-
-.video-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
-
-.recruitment-video-section h2 {
-  text-align: center;
-  color: #fbbf24;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  font-weight: 700;
-}
-
-.video-wrapper {
-  /* 宣传片容器样式 */
-  .promo-video-container {
-    margin: 2rem 0 3rem 0;
-    text-align: center;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .promo-title {
-    color: #fbbf24;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
-  }
-  
-  .promo-video-container .video-wrapper {
-    max-width: 700px;
-    margin: 0 auto 1.5rem;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-    background: #000;
-    border: 2px solid rgba(251, 191, 36, 0.3);
-    transition: all 0.3s ease;
-  }
-  
-  .promo-video-container .video-wrapper:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-    border-color: rgba(251, 191, 36, 0.5);
-  }
-  
-  .promo-video {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 14px;
-    aspect-ratio: 16/9;
-    max-height: 400px;
-  }
-  
-  .video-caption {
-    color: #cbd5e1;
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin-top: 1rem;
-  }
-  
-  .hero-btn {
-    font-size: 1.3rem;
-    padding: 1.3rem 3rem;
-    margin-bottom: 1rem;
-  }
-  
-  /* 移动端适配 */
-  @media (max-width: 768px) {
-    .promo-video-container {
-      margin: 1.5rem 0 2rem 0;
-      padding: 0 1rem;
-    }
-    
-    .promo-title {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    
-    .promo-video-container .video-wrapper {
-      max-width: 100%;
-      border-radius: 12px;
-    }
-    
-    .promo-video {
-      max-height: 250px;
-    }
-    
-    .video-caption {
-      font-size: 1rem;
-      padding: 0 0.5rem;
-    }
-    
-    .hero-btn {
-      font-size: 1.1rem;
-      padding: 1.1rem 2.5rem;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .promo-video-container {
-      margin: 1rem 0 1.5rem 0;
-    }
-    
-    .promo-title {
-      font-size: 1.3rem;
-    }
-    
-    .promo-video {
-      max-height: 200px;
-    }
-    
-    .video-caption {
-      font-size: 0.9rem;
-    }
-  }
-}
-
-.video-description {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-  color: #e2e8f0;
-}
-
-.video-description h3 {
-  color: #60a5fa;
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-
-.video-description p {
-  font-size: 1.2rem;
-  line-height: 1.8;
-  margin-bottom: 2rem;
-  opacity: 0.9;
-}
-
-.video-cta {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* 移动端适配 */
-@media (max-width: 768px) {
-  .recruitment-video-section {
-    padding: 2rem 1rem;
-  }
-  
-  .recruitment-video-section h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .video-wrapper {
-    margin: 0 0 1.5rem 0;
-    border-radius: 12px;
-  }
-  
-  .video-description h3 {
-    font-size: 1.5rem;
-  }
-  
-  .video-description p {
-    font-size: 1.1rem;
-    padding: 0 1rem;
-  }
-  
-  .video-cta {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .video-cta .btn-primary,
-  .video-cta .btn-secondary {
-    width: 200px;
-    text-align: center;
-  }
-}
