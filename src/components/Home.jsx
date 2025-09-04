@@ -35,7 +35,7 @@ const Home = () => {
                   poster="/mars_rover.jpg"
                   preload="metadata"
                 >
-                  <source src="/recruitment_video.mp4" type="video/mp4" />
+                  <source src="/video1.mp4" type="video/mp4" />
                   您的浏览器不支持视频播放。
                 </video>
               </div>
