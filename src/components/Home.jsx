@@ -91,15 +91,14 @@ const Home = () => {
             <div className="hero-illustration">
               <div className="video-container">
                 <div className="video-caption">
-                  <span>🎬 组织招新宣传片</span>
+                  <span>🎬 Video</span>
                 </div>
                 <video 
                   className="promo-video" 
                   controls 
                   preload="metadata"
-                  poster="/mars_rover.jpg"
                 >
-                  <source src="/Video/VIDEO.mp4" type="video/mp4" />
+                  <source src="/video.mp4" type="video/mp4" />
                   您的浏览器不支持视频播放。
                 </video>
               </div>
