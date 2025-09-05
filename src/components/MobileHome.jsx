@@ -150,17 +150,53 @@ const MobileHome = () => {
           <div className="mobile-video-container">
             <div className="mobile-video-caption">
               <span>🎬 Video</span>
-            </div>
-            <video 
+            </div>             <video 
               className="mobile-promo-video" 
-              controls 
-              preload="metadata"
+              muted
+              playsInline
+              preload="auto"
+              ref={(video) => {
+                if (video) {
+                  // 移动端自动尝试播放
+                  const tryAutoPlay = async () => {
+                    try {
+                      await video.play();
+                      console.log('移动端自动播放成功');
+                    } catch (error) {
+                      console.log('移动端自动播放失败，等待用户交互');
+                      document.addEventListener('click', playOnInteraction);
+                      document.addEventListener('scroll', playOnInteraction);
+                      document.addEventListener('touchstart', playOnInteraction);
+                    }
+                  };
+
+                  const playOnInteraction = async () => {
+                    try {
+                      video.muted = false;
+                      video.volume = 1;
+                      await video.play();
+                      console.log('移动端用户交互后播放成功');
+                      document.removeEventListener('click', playOnInteraction);
+                      document.removeEventListener('scroll', playOnInteraction);
+                      document.removeEventListener('touchstart', playOnInteraction);
+                    } catch (error) {
+                      console.error('移动端用户交互后播放失败:', error);
+                    }
+                  };
+
+                  if (document.readyState === 'complete') {
+                    tryAutoPlay();
+                  } else {
+                    window.addEventListener('load', tryAutoPlay);
+                  }
+                }
+              }}
               onEnded={(e) => {
                 e.target.currentTime = 0;
-                e.target.load();
+                e.target.play();
               }}
             >
-              <source src="/video.mp4" type="video/mp4" />
+              <source src="./video.mp4" type="video/mp4" />
               您的浏览器不支持视频播放。
             </video>
           </div>

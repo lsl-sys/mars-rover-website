@@ -47,13 +47,36 @@
     radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 20%),
     radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 20%),
     radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 30%);
+  z-index: 1;
+}
+
+/* 背景视频容器 */
+.background-video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   z-index: 0;
+}
+
+/* 背景视频样式 */
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  filter: brightness(0.7) contrast(1.1);
 }
 
 /* 英雄内容包装器 */
 .hero-content-wrapper {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -183,22 +206,14 @@
   animation: fadeInUp 0.8s ease-out forwards 1.1s;
 }
 
-/* 英雄插图样式 */
-.hero-illustration {
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  height: 400px;
-}
-
 /* 视频容器样式 */
 .video-container {
   position: absolute;
-  top: -60px;
-  right: -20px;
-  width: 580px;
+  top: -70px;
+  right: 10px;
+  width: 620px;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(54, 79, 147, 0.758);
   backdrop-filter: blur(15px);
   border-radius: 30px;
   padding: 20px;
@@ -209,7 +224,7 @@
 /* 宣传视频样式 */
 .promo-video {
   width: 100%;
-  height: 380px;
+  height: 420px;
   border-radius: 25px;
   object-fit: cover;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
@@ -225,186 +240,47 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* 火星车图标样式 */
-.rover-icon {
+/* 视频重播按钮样式 */
+.video-replay-btn {
   position: absolute;
-  bottom: -25px;
-  left: 45%;
-  transform: translateX(-50%);
-  width: 150px;
-  height: 110px;
-  z-index: 5;
-  animation: float 6s ease-in-out infinite;
-}
-
-/* 火星车主体样式 */
-.rover-body {
-  position: relative;
-  width: 180px;
-  height: 100px;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
-}
-
-/* 火星车顶部样式 */
-.rover-top {
-  position: absolute;
-  top: -50px;
+  bottom: 30px;
   left: 30px;
-  width: 120px;
-  height: 60px;
-  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-}
-
-/* 火星车相机样式 */
-.rover-camera {
-  position: absolute;
-  top: -70px;
-  left: 70px;
-  width: 40px;
-  height: 40px;
-  background: radial-gradient(circle, #ffffff 0%, #e2e8f0 100%);
-  border-radius: 50%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* 火星车轮子容器样式 */
-.rover-wheels {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 40px;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 10px;
-}
-
-/* 火星车轮子样式 */
-.wheel {
-  width: 30px;
-  height: 30px;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 50%;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-  animation: spin 4s linear infinite;
-}
-
-/* 装饰元素样式 */
-.hero-decor {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-/* 装饰圆圈样式 */
-.decor-circle {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.2;
-  animation: float 8s ease-in-out infinite;
-}
-
-.circle-1 {
-  width: 200px;
-  height: 200px;
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-  top: -50px;
-  left: -50px;
-  animation-delay: 0s;
-}
-
-.circle-2 {
-  width: 150px;
-  height: 150px;
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  bottom: -30px;
-  right: 50px;
-  animation-delay: 2s;
-}
-
-.circle-3 {
-  width: 120px;
-  height: 120px;
-  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
-  top: 80px;
-  right: -20px;
-  animation-delay: 4s;
-}
-
-/* 英雄统计数据样式 */
-.hero-stats {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 4rem;
-  margin-top: 0;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  width: 100%;
-  max-width: 1000px;
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-out forwards 1.3s;
-}
-
-/* 统计项样式 */
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 1.5rem;
-  border-radius: 12px;
+  z-index: 10;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 50px;
   transition: all 0.3s ease;
-  cursor: default;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  letter-spacing: 0.5px;
 }
 
-/* 统计项悬停效果 */
-.stat-item:hover {
-  background: rgba(59, 130, 246, 0.1);
-  transform: translateY(-5px);
+.video-replay-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
 }
 
-.stat-item:hover .stat-number {
-  animation: pulse 1s ease-in-out;
+.video-replay-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* 统计数字样式 */
-.stat-number {
-  font-size: 3rem;
-  font-weight: 800;
-  color: #3b82f6;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-  animation: countUp 2s ease-out forwards;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  letter-spacing: -0.02em;
+.video-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 18px;
+  z-index: 5;
 }
 
-/* 统计标签样式 */
-.stat-label {
-  font-size: 1rem;
-  color: #94a3b8;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  opacity: 0.9;
-}
+
 
 /* 动画定义 */
 @keyframes fadeInUp {
@@ -804,13 +680,13 @@
     top: auto;
     right: auto;
     width: 100%;
-    max-width: 550px;
+    max-width: 600px;
     margin: 0 auto 2rem;
-    padding: 18px;
+    padding: 20px;
   }
   
   .promo-video {
-    height: 350px;
+    height: 380px;
   }
   
   .video-caption {
@@ -819,9 +695,9 @@
   }
   
   .rover-icon {
-    width: 170px;
-    height: 130px;
-    left: 48%;
+    width: 160px;
+    height: 120px;
+    left: 45%;
   }
 }
 

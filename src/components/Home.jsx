@@ -5,29 +5,7 @@ import MobileHome from './MobileHome';
 import LoadingSpinner from './Common/LoadingSpinner';
 import './Home.css';
 
-const AnimatedNumber = ({ targetValue, duration = 2000 }) => {
-  const [currentValue, setCurrentValue] = useState(0);
-  
-  useEffect(() => {
-    const targetNum = parseInt(targetValue);
-    const increment = targetNum / (duration / 16);
-    let current = 0;
-    
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= targetNum) {
-        setCurrentValue(targetNum);
-        clearInterval(timer);
-      } else {
-        setCurrentValue(Math.floor(current));
-      }
-    }, 16);
-    
-    return () => clearInterval(timer);
-  }, [targetValue, duration]);
-  
-  return <>{currentValue}{targetValue.includes('+') ? '+' : ''}</>;
-};
+
 
 const Home = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -69,6 +47,79 @@ const Home = () => {
         <div className="hero-gradient"></div>
         <div className="hero-overlay"></div>
         
+        {/* 背景视频 */}
+        <div className="background-video-container">           <video 
+              className="background-video" 
+              muted
+              playsInline
+              preload="auto"
+              ref={(video) => {
+                if (video) {
+                  // 自动尝试播放，失败则等待用户交互
+                  const tryAutoPlay = async () => {
+                    try {
+                      await video.play();
+                      console.log('自动播放成功');
+                    } catch (error) {
+                      console.log('自动播放失败，等待用户交互');
+                      // 添加交互事件监听器
+                      document.addEventListener('click', playOnInteraction);
+                      document.addEventListener('scroll', playOnInteraction);
+                      document.addEventListener('keydown', playOnInteraction);
+                      document.addEventListener('touchstart', playOnInteraction);
+                    }
+                  };
+
+                  const playOnInteraction = async () => {
+                    try {
+                      video.muted = false;
+                      video.volume = 1;
+                      await video.play();
+                      console.log('用户交互后播放成功');
+                      // 移除事件监听器
+                      document.removeEventListener('click', playOnInteraction);
+                      document.removeEventListener('scroll', playOnInteraction);
+                      document.removeEventListener('keydown', playOnInteraction);
+                      document.removeEventListener('touchstart', playOnInteraction);
+                    } catch (error) {
+                      console.error('用户交互后播放失败:', error);
+                    }
+                  };
+
+                  // 页面加载完成后尝试自动播放
+                  if (document.readyState === 'complete') {
+                    tryAutoPlay();
+                  } else {
+                    window.addEventListener('load', tryAutoPlay);
+                  }
+                }
+              }}
+              onLoadedData={(e) => {
+                e.target.currentTime = 0;
+                console.log('视频数据加载完成');
+              }}
+              onLoadedMetadata={(e) => {
+                console.log('视频元数据加载完成');
+              }}
+              onError={(e) => {
+                console.error('视频加载错误:', e);
+              }}
+              onCanPlay={(e) => {
+                console.log('视频可以播放');
+              }}
+              onPlay={(e) => {
+                console.log('视频开始播放');
+              }}
+              onEnded={(e) => {
+                e.target.currentTime = 0;
+                e.target.play();
+              }}
+            >
+              <source src="./video.mp4" type="video/mp4" />
+              您的浏览器不支持视频播放。
+            </video>
+        </div>
+        
         <div className="hero-content-wrapper">
           <div className="hero-content">
             <div className="hero-tagline">🚀 机器人技术与太空探索</div>
@@ -87,66 +138,10 @@ const Home = () => {
             </div>
           </div>
           
-          <div className="hero-image-container">
-            <div className="hero-illustration">
-              <div className="video-container">
-                <div className="video-caption">
-                  <span>🎬 Video</span>
-                </div>
-                <video 
-                  className="promo-video" 
-                  controls 
-                  preload="metadata"
-                  onEnded={(e) => {
-                    e.target.currentTime = 0;
-                    e.target.load();
-                  }}
-                >
-                  <source src="/video.mp4" type="video/mp4" />
-                  您的浏览器不支持视频播放。
-                </video>
-              </div>
-              <div className="rover-icon">
-                <div className="rover-body">
-                  <div className="rover-top"></div>
-                  <div className="rover-camera"></div>
-                  <div className="rover-wheels">
-                    <div className="wheel"></div>
-                    <div className="wheel"></div>
-                    <div className="wheel"></div>
-                    <div className="wheel"></div>
-                  </div>
-                </div>
-              </div>
-              <div className="hero-decor">
-                <div className="decor-circle circle-1"></div>
-                <div className="decor-circle circle-2"></div>
-                <div className="decor-circle circle-3"></div>
-              </div>
-            </div>
-          </div>
+
         </div>
         
-        <div className="hero-stats">
-          <div className="stat-item">
-            <div className="stat-number">
-              {isVisible ? <AnimatedNumber targetValue="1000+" /> : '0+'}
-            </div>
-            <div className="stat-label">创新项目</div>
-          </div>
-          <div className="stat-item">
-            <div className="stat-number">
-              {isVisible ? <AnimatedNumber targetValue="50+" /> : '0+'}
-            </div>
-            <div className="stat-label">技术突破</div>
-          </div>
-          <div className="stat-item">
-            <div className="stat-number">
-              {isVisible ? <AnimatedNumber targetValue="50+" /> : '0+'}
-            </div>
-            <div className="stat-label">团队成员</div>
-          </div>
-        </div>
+
       </section>
 
       {/* 组织介绍 */}
