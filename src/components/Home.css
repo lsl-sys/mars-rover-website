@@ -79,11 +79,12 @@
   z-index: 2;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   max-width: 1400px;
   margin: 2rem 0;
+  padding-left: 5rem;
 }
 
 /* 英雄内容区域样式 */
@@ -91,7 +92,8 @@
   flex: 1;
   min-width: 300px;
   padding: 2rem;
-  text-align: center;
+  text-align: left;
+  max-width: 600px;
 }
 
 /* 英雄标签样式 */
@@ -124,7 +126,7 @@
   color: #cbd5e1;
   line-height: 1.6;
   max-width: 700px;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
   opacity: 0;
   animation: fadeInUp 0.8s ease-out forwards 0.7s;
@@ -134,7 +136,7 @@
 .cta-buttons {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 1.5rem;
   opacity: 0;
   animation: fadeInUp 0.8s ease-out forwards 0.9s;
@@ -145,7 +147,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 /* 主要按钮样式 - 统一蓝色主题 */
@@ -210,8 +212,8 @@
 .video-container {
   position: absolute;
   top: -70px;
-  right: 10px;
-  width: 620px;
+  right: 50px;
+  width: 550px;
   z-index: 10;
   background: rgba(54, 79, 147, 0.758);
   backdrop-filter: blur(15px);
@@ -720,6 +722,7 @@
     max-width: 400px;
     margin: 0 auto;
     width: 100%;
+    padding-left: 0;
   }
 
   .hero-content {
@@ -727,6 +730,7 @@
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
+    text-align: left;
   }
 
   /* 缩小英雄区域标题字体大小 */
@@ -738,6 +742,15 @@
   .hero-description {
     font-size: 1rem;
     max-width: 100%;
+  }
+
+  /* 调整移动端按钮对齐 */
+  .cta-buttons {
+    align-items: flex-start;
+  }
+
+  .secondary-buttons {
+    justify-content: flex-start;
   }
 
   /* 缩小标题字体大小 */
@@ -856,6 +869,7 @@
   .video-container {
     max-width: 380px;
     padding: 12px;
+    right: 20px;
   }
   
   .promo-video {
