@@ -1,0 +1,589 @@
+/* 申请统计页面 - 浅色主题重构 */
+.stats-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  padding: 2rem 1rem;
+}
+
+.stats-header {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.stats-header h2 {
+  color: #1e293b;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stats-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.export-btn, .clear-btn, .logout-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.export-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.export-btn:hover {
+  background: #2563eb;
+}
+
+.clear-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.clear-btn:hover {
+  background: #dc2626;
+}
+
+.logout-btn {
+  background: #6b7280;
+  color: white;
+}
+
+.logout-btn:hover {
+  background: #4b5563;
+}
+
+.stats-actions .tencent-btn {
+  background: #1890ff;
+  color: white;
+}
+
+.stats-actions .tencent-btn:hover {
+  background: #40a9ff;
+}
+
+.tencent-stats {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tencent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.tencent-header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.tencent-links {
+  display: flex;
+  gap: 10px;
+}
+
+.tencent-links a {
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.admin-link {
+  background: #1890ff;
+  color: white;
+}
+
+.admin-link:hover {
+  background: #40a9ff;
+}
+
+.public-link {
+  background: #52c41a;
+  color: white;
+}
+
+.public-link:hover {
+  background: #73d13d;
+}
+
+.tencent-embed {
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tencent-embed iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+.tencent-info {
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border-left: 4px solid #1890ff;
+}
+
+.tencent-info p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.tencent-links-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.tencent-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: white;
+  text-align: center;
+}
+
+.admin-link-btn {
+  background: linear-gradient(135deg, #1890ff, #096dd9);
+}
+
+.admin-link-btn:hover {
+  background: linear-gradient(135deg, #40a9ff, #1890ff);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+}
+
+.public-link-btn {
+  background: linear-gradient(135deg, #52c41a, #389e0d);
+}
+
+.public-link-btn:hover {
+  background: linear-gradient(135deg, #73d13d, #52c41a);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
+}
+
+.stats-link-btn {
+  background: linear-gradient(135deg, #722ed1, #531dab);
+}
+
+.stats-link-btn:hover {
+  background: linear-gradient(135deg, #9254de, #722ed1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(114, 46, 209, 0.3);
+}
+
+.tencent-info h4 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.tencent-info ol {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+
+.tencent-info li {
+  margin: 8px 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+.warning-box {
+  margin: 20px 0;
+  padding: 15px;
+  background: #fff7e6;
+  border: 1px solid #ffd591;
+  border-radius: 6px;
+  border-left: 4px solid #faad14;
+}
+
+.warning-box strong {
+  color: #d48806;
+}
+
+.warning-box p {
+  margin: 5px 0 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.stats-preview {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f0f5ff;
+  border: 1px solid #b7e3ff;
+  border-radius: 6px;
+  border-left: 4px solid #1890ff;
+}
+
+.stats-preview h4 {
+  margin: 0 0 10px 0;
+  color: #0050b3;
+}
+
+.stats-preview ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.stats-preview li {
+  margin: 5px 0;
+  color: #003a8c;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .tencent-links-container {
+    gap: 10px;
+  }
+  
+  .tencent-link-btn {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+}
+
+.stats-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 1px solid #e2e8f0;
+}
+
+.stat-card h3 {
+  color: #666;
+  font-size: 0.875rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+}
+
+.stat-number {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.stats-section {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.stats-section h3 {
+  color: #333;
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.stats-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.stat-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bar-label {
+  min-width: 80px;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.bar-container {
+  flex: 1;
+  height: 20px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  transition: width 0.3s ease;
+}
+
+.applications-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.application-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.875rem;
+}
+
+.application-item:last-child {
+  border-bottom: none;
+}
+
+.app-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.app-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.app-major {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.app-interest {
+  font-size: 0.75rem;
+  color: #059669;
+  background: #f0fdf4;
+  padding: 0.125rem 0.5rem;
+  border-radius: 12px;
+}
+
+.app-time {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* 登录界面 */
+.stats-login {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.stats-login h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.stats-login p {
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  font-size: 0.875rem;
+}
+
+.login-form {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.login-form input {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.login-form button {
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.login-form button:hover {
+  background: #2563eb;
+}
+
+/* 模态框 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  border: 1px solid #e2e8f0;
+}
+
+.modal-content h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 1rem 0;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.modal-actions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.modal-actions button:first-child {
+  background: #6b7280;
+  color: white;
+}
+
+.modal-actions button:last-child {
+  background: #3b82f6;
+  color: white;
+}
+
+.modal-actions button:hover {
+  opacity: 0.9;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .stats-container {
+    padding: 1rem;
+  }
+  
+  .stats-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .stats-actions {
+    justify-content: center;
+  }
+  
+  .stat-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  .bar-label {
+    min-width: auto;
+  }
+  
+  .application-item {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+}

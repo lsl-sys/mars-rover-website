@@ -1,0 +1,519 @@
+/* 培训资料页面容器样式 - 设置最小高度、背景色和字体 */
+.training-materials-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* 页面头部样式 - 设置背景色、内边距、文本居中、阴影和下边距 */
+.materials-header {
+  background-color: #fff;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* 页面头部标题样式 - 设置颜色、边距、字体大小和字重 */
+.materials-header h1 {
+  color: #333;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* 页面头部描述文本样式 - 设置颜色、上边距和字体大小 */
+.materials-header p {
+  color: #666;
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+/* 页面内容区域样式 - 设置flex布局、最大宽度、居中对齐、内边距和间距 */
+.materials-content {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  gap: 20px;
+}
+
+/* 侧边栏样式 - 设置宽度、背景色、圆角、内边距、阴影、高度和粘性定位 */
+.materials-sidebar {
+  flex: 0 0 300px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+/* 侧边栏头部样式 - 设置flex布局、两端对齐、居中对齐、下边距、边框和内边距 */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+/* 侧边栏头部标题样式 - 设置颜色、边距、字体大小和字重 */
+.sidebar-header h2 {
+  color: #333;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* 返回按钮样式 - 设置背景色、边框、圆角、内边距、字体大小、颜色和过渡效果 */
+.back-button {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* 返回按钮悬停样式 - 更改背景色和文字颜色 */
+.back-button:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+/* 分类卡片点击效果 - 设置背景色、圆角、内边距、边框、过渡效果和光标 */
+.category-card {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid #007bff;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+/* 分类卡片悬停效果 - 添加上移效果、增强阴影和更改背景色 */
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #e9ecef;
+}
+
+/* 分类章节样式 - 设置下边距 */
+.section {
+  margin-bottom: 30px;
+}
+
+/* 一级标题样式 - 设置颜色、边距、字体大小、字重、光标、过渡效果、居中对齐、内边距和边框 */
+.section h3 {
+  color: #333;
+  margin: 0 0 16px 0;
+  font-size: 26px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  padding: 12px 0;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* 一级标题悬停样式 - 更改文字颜色和背景色 */
+.section h3:hover {
+  color: #007bff;
+  background-color: #f8f9fa;
+}
+
+/* 二级标题样式 - 设置相对定位、边距、字重、颜色和左对齐 */
+.sub-items.level-0 > li {
+  position: relative;
+  margin: 15px 0;
+  font-weight: 600;
+  color: #495057;
+  text-align: left;
+}
+
+/* 二级标题下划线样式 - 使用伪元素添加渐变下划线 */
+.sub-items.level-0 > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #007bff, #e9ecef);
+}
+
+/* 确保所有级别列表项文本左对齐 */
+.sub-items li {
+  text-align: left;
+}
+
+/* 子项目列表基础样式 - 移除项目符号、内边距和边距 */
+.sub-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 16px;
+}
+
+/* 一级子项目列表样式 - 重置左侧边距 */
+.sub-items.level-0 {
+  margin-left: 0;
+}
+
+/* 二级子项目列表样式 - 设置左侧边距 */
+.sub-items.level-1 {
+  margin-left: 20px;
+}
+
+/* 三级子项目列表样式 - 设置左侧边距 */
+.sub-items.level-2 {
+  margin-left: 40px;
+}
+
+/* 子项目列表项样式 - 设置边距、颜色、字体大小和行高 */
+.sub-items li {
+  margin: 8px 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 子项目文本样式 - 设置光标和过渡效果 */
+.sub-items li span {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+/* 子项目文本悬停样式 - 更改颜色 */
+.sub-items li span:hover {
+  color: #007bff;
+}
+
+/* PDF链接按钮样式 - 重置背景、边框、设置颜色、光标、字体大小、左对齐、内边距和过渡效果 */
+.pdf-link {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  padding: 0;
+  transition: color 0.2s;
+  display: inline;
+}
+
+/* PDF链接按钮悬停样式 - 更改颜色和添加下划线 */
+.pdf-link:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+/* 电控培训大纲特殊样式 - 加大字号和加粗 */
+.sub-items.level-0 > li:first-child .pdf-link {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+/* 外部链接样式 - 设置颜色、移除下划线和过渡效果 */
+.external-link {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+/* 外部链接悬停样式 - 更改颜色和添加下划线 */
+.external-link:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+/* 主内容区域样式 - 设置弹性布局、背景色、圆角、内边距和阴影 */
+.materials-main {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 欢迎区域标题样式 - 设置颜色、边距、字体大小和字重 */
+.materials-welcome h2 {
+  color: #1e293b;
+  margin: 0 0 16px 0;
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 欢迎区域描述文本样式 - 设置颜色、边距、字体大小和行高 */
+.materials-welcome p {
+  color: #666;
+  margin: 0 0 24px 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* 分类概览样式 - 设置下边距 */
+.category-overview {
+  margin-bottom: 24px;
+}
+
+/* 分类概览标题样式 - 设置颜色、边距、字体大小、字重、边框和内边距 */
+.category-overview h3 {
+  color: #333;
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 8px;
+}
+
+/* 分类卡片网格样式 - 设置网格布局和间距 */
+.category-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* 分类卡片标题样式 - 设置颜色、边距、字体大小和字重 */
+.category-card h4 {
+  color: #333;
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 分类卡片描述文本样式 - 设置颜色、边距、字体大小和行高 */
+.category-card p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 使用指南样式 - 设置背景色、圆角和内边距 */
+.usage-guide {
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+/* 使用指南标题样式 - 设置颜色、边距、字体大小和字重 */
+.usage-guide h3 {
+  color: #333;
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* 使用指南列表样式 - 移除项目符号、内边距和边距 */
+.usage-guide ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 使用指南列表项样式 - 设置颜色、边距、字体大小、行高、左侧内边距和相对定位 */
+.usage-guide li {
+  color: #666;
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  padding-left: 16px;
+  position: relative;
+}
+
+/* 使用指南列表项标记样式 - 使用伪元素添加圆点标记 */
+.usage-guide li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #007bff;
+}
+
+/* 分类详情页面样式 - 设置背景色、圆角和内边距 */
+.category-detail {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+/* 详情页面头部样式 - 设置flex布局、两端对齐、居中对齐、下边距、内边距和边框 */
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* 详情页面头部标题样式 - 设置颜色、边距、字体大小和字重 */
+.detail-header h2 {
+  color: #333;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* 详情页面内容样式 - 设置内边距 */
+.detail-content {
+  padding: 10px 0;
+}
+
+/* 详情页面描述样式 - 设置背景色、圆角、内边距和下边距 */
+.detail-description {
+  background-color: #f8fafc;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+/* 详情页面描述文本样式 - 设置颜色、边距、字体大小和行高 */
+.detail-description p {
+  color: #666;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* 详情页面资料标题样式 - 设置颜色、边距、字体大小、字重、居中对齐、内边距和边框 */
+.detail-materials h3 {
+  color: #333;
+  margin: 0 0 30px 0;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  padding: 15px 0;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* 资料列表样式 - 移除项目符号、内边距和边距 */
+.materials-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 资料列表项样式 - 设置下边距、内边距和边框 */
+.material-item {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* 最后一个资料列表项样式 - 移除边框和边距 */
+.material-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* 资料标题样式 - 设置字重、颜色、显示方式、下边距、字体大小和相对定位 */
+.material-title {
+  font-weight: 700;
+  color: #333;
+  display: block;
+  margin-bottom: 15px;
+  font-size: 20px;
+  position: relative;
+}
+
+/* 资料标题下划线样式 - 使用伪元素添加渐变下划线 */
+.material-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #007bff, #e9ecef);
+}
+
+/* 子资料列表样式 - 移除项目符号和左侧内边距 */
+.sub-materials-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 15px 0 0 0;
+}
+
+/* 子资料列表项样式 - 设置边距、颜色、字体大小、左对齐、左侧内边距和相对定位 */
+.sub-material-item {
+  margin: 10px 0;
+  color: #666;
+  font-size: 16px;
+  text-align: left;
+  padding-left: 20px;
+  position: relative;
+}
+
+/* 子资料列表项标记样式 - 使用伪元素添加蓝色圆点标记 */
+.sub-material-item::before {
+  content: "•";
+  color: #007bff;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* 响应式设计 - 当屏幕宽度小于768px时应用的样式 - 统一移动端宽度 */
+@media (max-width: 768px) {
+  /* 统一移动端容器设置 */
+  .training-materials-container {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .materials-content {
+    flex-direction: column;
+    padding: 0;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* 侧边栏重置定位 */
+  .materials-sidebar {
+    flex: 1;
+    position: static;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+  }
+  
+  /* 主内容区域重置 */
+  .materials-main {
+    flex: 1;
+    padding: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* 分类卡片网格单列显示 */
+  .category-cards {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  /* 详情页面头部垂直排列 */
+  .detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
