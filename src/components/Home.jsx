@@ -50,7 +50,6 @@ const Home = () => {
         {/* 背景视频 */}
         <div className="background-video-container">           <video 
               className="background-video" 
-              muted
               playsInline
               preload="auto"
               ref={(video) => {
@@ -72,7 +71,6 @@ const Home = () => {
 
                   const playOnInteraction = async () => {
                     try {
-                      video.muted = false;
                       video.volume = 1;
                       await video.play();
                       console.log('用户交互后播放成功');
@@ -112,7 +110,8 @@ const Home = () => {
               }}
               onEnded={(e) => {
                 e.target.currentTime = 0;
-                e.target.play();
+                e.target.pause();
+                console.log('视频播放结束，显示第一帧');
               }}
             >
               <source src="./video.mp4" type="video/mp4" />
