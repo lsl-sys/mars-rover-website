@@ -42,53 +42,71 @@
   transform: translateY(0);
 }
 
-/* 视频宣传片区域 */
-.mobile-video-section {
-  padding: 1rem 1rem 0;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
 
-.mobile-video-container {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(15px);
-  border-radius: 20px;
-  padding: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  margin-bottom: 1rem;
-}
 
-.mobile-video-caption {
-  text-align: center;
-  margin-bottom: 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #f1f5f9;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.mobile-promo-video {
-  width: 100%;
-  height: 200px;
-  border-radius: 15px;
-  object-fit: cover;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* 英雄区域 */
+/* 英雄区域 - 背景视频样式 */
 .mobile-hero-section {
   padding: 2rem 1rem 4rem;
   text-align: center;
   position: relative;
   z-index: 1;
-  min-height: auto;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+}
+
+.mobile-hero-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.8) 0%,
+    rgba(30, 41, 59, 0.6) 50%,
+    rgba(15, 23, 42, 0.8) 100%
+  );
+  z-index: 2;
+}
+
+.mobile-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at 30% 70%,
+    rgba(59, 130, 246, 0.1) 0%,
+    transparent 50%
+  );
+  z-index: 3;
+}
+
+.mobile-background-video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.mobile-background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
 }
 
 .mobile-hero-badge {
@@ -101,6 +119,8 @@
   border-radius: 50px;
   backdrop-filter: blur(10px);
   margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 4;
 }
 
 .badge-icon {
@@ -123,6 +143,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  position: relative;
+  z-index: 4;
 }
 
 .title-line {
@@ -145,6 +167,8 @@
   padding: 0 0.5rem;
   margin-left: auto;
   margin-right: auto;
+  position: relative;
+  z-index: 4;
 }
 
 .mobile-hero-actions {
@@ -154,6 +178,8 @@
   align-items: center;
   width: 100%;
   max-width: 100%;
+  position: relative;
+  z-index: 4;
 }
 
 .mobile-btn-primary {

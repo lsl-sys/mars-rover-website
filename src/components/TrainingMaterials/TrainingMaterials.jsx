@@ -65,6 +65,18 @@ const trainingMaterials = [
       { name: '硬件调试' },
       { name: '硬件测试' }
     ]
+  },
+  {
+    id: 4,
+    title: '运营',
+    description: '涵盖项目管理、团队协作、文档撰写、活动策划和品牌推广等内容，助您掌握团队运营的核心技能。',
+    subItems: [
+      { name: '项目管理' },
+      { name: '团队协作' },
+      { name: '文档撰写' },
+      { name: '活动策划' },
+      { name: '品牌推广' }
+    ]
   }
 ];
 
@@ -160,7 +172,7 @@ const TrainingMaterials = () => {
           {showWelcome ? (
             <div className="materials-welcome">
               <h2>欢迎查看培训资料</h2>
-              <p>火星车项目培训资料分为电控、机械、硬件三个主要类别，请从左侧菜单选择您需要的资料进行查看。</p>
+              <p>火星车项目培训资料分为电控、机械、硬件、运营四个主要类别，请从左侧菜单选择您需要的资料进行查看。</p>
               
               <div className="category-overview">
                 <h3>培训资料分类概览</h3>

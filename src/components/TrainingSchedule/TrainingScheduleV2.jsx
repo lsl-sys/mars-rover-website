@@ -9,129 +9,417 @@ moment.locale('zh-cn');
 const TrainingScheduleV2 = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date(2025, 10, 1)); // 默认显示10月12日
   const [viewMode, setViewMode] = useState('list'); // 'week', 'month', 'list'
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // 模拟培训活动数据 - 更丰富的数据结构
-  const trainingEvents = [
-    {
-      id: 1,
-      title: '火星车基础认知',
-      start: new Date(2025, 8, 1, 14, 0, 0),
-      end: new Date(2025, 8, 1, 16, 0, 0),
-      description: '深入了解火星车的基本结构、工作原理和发展历程，建立完整的认知框架',
-      location: '实验楼 B301',
-      trainer: '廖老师',
-      category: '基础培训',
-      color: '#3b82f6',
-      icon: '📚',
-      status: 'confirmed',
-      materials: ['火星车结构图.pdf', '工作原理手册.docx']
-    },
-    {
-      id: 2,
-      title: '机械设计实战',
-      start: new Date(2025, 8, 3, 10, 0, 0),
-      end: new Date(2025, 8, 3, 12, 0, 0),
-      description: '通过实际案例学习火星车机械结构设计的基本原则和方法，培养设计思维',
-      location: '实验楼 B101',
-      trainer: '李老师',
-      category: '实践课程',
-      color: '#f59e0b',
-      icon: '🔧',
-      status: 'confirmed',
-      materials: ['设计图纸模板.dwg', 'SolidWorks教程.pdf']
-    },
-    {
-      id: 3,
-      title: '电子电路深度解析',
-      start: new Date(2025, 8, 5, 14, 0, 0),
-      end: new Date(2025, 8, 5, 17, 0, 0),
-      description: '系统学习火星车电子系统设计和电路原理，掌握核心电子技术应用',
-      location: '实验楼 A205',
-      trainer: '刘老师',
-      category: '技术培训',
-      color: '#10b981',
-      icon: '⚡',
-      participants: 18,
-      status: 'confirmed',
-      materials: ['电路原理图.pdf', '元器件清单.xlsx']
-    },
-    {
-      id: 4,
-      title: '团队协作与项目管理',
-      start: new Date(2025, 8, 8, 15, 0, 0),
-      end: new Date(2025, 8, 8, 17, 0, 0),
-      description: '掌握项目开发中的团队协作技巧，学习使用项目管理工具进行有效沟通',
-      location: '实验楼 A101',
-      trainer: '陈老师',
-      category: '软技能培训',
-      color: '#10b981',
-      icon: '🤝',
-      status: 'confirmed',
-      materials: ['团队协作指南.pdf', '项目管理工具手册.docx']
-    },
-    {
-      id: 5,
-      title: '火星车测试与调试',
-      start: new Date(2025, 8, 10, 13, 0, 0),
-      end: new Date(2025, 8, 10, 16, 0, 0),
-      description: '学习火星车系统的测试方法和调试技巧，确保系统稳定运行',
-      location: '实验楼 B301',
-      trainer: '廖老师',
-      category: '实践培训',
-      color: '#8b5cf6',
-      icon: '🔍',
-      status: 'confirmed',
-      materials: ['测试用例模板.xlsx', '调试工具指南.pdf']
-    },
-    {
-      id: 6,
-      title: '火星车高级编程',
-      start: new Date(2025, 8, 12, 9, 0, 0),
-      end: new Date(2025, 8, 12, 12, 0, 0),
-      description: '深入学习火星车的高级编程技术，包括AI算法和自主导航系统',
-      location: '实验楼 B205',
-      trainer: '王老师',
-      category: '高级培训',
-      color: '#f97316',
-      icon: '🚀',
-      status: 'confirmed',
-      materials: ['高级编程指南.pdf', 'AI算法示例.py']
-    },
-    {
-      id: 7,
-      title: '3D建模与仿真',
-      start: new Date(2025, 8, 15, 14, 0, 0),
-      end: new Date(2025, 8, 15, 16, 0, 0),
-      description: '使用专业软件进行火星车3D建模和仿真测试',
-      location: '计算机房 B305',
-      trainer: '陈老师',
-      category: '实践课程',
-      color: '#f59e0b',
-      icon: '🎯',
-      participants: 12,
-      status: 'confirmed',
-      materials: ['3D模型文件.obj', '仿真参数设置.txt']
-    },
-    {
-      id: 8,
-      title: '系统集成测试',
-      start: new Date(2025, 8, 17, 10, 0, 0),
-      end: new Date(2025, 8, 17, 12, 0, 0),
-      description: '各子系统集成测试和整体性能评估',
-      location: '测试实验室',
-      trainer: '测试团队',
-      category: '实践课程',
-      color: '#f59e0b',
-      icon: '🔬',
-      participants: 25,
-      status: 'confirmed',
-      materials: ['测试报告模板.docx', '性能评估表.xlsx']
-    }
-  ];
+  // 2025年秋季培训活动数据 - 从10月11日开始，持续8周
+const trainingEvents = [
+  // 第1周 (10月11-12日)
+  {
+    id: 1,
+    title: '电控培训',
+    start: new Date(2025, 9, 11, 9, 0, 0), // 10月12日(周六) 9:00
+    end: new Date(2025, 9, 11, 11, 0, 0),  // 10月12日(周六) 11:00
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+    color: '#3b82f6',
+    icon: '⚡',
+    status: 'confirmed',
+  },
+  {
+    id: 2,
+    title: '硬件培训',
+    start: new Date(2025, 9, 11, 14, 0, 0), // 9月12日(周六) 14:00
+    end: new Date(2025, 9, 11, 16, 0, 0),   // 10月12日(周六) 16:00
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+    color: '#10b981',
+    icon: '🔧',
+    status: 'confirmed',
+  },
+  {
+    id: 3,
+    title: '机械培训',
+    start: new Date(2025, 9, 11, 16, 10, 0), // 9月12日(周六) 16:9
+    end: new Date(2025, 9, 11, 18, 10, 0),  // 10月12日(周六) 18:10
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+    color: '#f59e0b',
+    icon: '🎯',
+    status: 'confirmed',
+  },
+  {
+    id: 4,
+    title: '运营培训',
+    start: new Date(2025,9, 12, 14, 0, 0), // 10月13日(周日) 14:00
+    end: new Date(2025, 9, 12, 16, 0, 0),  // 10月13日(周日) 16:00
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+    color: '#8b5cf6',
+    icon: '📊',
+    status: 'confirmed',
+  },
+
+  // 第2周 (10月18-19日)
+  {
+    id: 5,
+    title: '电控培训',
+    start: new Date(2025, 9, 18, 9, 0, 0), // 10月18日(周六) 9:00
+    end: new Date(2025, 9, 18, 11, 0, 0),  // 10月18日(周六) 11:00
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+    color: '#3b82f6',
+    icon: '⚡',
+    status: 'confirmed',
+    materials: ['进阶电控教程.pdf', '实践案例集.docx']
+  },
+  {
+    id: 6,
+    title: '硬件培训',
+    start: new Date(2025, 9, 18, 14, 0, 0), // 10月19日(周六) 14:00
+    end: new Date(2025, 9, 18, 16, 0, 0),   // 10月19日(周六) 16:00
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+    color: '#10b981',
+    icon: '🔧',
+    status: 'confirmed',
+    materials: ['PCB设计指南.pdf', '焊接工艺手册.docx']
+  },
+  {
+    id: 7,
+    title: '机械培训',
+    start: new Date(2025, 9, 18, 16, 10, 0), // 10月19日(周六) 16:10
+    end: new Date(2025, 9, 18, 18, 10, 0),  // 10月19日(周六) 18:10
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+    color: '#f59e0b',
+    icon: '🎯',
+    status: 'confirmed',
+    materials: ['加工工艺指南.pdf', '装配流程手册.docx']
+  },
+  {
+    id: 8,
+    title: '运营培训',
+    start: new Date(2025, 9, 19, 14, 0, 0), // 10月20日(周日) 14:00
+    end: new Date(2025, 9, 19, 16, 0, 0),  // 10月20日(周日) 16:00
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+    color: '#8b5cf6',
+    icon: '📊',
+    status: 'confirmed',
+    materials: ['文档模板.pdf', '汇报技巧指南.docx']
+  },
+
+  // 第3周 (10月25-26日)
+  {
+    id: 9,
+    title: '电控培训',
+    start: new Date(2025, 9, 25, 9, 0, 0), // 10月26日(周六) 9:00
+    end: new Date(2025, 9, 25, 11, 0, 0),  // 10月26日(周六) 11:00
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+    color: '#3b82f6',
+    icon: '⚡',
+    status: 'confirmed',
+  },
+  {
+    id: 10,
+    title: '硬件培训',
+    start: new Date(2025, 9, 25, 14, 0, 0), // 10月26日(周六) 14:00
+    end: new Date(2025, 9, 25, 16, 0, 0),   // 10月26日(周六) 16:00
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+    color: '#10b981',
+    icon: '🔧',
+    status: 'confirmed',
+  },
+  {
+    id: 11,
+    title: '机械培训',
+    start: new Date(2025, 9, 25, 16, 10, 0), // 10月26日(周六) 16:10
+    end: new Date(2025, 9, 25, 18, 10, 0),  // 10月26日(周六) 18:10
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+    color: '#f59e0b',
+    icon: '🎯',
+    status: 'confirmed',
+  },
+  {
+    id: 12,
+    title: '运营培训',
+    start: new Date(2025, 9, 26, 14, 0, 0), // 10月27日(周日) 14:00
+    end: new Date(2025, 9, 26, 16, 0, 0),  // 10月27日(周日) 16:00
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+    color: '#8b5cf6',
+    icon: '📊',
+    status: 'confirmed',
+  },
+
+  // 第4周 (11月1-2日)
+  {
+    id: 13,
+    title: '电控培训',
+    start: new Date(2025, 10, 1, 9, 0, 0), // 11月2日(周六) 9:00
+    end: new Date(2025, 10, 1, 11, 0, 0),  // 11月2日(周六) 11:00
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+    color: '#3b82f6',
+    icon: '⚡',
+    status: 'confirmed',
+  },
+  {
+    id: 14,
+    title: '硬件培训',
+    start: new Date(2025, 10, 1, 14, 0, 0), // 11月2日(周六) 14:00
+    end: new Date(2025, 10, 1, 16, 0, 0),   // 11月2日(周六) 16:00
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+    color: '#10b981',
+    icon: '🔧',
+    status: 'confirmed',
+  },
+  {
+    id: 15,
+    title: '机械培训',
+    start: new Date(2025, 10, 1, 16, 10, 0), // 11月2日(周六) 16:10
+    end: new Date(2025, 10, 1, 18, 10, 0),  // 11月2日(周六) 18:10
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+    color: '#f59e0b',
+    icon: '🎯',
+    status: 'confirmed',
+  },
+  {
+    id: 16,
+    title: '运营培训',
+    start: new Date(2025, 10, 2, 14, 0, 0), // 11月3日(周日) 14:00
+    end: new Date(2025, 10, 2, 16, 0, 0),  // 11月3日(周日) 16:00
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+    color: '#8b5cf6',
+    icon: '📊',
+    status: 'confirmed',
+  },
+
+  // 第5周 (11月8-9日)
+  {
+    id: 17,
+    title: '电控培训',
+    start: new Date(2025, 10, 8, 9, 0, 0), // 11月9日(周六) 9:00
+    end: new Date(2025, 10, 8, 11, 0, 0),  // 11月9日(周六) 11:00
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+    color: '#3b82f6',
+    icon: '⚡',
+    status: 'confirmed',
+  },
+  {
+    id: 18,
+    title: '硬件培训',
+    start: new Date(2025, 10, 8, 14, 0, 0), // 11月9日(周六) 14:00
+    end: new Date(2025, 10, 8, 16, 0, 0),   // 11月9日(周六) 16:00
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+    color: '#10b981',
+    icon: '🔧',
+    status: 'confirmed',
+  },
+  {
+    id: 19,
+    title: '机械培训',
+    start: new Date(2025, 10, 8, 16, 10, 0), // 11月9日(周六) 16:10
+    end: new Date(2025, 10, 8, 18, 10, 0),  // 11月9日(周六) 18:10
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+    color: '#f59e0b',
+    icon: '🎯',
+    status: 'confirmed',
+  },
+  {
+    id: 20,
+    title: '运营培训',
+    start: new Date(2025, 10, 9, 14, 0, 0), // 11月10日(周日) 14:00
+    end: new Date(2025, 10, 9, 16, 0, 0),  // 11月10日(周日) 16:00
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+    color: '#8b5cf6',
+    icon: '📊',
+    status: 'confirmed',
+  },
+
+  // 第6周 (11月15-16日)
+  {
+    id: 21,
+    title: '电控培训',
+    start: new Date(2025, 10, 15, 9, 0, 0), // 11月16日(周六) 9:00
+    end: new Date(2025, 10, 15, 11, 0, 0),  // 11月16日(周六) 11:00
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+    color: '#3b82f6',
+    icon: '⚡',
+    status: 'confirmed',
+  },
+  {
+    id: 22,
+    title: '硬件培训',
+    start: new Date(2025, 10, 15, 14, 0, 0), // 11月16日(周六) 14:00
+    end: new Date(2025, 10, 15, 16, 0, 0),   // 11月16日(周六) 16:00
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+    color: '#10b981',
+    icon: '🔧',
+    status: 'confirmed',
+  },
+  {
+    id: 23,
+    title: '机械培训',
+    start: new Date(2025, 10, 15, 16, 10, 0), // 11月16日(周六) 16:10
+    end: new Date(2025, 10, 15, 18, 10, 0),  // 11月16日(周六) 18:10
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+    color: '#f59e0b',
+    icon: '🎯',
+    status: 'confirmed',
+  },
+  {
+    id: 24,
+    title: '运营培训',
+    start: new Date(2025, 10, 16, 14, 0, 0), // 11月17日(周日) 14:00
+    end: new Date(2025, 10, 16, 16, 0, 0),  // 11月17日(周日) 16:00
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+    color: '#8b5cf6',
+    icon: '📊',
+    status: 'confirmed',
+  },
+
+  // 第7周 (11月22-23日)
+  {
+    id: 25,
+    title: '电控培训',
+    start: new Date(2025, 10, 22, 9, 0, 0), // 11月23日(周六) 9:00
+    end: new Date(2025, 10, 22, 11, 0, 0),  // 11月23日(周六) 11:00
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+    color: '#3b82f6',
+    icon: '⚡',
+    status: 'confirmed',
+  },
+  {
+    id: 26,
+    title: '硬件培训',
+    start: new Date(2025, 10, 22, 14, 0, 0), // 11月23日(周六) 14:00
+    end: new Date(2025, 10, 22, 16, 0, 0),   // 11月23日(周六) 16:00
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+    color: '#10b981',
+    icon: '🔧',
+    status: 'confirmed',
+  },
+  {
+    id: 27,
+    title: '机械培训',
+    start: new Date(2025, 10, 22, 16, 10, 0), // 11月23日(周六) 16:10
+    end: new Date(2025, 10, 22, 18, 10, 0),  // 11月23日(周六) 18:10
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+    color: '#f59e0b',
+    icon: '🎯',
+    status: 'confirmed',
+  },
+  {
+    id: 28,
+    title: '运营培训',
+    start: new Date(2025, 10, 23, 14, 0, 0), // 11月24日(周日) 14:00
+    end: new Date(2025, 10, 23, 16, 0, 0),  // 11月24日(周日) 16:00
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+    color: '#8b5cf6',
+    icon: '📊',
+    status: 'confirmed',
+  },
+
+  // 第8周 (11月29-30日)
+  {
+    id: 29,
+    title: '电控培训',
+    start: new Date(2025, 10, 29, 9, 0, 0), // 11月30日(周六) 9:00
+    end: new Date(2025, 10, 29, 11, 0, 0),  // 11月30日(周六) 11:00
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+    color: '#3b82f6',
+    icon: '⚡',
+    status: 'confirmed',
+  },
+  {
+    id: 30,
+    title: '硬件培训',
+    start: new Date(2025, 10, 29, 14, 0, 0), // 11月30日(周六) 14:00
+    end: new Date(2025, 10, 29, 16, 0, 0),   // 11月30日(周六) 16:00
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+    color: '#10b981',
+    icon: '🔧',
+    status: 'confirmed',
+  },
+  {
+    id: 31,
+    title: '机械培训',
+    start: new Date(2025, 10, 29, 16, 10, 0), // 11月30日(周六) 16:10
+    end: new Date(2025, 10, 29, 18, 10, 0),  // 11月30日(周六) 18:10
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+    color: '#f59e0b',
+    icon: '🎯',
+    status: 'confirmed',
+  },
+  {
+    id: 32,
+    title: '运营培训',
+    start: new Date(2025, 10, 30, 14, 0, 0), // 12月1日(周日) 14:00
+    end: new Date(2025, 10, 30, 16, 0, 0),  // 12月1日(周日) 16:00
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+    color: '#8b5cf6',
+    icon: '📊',
+    status: 'confirmed',
+  }
+];
 
   useEffect(() => {
     setEvents(trainingEvents);

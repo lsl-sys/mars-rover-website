@@ -8,57 +8,342 @@ import './TrainingSchedule.css';
 const localizer = momentLocalizer(moment);
 moment.locale('zh-cn');
 
-// 模拟培训活动数据
+// 2024年秋季培训活动数据 - 从10月11日开始，持续8周
 const mockTrainingEvents = [
+  // 第1周 (10月11-12日)
   {
     id: 1,
-    title: '机械',
-    start: new Date(2025, 8, 1, 14, 0, 0), // 9月1日 14:00
-    end: new Date(2025, 8, 1, 16, 0, 0),   // 9月1日 16:00
-    description: '介绍火星车的基本结构、工作原理和发展历程',
-    location: '实验楼 B301',
-    trainer: '廖',
-    category: '基础培训',
+    title: '电控培训',
+    start: new Date(2024, 9, 12, 9, 0, 0), // 10月12日(周六) 9:00
+    end: new Date(2024, 9, 12, 11, 0, 0),  // 10月12日(周六) 11:00
+    description: '电控系统基础知识和实践操作培训',
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
   },
   {
     id: 2,
-    title: '机械设计实践课',
-    start: new Date(2025, 8, 3, 10, 0, 0), // 9月3日 10:00
-    end: new Date(2025, 8, 3, 12, 0, 0),   // 9月3日 12:00
-    description: '学习火星车机械结构设计的基本原则和方法',
-    location: '实验楼 B101',
-    trainer: '李',
-    category: '实践课程',
+    title: '硬件培训',
+    start: new Date(2024, 9, 12, 14, 0, 0), // 10月12日(周六) 14:00
+    end: new Date(2024, 9, 12, 16, 0, 0),   // 10月12日(周六) 16:00
+    description: '硬件电路设计和元器件选型培训',
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
   },
   {
     id: 3,
-    title: '电子电路设计',
-    start: new Date(2025, 8, 5, 14, 0, 0), // 9月5日 14:00
-    end: new Date(2025, 8, 5, 17, 0, 0),   // 9月5日 17:00
-    description: '学习火星车电子系统设计和电路原理',
-    location: '实验楼 A205',
-    trainer: '刘',
+    title: '机械培训',
+    start: new Date(2024, 9, 12, 16, 10, 0), // 10月12日(周六) 16:10
+    end: new Date(2024, 9, 12, 18, 10, 0),  // 10月12日(周六) 18:10
+    description: '机械结构设计和3D建模培训',
+    location: '实验楼 A108',
+    trainer: '机械组',
     category: '技术培训',
   },
   {
     id: 4,
-    title: '教学楼 编程控制入门',
-    start: new Date(2025, 8, 8, 14, 0, 0), // 9月8日 14:00
-    end: new Date(2025, 8, 8, 16, 0, 0),   // 9月8日 16:00
-    description: '介绍火星车控制系统的编程方法和常用算法',
-    location: 'A302',
-    trainer: '王',
+    title: '运营培训',
+    start: new Date(2024, 9, 13, 14, 0, 0), // 10月13日(周日) 14:00
+    end: new Date(2024, 9, 13, 16, 0, 0),  // 10月13日(周日) 16:00
+    description: '项目管理和团队协作运营培训',
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+  },
+
+  // 第2周 (10月18-19日)
+  {
+    id: 5,
+    title: '电控培训',
+    start: new Date(2024, 9, 19, 9, 0, 0), // 10月19日(周六) 9:00
+    end: new Date(2024, 9, 19, 11, 0, 0),  // 10月19日(周六) 11:00
+    description: '电控系统进阶知识和实践操作培训',
+    location: '实验楼 A108',
+    trainer: '电控组',
     category: '技术培训',
   },
   {
-    id: 5,
-    title: '小组项目讨论',
-    start: new Date(2025, 8, 10, 10, 0, 0), // 9月10日 10:00
-    end: new Date(2025, 8, 10, 12, 0, 0),   // 9月10日 12:00
-    description: '讨论项目进展和遇到的技术问题',
-    location: '创新中心 会议室',
-    trainer: '全体',
-    category: '项目讨论',
+    id: 6,
+    title: '硬件培训',
+    start: new Date(2024, 9, 19, 14, 0, 0), // 10月19日(周六) 14:00
+    end: new Date(2024, 9, 19, 16, 0, 0),   // 10月19日(周六) 16:00
+    description: 'PCB设计和焊接工艺培训',
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+  },
+  {
+    id: 7,
+    title: '机械培训',
+    start: new Date(2024, 9, 19, 16, 10, 0), // 10月19日(周六) 16:10
+    end: new Date(2024, 9, 19, 18, 10, 0),  // 10月19日(周六) 18:10
+    description: '机械加工和装配工艺培训',
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+  },
+  {
+    id: 8,
+    title: '运营培训',
+    start: new Date(2024, 9, 20, 14, 0, 0), // 10月20日(周日) 14:00
+    end: new Date(2024, 9, 20, 16, 0, 0),  // 10月20日(周日) 16:00
+    description: '文档撰写和项目汇报技巧培训',
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+  },
+
+  // 第3周 (10月25-26日)
+  {
+    id: 9,
+    title: '电控培训',
+    start: new Date(2024, 9, 26, 9, 0, 0), // 10月26日(周六) 9:00
+    end: new Date(2024, 9, 26, 11, 0, 0),  // 10月26日(周六) 11:00
+    description: '传感器应用和数据采集培训',
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+  },
+  {
+    id: 10,
+    title: '硬件培训',
+    start: new Date(2024, 9, 26, 14, 0, 0), // 10月26日(周六) 14:00
+    end: new Date(2024, 9, 26, 16, 0, 0),   // 10月26日(周六) 16:00
+    description: '电源管理和EMC设计培训',
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+  },
+  {
+    id: 11,
+    title: '机械培训',
+    start: new Date(2024, 9, 26, 16, 10, 0), // 10月26日(周六) 16:10
+    end: new Date(2024, 9, 26, 18, 10, 0),  // 10月26日(周六) 18:10
+    description: '材料力学和结构强度分析培训',
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+  },
+  {
+    id: 12,
+    title: '运营培训',
+    start: new Date(2024, 9, 27, 14, 0, 0), // 10月27日(周日) 14:00
+    end: new Date(2024, 9, 27, 16, 0, 0),  // 10月27日(周日) 16:00
+    description: '团队建设和沟通技巧培训',
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+  },
+
+  // 第4周 (11月1-2日)
+  {
+    id: 13,
+    title: '电控培训',
+    start: new Date(2024, 10, 2, 9, 0, 0), // 11月2日(周六) 9:00
+    end: new Date(2024, 10, 2, 11, 0, 0),  // 11月2日(周六) 11:00
+    description: '控制算法和PID调参培训',
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+  },
+  {
+    id: 14,
+    title: '硬件培训',
+    start: new Date(2024, 10, 2, 14, 0, 0), // 11月2日(周六) 14:00
+    end: new Date(2024, 10, 2, 16, 0, 0),   // 11月2日(周六) 16:00
+    description: '通信接口和协议设计培训',
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+  },
+  {
+    id: 15,
+    title: '机械培训',
+    start: new Date(2024, 10, 2, 16, 10, 0), // 11月2日(周六) 16:10
+    end: new Date(2024, 10, 2, 18, 10, 0),  // 11月2日(周六) 18:10
+    description: '运动学和动力学分析培训',
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+  },
+  {
+    id: 16,
+    title: '运营培训',
+    start: new Date(2024, 10, 3, 14, 0, 0), // 11月3日(周日) 14:00
+    end: new Date(2024, 10, 3, 16, 0, 0),  // 11月3日(周日) 16:00
+    description: '风险管理和应急预案培训',
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+  },
+
+  // 第5周 (11月8-9日)
+  {
+    id: 17,
+    title: '电控培训',
+    start: new Date(2024, 10, 9, 9, 0, 0), // 11月9日(周六) 9:00
+    end: new Date(2024, 10, 9, 11, 0, 0),  // 11月9日(周六) 11:00
+    description: '嵌入式系统开发和调试培训',
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+  },
+  {
+    id: 18,
+    title: '硬件培训',
+    start: new Date(2024, 10, 9, 14, 0, 0), // 11月9日(周六) 14:00
+    end: new Date(2024, 10, 9, 16, 0, 0),   // 11月9日(周六) 16:00
+    description: '信号完整性和时序分析培训',
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+  },
+  {
+    id: 19,
+    title: '机械培训',
+    start: new Date(2024, 10, 9, 16, 10, 0), // 11月9日(周六) 16:10
+    end: new Date(2024, 10, 9, 18, 10, 0),  // 11月9日(周六) 18:10
+    description: '精密制造和装配工艺培训',
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+  },
+  {
+    id: 20,
+    title: '运营培训',
+    start: new Date(2024, 10, 10, 14, 0, 0), // 11月10日(周日) 14:00
+    end: new Date(2024, 10, 10, 16, 0, 0),  // 11月10日(周日) 16:00
+    description: '项目评估和成果展示培训',
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+  },
+
+  // 第6周 (11月15-16日)
+  {
+    id: 21,
+    title: '电控培训',
+    start: new Date(2024, 10, 16, 9, 0, 0), // 11月16日(周六) 9:00
+    end: new Date(2024, 10, 16, 11, 0, 0),  // 11月16日(周六) 11:00
+    description: '无线通信和远程控制培训',
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+  },
+  {
+    id: 22,
+    title: '硬件培训',
+    start: new Date(2024, 10, 16, 14, 0, 0), // 11月16日(周六) 14:00
+    end: new Date(2024, 10, 16, 16, 0, 0),   // 11月16日(周六) 16:00
+    description: '可靠性设计和测试方法培训',
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+  },
+  {
+    id: 23,
+    title: '机械培训',
+    start: new Date(2024, 10, 16, 16, 10, 0), // 11月16日(周六) 16:10
+    end: new Date(2024, 10, 16, 18, 10, 0),  // 11月16日(周六) 18:10
+    description: '创新设计和优化方法培训',
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+  },
+  {
+    id: 24,
+    title: '运营培训',
+    start: new Date(2024, 10, 17, 14, 0, 0), // 11月17日(周日) 14:00
+    end: new Date(2024, 10, 17, 16, 0, 0),  // 11月17日(周日) 16:00
+    description: '总结汇报和持续改进培训',
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+  },
+
+  // 第7周 (11月22-23日)
+  {
+    id: 25,
+    title: '电控培训',
+    start: new Date(2024, 10, 23, 9, 0, 0), // 11月23日(周六) 9:00
+    end: new Date(2024, 10, 23, 11, 0, 0),  // 11月23日(周六) 11:00
+    description: '系统集成和整体调试培训',
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+  },
+  {
+    id: 26,
+    title: '硬件培训',
+    start: new Date(2024, 10, 23, 14, 0, 0), // 11月23日(周六) 14:00
+    end: new Date(2024, 10, 23, 16, 0, 0),   // 11月23日(周六) 16:00
+    description: '故障诊断和维修技能培训',
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+  },
+  {
+    id: 27,
+    title: '机械培训',
+    start: new Date(2024, 10, 23, 16, 10, 0), // 11月23日(周六) 16:10
+    end: new Date(2024, 10, 23, 18, 10, 0),  // 11月23日(周六) 18:10
+    description: '项目实战和案例分析培训',
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+  },
+  {
+    id: 28,
+    title: '运营培训',
+    start: new Date(2024, 10, 24, 14, 0, 0), // 11月24日(周日) 14:00
+    end: new Date(2024, 10, 24, 16, 0, 0),  // 11月24日(周日) 16:00
+    description: '职业规划和发展指导培训',
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
+  },
+
+  // 第8周 (11月29-30日)
+  {
+    id: 29,
+    title: '电控培训',
+    start: new Date(2024, 10, 30, 9, 0, 0), // 11月30日(周六) 9:00
+    end: new Date(2024, 10, 30, 11, 0, 0),  // 11月30日(周六) 11:00
+    description: '项目总结和成果展示培训',
+    location: '实验楼 A108',
+    trainer: '电控组',
+    category: '技术培训',
+  },
+  {
+    id: 30,
+    title: '硬件培训',
+    start: new Date(2024, 10, 30, 14, 0, 0), // 11月30日(周六) 14:00
+    end: new Date(2024, 10, 30, 16, 0, 0),   // 11月30日(周六) 16:00
+    description: '技术文档撰写和知识分享培训',
+    location: '实验楼 A108',
+    trainer: '硬件组',
+    category: '技术培训',
+  },
+  {
+    id: 31,
+    title: '机械培训',
+    start: new Date(2024, 10, 30, 16, 10, 0), // 11月30日(周六) 16:10
+    end: new Date(2024, 10, 30, 18, 10, 0),  // 11月30日(周六) 18:10
+    description: '创新项目设计和未来规划培训',
+    location: '实验楼 A108',
+    trainer: '机械组',
+    category: '技术培训',
+  },
+  {
+    id: 32,
+    title: '运营培训',
+    start: new Date(2024, 11, 1, 14, 0, 0), // 12月1日(周日) 14:00
+    end: new Date(2024, 11, 1, 16, 0, 0),  // 12月1日(周日) 16:00
+    description: '项目结题和成果汇报培训',
+    location: '实验楼 A108',
+    trainer: '运营组',
+    category: '基础培训',
   },
 ];
 
@@ -66,7 +351,7 @@ const TrainingSchedule = () => {
   const [events, setEvents] = useState(mockTrainingEvents);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [view, setView] = useState('week');
-  const [currentDate, setCurrentDate] = useState(new Date(2025, 8, 1)); // 默认显示9月1日
+  const [currentDate, setCurrentDate] = useState(new Date(2024, 9, 12)); // 默认显示10月12日
 
   // 模拟数据加载
   useEffect(() => {

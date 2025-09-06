@@ -38,7 +38,7 @@ const Layout = () => {
           <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>首页</NavLink>
           <NavLink to="/apply" className={({ isActive }) => isActive ? 'active' : ''}>招新申请</NavLink>
           <NavLink to="/schedule" className={({ isActive }) => isActive ? 'active' : ''}>培训日程</NavLink>
-          <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>联系我们</NavLink>
+          <NavLink to="/materials" className={({ isActive }) => isActive ? 'active' : ''}>培训资料</NavLink>
           <NavLink to="/stats" className={({ isActive }) => isActive ? 'active' : ''}>📊 申请统计</NavLink>
         </nav>
       </header>

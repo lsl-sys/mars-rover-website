@@ -109,9 +109,7 @@ const Home = () => {
                 console.log('视频开始播放');
               }}
               onEnded={(e) => {
-                e.target.currentTime = 0;
-                e.target.pause();
-                console.log('视频播放结束，显示第一帧');
+                console.log('视频播放结束');
               }}
             >
               <source src="./video.mp4" type="video/mp4" />
