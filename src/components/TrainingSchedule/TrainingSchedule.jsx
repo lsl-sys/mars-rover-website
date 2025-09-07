@@ -14,8 +14,8 @@ const mockTrainingEvents = [
   {
     id: 1,
     title: '电控培训',
-    start: new Date(2024, 9, 12, 9, 0, 0), // 10月12日(周六) 9:00
-    end: new Date(2024, 9, 12, 11, 0, 0),  // 10月12日(周六) 11:00
+    start: new Date(2024, 9, 13, 9, 0, 0), // 10月12日(周六) 9:00
+    end: new Date(2024, 9, 13, 11, 0, 0),  // 10月12日(周六) 11:00
     description: '电控系统基础知识和实践操作培训',
     location: '实验楼 A108',
     trainer: '电控组',
@@ -24,8 +24,8 @@ const mockTrainingEvents = [
   {
     id: 2,
     title: '硬件培训',
-    start: new Date(2024, 9, 12, 14, 0, 0), // 10月12日(周六) 14:00
-    end: new Date(2024, 9, 12, 16, 0, 0),   // 10月12日(周六) 16:00
+    start: new Date(2024, 9, 13, 14, 0, 0), // 10月12日(周六) 14:00
+    end: new Date(2024, 9, 13, 16, 0, 0),   // 10月12日(周六) 16:00
     description: '硬件电路设计和元器件选型培训',
     location: '实验楼 A108',
     trainer: '硬件组',

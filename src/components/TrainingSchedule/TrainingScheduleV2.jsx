@@ -9,7 +9,7 @@ moment.locale('zh-cn');
 const TrainingScheduleV2 = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [currentDate, setCurrentDate] = useState(new Date(2025, 10, 1)); // 默认显示10月12日
+  const [currentDate, setCurrentDate] = useState(new Date(2025, 9, 1)); // 默认显示10月12日
   const [viewMode, setViewMode] = useState('list'); // 'week', 'month', 'list'
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,8 +20,8 @@ const trainingEvents = [
   {
     id: 1,
     title: '电控培训',
-    start: new Date(2025, 9, 11, 9, 0, 0), // 10月12日(周六) 9:00
-    end: new Date(2025, 9, 11, 11, 0, 0),  // 10月12日(周六) 11:00
+    start: new Date(2025, 9, 12, 9, 0, 0), // 10月12日(周六) 9:00
+    end: new Date(2025, 9, 12, 11, 0, 0),  // 10月12日(周六) 11:00
     location: '实验楼 A108',
     trainer: '电控组',
     category: '技术培训',
@@ -32,8 +32,8 @@ const trainingEvents = [
   {
     id: 2,
     title: '硬件培训',
-    start: new Date(2025, 9, 11, 14, 0, 0), // 9月12日(周六) 14:00
-    end: new Date(2025, 9, 11, 16, 0, 0),   // 10月12日(周六) 16:00
+    start: new Date(2025, 9, 12, 14, 0, 0), // 9月12日(周六) 14:00
+    end: new Date(2025, 9, 12, 16, 0, 0),   // 10月12日(周六) 16:00
     location: '实验楼 A108',
     trainer: '硬件组',
     category: '技术培训',
@@ -44,8 +44,8 @@ const trainingEvents = [
   {
     id: 3,
     title: '机械培训',
-    start: new Date(2025, 9, 11, 16, 10, 0), // 9月12日(周六) 16:9
-    end: new Date(2025, 9, 11, 18, 10, 0),  // 10月12日(周六) 18:10
+    start: new Date(2025, 9, 12, 16, 10, 0), // 9月12日(周六) 16:9
+    end: new Date(2025, 9, 12, 18, 10, 0),  // 10月12日(周六) 18:10
     location: '实验楼 A108',
     trainer: '机械组',
     category: '技术培训',
@@ -56,8 +56,8 @@ const trainingEvents = [
   {
     id: 4,
     title: '运营培训',
-    start: new Date(2025,9, 12, 14, 0, 0), // 10月13日(周日) 14:00
-    end: new Date(2025, 9, 12, 16, 0, 0),  // 10月13日(周日) 16:00
+    start: new Date(2025,9, 12, 19, 0, 0), // 10月13日(周日) 14:00
+    end: new Date(2025, 9, 12, 21, 0, 0),  // 10月13日(周日) 16:00
     location: '实验楼 A108',
     trainer: '运营组',
     category: '基础培训',
@@ -78,7 +78,7 @@ const trainingEvents = [
     color: '#3b82f6',
     icon: '⚡',
     status: 'confirmed',
-    materials: ['进阶电控教程.pdf', '实践案例集.docx']
+
   },
   {
     id: 6,
