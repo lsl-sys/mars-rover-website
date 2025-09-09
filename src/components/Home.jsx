@@ -52,7 +52,6 @@ const Home = () => {
               className="background-video" 
               playsInline
               loop
-              muted
               preload="metadata"
               poster="/mars_rover.jpg"
               ref={(video) => {

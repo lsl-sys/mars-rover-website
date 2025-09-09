@@ -151,17 +151,15 @@ const MobileHome = () => {
         
         {/* 背景视频 - 重新添加 */}
         <div className="mobile-background-video-container">
-          <video 
-            className="mobile-background-video" 
+          <video
+            className="mobile-background-video"
             autoPlay
             loop
-            muted
             playsInline
             preload="metadata"
             poster="/mars_rover.jpg"
           >
             <source src="/video.mp4" type="video/mp4" />
-            您的浏览器不支持视频播放。
           </video>
         </div>
         
