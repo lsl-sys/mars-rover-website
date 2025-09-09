@@ -44,9 +44,9 @@
 
 
 
-/* 英雄区域 - 背景视频样式 */
+/* 英雄区域 - 带背景视频优化版 */
 .mobile-hero-section {
-  padding: 2rem 1rem 4rem;
+  padding: 3rem 1.5rem 4rem;
   text-align: center;
   position: relative;
   z-index: 1;
@@ -56,6 +56,35 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+
+/* 背景视频样式 - 重新添加 */
+.mobile-background-video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.mobile-background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
+
+.hero-content-wrapper {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .mobile-hero-gradient {
@@ -174,7 +203,7 @@
 .mobile-hero-actions {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
   width: 100%;
   max-width: 100%;
@@ -185,21 +214,22 @@
 .mobile-btn-primary {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
-  padding: 1rem 2rem;
-  border-radius: 12px;
+  padding: 1.125rem 2rem;
+  border-radius: 16px;
   text-decoration: none;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.0625rem;
   width: 100%;
+  max-width: 320px;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  position: relative;
-  overflow: hidden;
+  border: none;
+  cursor: pointer;
 }
 
 .mobile-btn-primary::before {
@@ -237,26 +267,40 @@
 
 .mobile-btn-group {
   display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-  flex-wrap: wrap;
+  gap: 1rem;
   width: 100%;
+  max-width: 320px;
 }
 
 .mobile-btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 10px;
+  padding: 0.875rem 1rem;
+  border-radius: 14px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.875rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
+  font-size: 0.9375rem;
+  flex: 1;
+  text-align: center;
+  backdrop-filter: blur(12px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: 0.25rem;
+  min-height: 60px;
+}
+
+.btn-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.btn-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
 }
 
 .mobile-btn-secondary:hover {
@@ -265,60 +309,74 @@
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* 统计数据区域 */
+/* 统计数据区域 - 优化版 */
 .mobile-stats-section {
-  padding: 4rem 1rem;
+  padding: 4rem 1.5rem 3rem;
+  text-align: center;
   position: relative;
   z-index: 1;
 }
 
 .section-title {
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-weight: 700;
-  text-align: center;
   margin-bottom: 2.5rem;
   color: white;
+  text-align: center;
+  background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .mobile-stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  max-width: 400px;
+  max-width: 380px;
   margin: 0 auto;
+  padding: 0 0.5rem;
 }
 
 .mobile-stat-card {
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 1.5rem 1rem;
-  text-align: center;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 1.75rem 0.75rem;
+  backdrop-filter: blur(12px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
 }
 
 .mobile-stat-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.15);
   background: rgba(255, 255, 255, 0.12);
 }
 
 .stat-icon {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+  line-height: 1;
 }
 
 .stat-number {
   font-size: 1.75rem;
   font-weight: 800;
-  color: #10b981;
-  margin-bottom: 0.25rem;
+  color: #3b82f6;
+  margin-bottom: 0.375rem;
+  line-height: 1;
 }
 
 .stat-label {
-  font-size: 0.875rem;
-  color: #94a3b8;
+  font-size: 0.8125rem;
+  color: #cbd5e1;
   font-weight: 500;
+  letter-spacing: 0.025em;
 }
 
 /* 关于我们区域 */
@@ -412,9 +470,9 @@
   margin: 0;
 }
 
-/* 项目展示区域 */
+/* 项目展示区域 - 优化版 */
 .mobile-projects-section {
-  padding: 4rem 1rem;
+  padding: 4rem 1.5rem 3rem;
   position: relative;
   z-index: 1;
 }
@@ -422,9 +480,10 @@
 .mobile-projects-grid {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  max-width: 400px;
+  gap: 1.75rem;
+  max-width: 380px;
   margin: 0 auto;
+  padding: 0 0.5rem;
 }
 
 .mobile-project-card {
@@ -494,94 +553,109 @@
   margin: 0;
 }
 
-/* 底部号召行动 */
+/* 底部号召行动 - 优化版 */
 .mobile-footer-cta {
-  padding: 4rem 1rem 5rem;
+  padding: 4rem 1.5rem 5rem;
   position: relative;
   z-index: 1;
   text-align: center;
 }
 
 .footer-cta-content {
-  max-width: 400px;
+  max-width: 360px;
   margin: 0 auto;
+  padding: 0 0.5rem;
 }
 
 .footer-title {
-  font-size: 1.75rem;
+  font-size: 1.875rem;
   font-weight: 700;
   color: white;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .footer-description {
   font-size: 1.125rem;
   color: #cbd5e1;
-  line-height: 1.7;
-  margin-bottom: 2rem;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
 }
 
-/* 响应式设计 */
+/* 悬停效果优化 */
+.mobile-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.4);
+}
+
+.mobile-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+/* 响应式设计 - 优化版 */
 @media (max-width: 480px) {
+  .mobile-home-container {
+    padding: 0;
+  }
+  
+  .mobile-hero-section {
+    padding: 2.5rem 1rem 3rem;
+    min-height: 85vh;
+  }
+  
   .mobile-hero-title {
-    font-size: 2rem;
+    font-size: 1.875rem;
   }
   
   .mobile-hero-description {
     font-size: 1rem;
+    padding: 0 0.25rem;
+  }
+  
+  .hero-content-wrapper {
+    max-width: 320px;
   }
   
   .mobile-btn-primary {
-    padding: 0.875rem 1.5rem;
-    font-size: 0.875rem;
+    font-size: 1rem;
+    padding: 1rem 1.5rem;
+    max-width: 280px;
+  }
+  
+  .mobile-btn-group {
+    max-width: 280px;
   }
   
   .mobile-btn-secondary {
-    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .btn-label {
     font-size: 0.75rem;
   }
   
-  .mobile-video-section {
-    padding: 0.5rem 1rem 0;
+  .mobile-stats-grid,
+  .mobile-features-grid,
+  .mobile-projects-grid {
+    max-width: 320px;
   }
   
-  .mobile-video-container {
-    padding: 12px;
-    border-radius: 15px;
+  .footer-cta-content {
+    max-width: 320px;
   }
   
-  .mobile-video-caption {
-    font-size: 0.9rem;
-    margin-bottom: 10px;
+  .footer-title {
+    font-size: 1.625rem;
   }
   
-  .mobile-promo-video {
-    height: 180px;
-    border-radius: 12px;
-  }
-  
-  .mobile-stats-section {
-    padding: 2rem 1rem;
-  }
-  
-  .mobile-stat-card {
-    padding: 1.5rem;
-  }
-  
-  .mobile-about-section,
-  .mobile-projects-section {
-    padding: 2rem 1rem;
-  }
-  
-  .feature-card,
-  .mobile-project-card {
-    padding: 1.5rem;
-  }
-  
-  .project-icon {
-    width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
+  .footer-description {
+    font-size: 1rem;
   }
 }
 

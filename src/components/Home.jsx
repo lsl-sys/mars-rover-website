@@ -51,7 +51,10 @@ const Home = () => {
         <div className="background-video-container">           <video 
               className="background-video" 
               playsInline
-              preload="auto"
+              loop
+              muted
+              preload="metadata"
+              poster="/mars_rover.jpg"
               ref={(video) => {
                 if (video) {
                   // 自动尝试播放，失败则等待用户交互
@@ -112,7 +115,7 @@ const Home = () => {
                 console.log('视频播放结束');
               }}
             >
-              <source src="./video.mp4" type="video/mp4" />
+              <source src="/video.mp4" type="video/mp4" />
               您的浏览器不支持视频播放。
             </video>
         </div>
