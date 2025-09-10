@@ -11,7 +11,7 @@ const trainingMaterials = [
       {
         name: '电控培训大纲',
         isPdf: true,
-        url: '/PDF/电控.pdf'
+        url: '/PDF/Electronic_Control_outline.pdf'
       },
       {
         name: '嵌入式系统基础',
