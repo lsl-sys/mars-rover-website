@@ -216,6 +216,9 @@ const TrainingMaterials = () => {
   const [expandedSubItems, setExpandedSubItems] = useState({});
   const [expandedImage, setExpandedImage] = useState(null); // 用于控制图片放大显示
   const [imageScale, setImageScale] = useState(1); // 图片缩放比例
+  const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 }); // 图片位置
+  const [isDragging, setIsDragging] = useState(false); // 是否正在拖动
+  const [startDragPosition, setStartDragPosition] = useState({ x: 0, y: 0 }); // 拖动开始时的鼠标位置
 
   // 处理分类点击
   const handleCategoryClick = (categoryId) => {
@@ -255,9 +258,42 @@ const TrainingMaterials = () => {
     });
   };
 
-  // 重置图片缩放
+  // 重置图片缩放和位置
   const resetImageScale = () => {
     setImageScale(1);
+    setImagePosition({ x: 0, y: 0 });
+  };
+
+  // 处理鼠标按下事件，开始拖动
+  const handleMouseDown = (e) => {
+    if (e.button !== 0) return; // 只处理左键点击
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    setIsDragging(true);
+    setStartDragPosition({
+      x: e.clientX - imagePosition.x,
+      y: e.clientY - imagePosition.y
+    });
+  };
+
+  // 处理鼠标移动事件，拖动图片
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    setImagePosition({
+      x: e.clientX - startDragPosition.x,
+      y: e.clientY - startDragPosition.y
+    });
+  };
+
+  // 处理鼠标释放事件，结束拖动
+  const handleMouseUp = () => {
+    setIsDragging(false);
   };
 
   // 递归渲染子项目
@@ -280,11 +316,11 @@ const TrainingMaterials = () => {
                       loading="lazy"
                       onClick={() => {
                         setExpandedImage(item.imagePath);
-                        resetImageScale(); // 点击图片时重置缩放比例
+                        resetImageScale(); // 点击图片时重置缩放比例和位置
                       }}
                       style={{ cursor: 'pointer' }}
                     />
-                    <p className="image-hint">点击图片可放大查看，使用鼠标滚轮可缩放</p>
+                    <p className="image-hint">点击图片可放大查看，使用鼠标滚轮可缩放，鼠标左键可拖动</p>
                   </div>
                 )}
               </div>
@@ -320,15 +356,20 @@ const TrainingMaterials = () => {
     return (
       <div className="image-modal" onClick={() => {
         setExpandedImage(null);
-        resetImageScale(); // 关闭时重置缩放比例
+        resetImageScale(); // 关闭时重置缩放比例和位置
       }}>
-        <div className="image-modal-content">
+        <div 
+          className="image-modal-content"
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        >
           <button 
             className="close-button"
             onClick={(e) => {
               e.stopPropagation();
               setExpandedImage(null);
-              resetImageScale(); // 关闭时重置缩放比例
+              resetImageScale(); // 关闭时重置缩放比例和位置
             }}
           >
             ×
@@ -338,10 +379,12 @@ const TrainingMaterials = () => {
             alt="放大预览" 
             className="expanded-image"
             style={{
-              transform: `scale(${imageScale})`,
-              transition: 'transform 0.2s ease'
+              transform: `translate(${imagePosition.x}px, ${imagePosition.y}px) scale(${imageScale})`,
+              transition: 'transform 0.2s ease',
+              cursor: isDragging ? 'grabbing' : 'grab'
             }}
             onWheel={handleImageWheel}
+            onMouseDown={handleMouseDown}
           />
           <div className="scale-info">
             <span>缩放比例: {(imageScale * 100).toFixed(0)}%</span>
