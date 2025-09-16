@@ -313,6 +313,46 @@
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
+/* 缩放信息容器样式 - 设置绝对定位、底部、左中对齐、背景色、内边距、圆角和阴影 */
+.scale-info {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+}
+
+/* 缩放比例文本样式 */
+.scale-info span {
+  font-weight: 500;
+}
+
+/* 重置缩放按钮样式 - 设置背景色、边框、圆角、内边距、字体大小、颜色和过渡效果 */
+.reset-scale-button {
+  background-color: #007bff;
+  border: none;
+  border-radius: 15px;
+  padding: 5px 15px;
+  font-size: 12px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* 重置缩放按钮悬停样式 - 更改背景色 */
+.reset-scale-button:hover {
+  background-color: #0056b3;
+}
+
 /* 主内容区域样式 - 设置弹性布局、背景色、圆角、内边距和阴影 */
 .materials-main {
   flex: 1;

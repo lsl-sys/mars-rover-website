@@ -215,6 +215,7 @@ const TrainingMaterials = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const [expandedSubItems, setExpandedSubItems] = useState({});
   const [expandedImage, setExpandedImage] = useState(null); // 用于控制图片放大显示
+  const [imageScale, setImageScale] = useState(1); // 图片缩放比例
 
   // 处理分类点击
   const handleCategoryClick = (categoryId) => {
@@ -239,6 +240,26 @@ const TrainingMaterials = () => {
     }));
   };
 
+  // 处理图片滚轮放大缩小
+  const handleImageWheel = (e) => {
+    e.preventDefault();
+    // 阻止事件冒泡到模态框背景
+    e.stopPropagation();
+    
+    // 根据滚轮方向调整缩放比例
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    setImageScale(prevScale => {
+      // 限制缩放范围在0.5到3倍之间
+      const newScale = Math.max(0.5, Math.min(3, prevScale + delta));
+      return newScale;
+    });
+  };
+
+  // 重置图片缩放
+  const resetImageScale = () => {
+    setImageScale(1);
+  };
+
   // 递归渲染子项目
   const renderSubItems = (subItems, level = 0) => {
     if (!subItems) return null;
@@ -257,10 +278,13 @@ const TrainingMaterials = () => {
                       alt={item.name} 
                       className="pdf-preview-image"
                       loading="lazy"
-                      onClick={() => setExpandedImage(item.imagePath)}
+                      onClick={() => {
+                        setExpandedImage(item.imagePath);
+                        resetImageScale(); // 点击图片时重置缩放比例
+                      }}
                       style={{ cursor: 'pointer' }}
                     />
-                    <p className="image-hint">点击图片可放大查看</p>
+                    <p className="image-hint">点击图片可放大查看，使用鼠标滚轮可缩放</p>
                   </div>
                 )}
               </div>
@@ -294,13 +318,17 @@ const TrainingMaterials = () => {
     if (!expandedImage) return null;
     
     return (
-      <div className="image-modal" onClick={() => setExpandedImage(null)}>
+      <div className="image-modal" onClick={() => {
+        setExpandedImage(null);
+        resetImageScale(); // 关闭时重置缩放比例
+      }}>
         <div className="image-modal-content">
           <button 
             className="close-button"
             onClick={(e) => {
               e.stopPropagation();
               setExpandedImage(null);
+              resetImageScale(); // 关闭时重置缩放比例
             }}
           >
             ×
@@ -309,7 +337,24 @@ const TrainingMaterials = () => {
             src={expandedImage} 
             alt="放大预览" 
             className="expanded-image"
+            style={{
+              transform: `scale(${imageScale})`,
+              transition: 'transform 0.2s ease'
+            }}
+            onWheel={handleImageWheel}
           />
+          <div className="scale-info">
+            <span>缩放比例: {(imageScale * 100).toFixed(0)}%</span>
+            <button 
+              className="reset-scale-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                resetImageScale();
+              }}
+            >
+              重置缩放
+            </button>
+          </div>
         </div>
       </div>
     );
