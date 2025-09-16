@@ -219,18 +219,7 @@
   color: #333;
 }
 
-/* 外部链接样式 - 设置颜色、移除下划线和过渡效果 */
-.external-link {
-  color: #666;
-  text-decoration: none;
-  transition: color 0.2s;
-}
 
-/* 外部链接悬停样式 - 更改颜色和添加下划线 */
-.external-link:hover {
-  color: #007bff;
-  text-decoration: underline;
-}
 
 /* 主内容区域样式 - 设置弹性布局、背景色、圆角、内边距和阴影 */
 .materials-main {
@@ -465,6 +454,34 @@
   top: 0;
 }
 
+
+
+/* 子项展开/折叠交互样式 */
+.sub-item-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+
+.sub-item-title:hover {
+  background-color: #f8f9fa;
+}
+
+.expand-icon {
+  color: #666;
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.expand-icon.expanded {
+  transform: rotate(90deg);
+}
+
 /* 响应式设计 - 当屏幕宽度小于768px时应用的样式 - 统一移动端宽度 */
 @media (max-width: 768px) {
   /* 统一移动端容器设置 */
@@ -516,4 +533,6 @@
     align-items: flex-start;
     gap: 10px;
   }
+  
+  
 }

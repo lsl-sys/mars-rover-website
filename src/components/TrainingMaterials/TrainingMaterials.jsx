@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TrainingMaterials.css';
 
 // 培训资料数据 - 按照电控、机械、硬件分类
@@ -10,8 +10,7 @@ const trainingMaterials = [
     subItems: [
       {
         name: '电控培训大纲',
-        isPdf: true,
-        url: 'PDF\Electronic_Control_outline.pdf'
+        isPdf: true
       },
       {
         name: '嵌入式系统基础',
@@ -39,6 +38,15 @@ const trainingMaterials = [
           { name: 'SPI与I2C通信' },
           { name: '无线通信技术' }
         ]
+      },
+      {
+        name: '传感器应用',
+        subItems: [
+          { name: '传感器基础' },
+          { name: '距离传感器应用' },
+          { name: '图像传感器应用' },
+          { name: '惯性测量单元(IMU)' }
+        ]
       }
     ]
   },
@@ -47,11 +55,51 @@ const trainingMaterials = [
     title: '机械',
     description: '涵盖机械设计基础、底盘设计、传动系统、结构设计以及3D打印与加工等知识，助您了解火星车的机械结构设计。',
     subItems: [
-      { name: '机械设计基础' },
-      { name: '底盘设计' },
-      { name: '传动系统' },
-      { name: '结构设计' },
-      { name: '3D打印与加工' }
+      {
+        name: '机械设计基础',
+        subItems: [
+          { name: '机械原理' },
+          { name: '材料力学基础' },
+          { name: 'SW软件基础' },
+          { name: '机械设计标准' }
+        ]
+      },
+      {
+        name: '底盘设计',
+        subItems: [
+          { name: '火星车底盘概述' },
+          { name: '悬架系统设计' },
+          { name: '车轮设计' },
+          { name: '轻量化设计原则' }
+        ]
+      },
+      {
+        name: '传动系统',
+        subItems: [
+          { name: '齿轮传动设计' },
+          { name: '带传动与链传动' },
+          { name: '减速器选型' },
+          { name: '传动效率优化' }
+        ]
+      },
+      {
+        name: '结构设计',
+        subItems: [
+          { name: '框架结构设计' },
+          { name: '应力分析方法' },
+          { name: '防护结构设计' },
+          { name: '模块化设计原则' }
+        ]
+      },
+      {
+        name: '3D打印与加工',
+        subItems: [
+          { name: '3D打印技术概述' },
+          { name: '打印材料选择' },
+          { name: '后处理工艺' },
+          { name: '传统加工技术' }
+        ]
+      }
     ]
   },
   {
@@ -59,11 +107,51 @@ const trainingMaterials = [
     title: '硬件',
     description: '包含电路设计基础、PCB设计、电子元件、硬件调试和测试等内容，让您掌握火星车硬件开发的核心技能。',
     subItems: [
-      { name: '电路设计基础' },
-      { name: 'PCB设计' },
-      { name: '电子元件' },
-      { name: '硬件调试' },
-      { name: '硬件测试' }
+      {
+        name: '电路设计基础',
+        subItems: [
+          { name: '电路理论基础' },
+          { name: '模拟电路设计' },
+          { name: '数字电路设计' },
+          { name: '电路仿真技术' }
+        ]
+      },
+      {
+        name: 'PCB设计',
+        subItems: [
+          { name: 'PCB设计流程' },
+          { name: '布局布线原则' },
+          { name: 'EMC设计指南' },
+          { name: '高速PCB设计' }
+        ]
+      },
+      {
+        name: '电子元件',
+        subItems: [
+          { name: '电阻电容选型' },
+          { name: '晶体管应用' },
+          { name: '集成电路基础' },
+          { name: '元件可靠性分析' }
+        ]
+      },
+      {
+        name: '硬件调试',
+        subItems: [
+          { name: '调试工具使用' },
+          { name: '电路故障排查' },
+          { name: '信号测量技术' },
+          { name: '电源完整性分析' }
+        ]
+      },
+      {
+        name: '硬件测试',
+        subItems: [
+          { name: '功能测试方法' },
+          { name: '性能测试指标' },
+          { name: '环境适应性测试' },
+          { name: '可靠性测试标准' }
+        ]
+      }
     ]
   },
   {
@@ -71,11 +159,51 @@ const trainingMaterials = [
     title: '运营',
     description: '涵盖项目管理、团队协作、文档撰写、活动策划和品牌推广等内容，助您掌握团队运营的核心技能。',
     subItems: [
-      { name: '项目管理' },
-      { name: '团队协作' },
-      { name: '文档撰写' },
-      { name: '活动策划' },
-      { name: '品牌推广' }
+      {
+        name: '项目管理',
+        subItems: [
+          { name: '项目管理基础' },
+          { name: '时间管理技巧' },
+          { name: '风险管理方法' },
+          { name: '敏捷开发实践' }
+        ]
+      },
+      {
+        name: '团队协作',
+        subItems: [
+          { name: '团队建设方法' },
+          { name: '有效沟通技巧' },
+          { name: '冲突管理策略' },
+          { name: '跨部门协作' }
+        ]
+      },
+      {
+        name: '文档撰写',
+        subItems: [
+          { name: '技术文档规范' },
+          { name: '项目报告撰写' },
+          { name: '设计文档模板' },
+          { name: '用户手册编写' }
+        ]
+      },
+      {
+        name: '活动策划',
+        subItems: [
+          { name: '活动策划流程' },
+          { name: '预算管理方法' },
+          { name: '宣传推广策略' },
+          { name: '赞助合作洽谈' }
+        ]
+      },
+      {
+        name: '品牌推广',
+        subItems: [
+          { name: '品牌建设基础' },
+          { name: '社交媒体运营' },
+          { name: '内容营销策略' },
+          { name: '视觉设计规范' }
+        ]
+      }
     ]
   }
 ];
@@ -84,31 +212,32 @@ const TrainingMaterials = () => {
   // 状态管理
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showWelcome, setShowWelcome] = useState(true);
-  
-  // 处理PDF文件下载
-  const handlePdfClick = (url) => {
-    window.open(url, '_blank');
-  };
-
-  // 处理链接点击
-  const handleLinkClick = (url, e) => {
-    e.preventDefault();
-    window.open(url, '_blank');
-  };
+  const [expandedSubItems, setExpandedSubItems] = useState({});
 
   // 处理分类点击
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
+  const handleCategoryClick = (categoryId) => {
+    setSelectedCategory(categoryId);
     setShowWelcome(false);
+    // 重置展开状态
+    setExpandedSubItems({});
   };
 
   // 返回欢迎页面
   const handleBackToWelcome = () => {
     setSelectedCategory(null);
     setShowWelcome(true);
+    setExpandedSubItems({});
   };
 
-  // 渲染子项
+  // 切换子项展开/折叠状态
+  const toggleSubItem = (itemName) => {
+    setExpandedSubItems(prev => ({
+      ...prev,
+      [itemName]: !prev[itemName]
+    }));
+  };
+
+  // 递归渲染子项目
   const renderSubItems = (subItems, level = 0) => {
     if (!subItems) return null;
     
@@ -117,26 +246,28 @@ const TrainingMaterials = () => {
         {subItems.map((item, index) => (
           <li key={index}>
             {item.isPdf ? (
-              <button 
-                className="pdf-link"
-                onClick={() => handlePdfClick(item.url)}
-              >
+              <div className="pdf-link">
                 📄 {item.name}
-              </button>
-            ) : item.isLink ? (
-              <a 
-                href={item.url} 
-                className="external-link"
-                onClick={(e) => handleLinkClick(item.url, e)}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                🔗 {item.name}
-              </a>
+              </div>
+            ) : item.subItems ? (
+              <div>
+                <div 
+                  className="sub-item-title"
+                  onClick={() => toggleSubItem(item.name)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && toggleSubItem(item.name)}
+                >
+                  • {item.name}
+                  <span className={`expand-icon ${expandedSubItems[item.name] ? 'expanded' : ''}`}>
+                    {expandedSubItems[item.name] ? '▼' : '►'}
+                  </span>
+                </div>
+                {expandedSubItems[item.name] && renderSubItems(item.subItems, level + 1)}
+              </div>
             ) : (
               <span>{item.name}</span>
             )}
-            {item.subItems && renderSubItems(item.subItems, level + 1)}
           </li>
         ))}
       </ul>
@@ -147,7 +278,7 @@ const TrainingMaterials = () => {
     <div className="training-materials-container">
       <div className="materials-header">
         <h1>培训资料</h1>
-          <p>重邮-京东未来智能视觉联合研究实践基地嵌入式开发相关资料</p>
+        <p>重邮-京东未来智能视觉联合研究实践基地嵌入式开发相关资料</p>
       </div>
       
       <div className="materials-content">
@@ -181,7 +312,10 @@ const TrainingMaterials = () => {
                     <div 
                       key={category.id} 
                       className="category-card"
-                      onClick={() => handleCategoryClick(category)}
+                      onClick={() => handleCategoryClick(category.id)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => e.key === 'Enter' && handleCategoryClick(category.id)}
                     >
                       <h4>{category.title}</h4>
                       <p>{category.description}</p>
@@ -193,55 +327,31 @@ const TrainingMaterials = () => {
               <div className="usage-guide">
                 <h3>使用指南</h3>
                 <ul>
-                  <li>点击左侧分类展开子菜单，选择具体的培训资料</li>
-                  <li>带有📄图标的条目表示可以直接查看PDF文档</li>
+                  <li>点击左侧分类展开子菜单，查看具体的培训资料</li>
+                  <li>点击带有▼/►符号的条目可以展开或折叠子项目</li>
+                  <li>带有📄图标的条目表示相关PDF文档</li>
                   <li>后续将逐步完善各类资料内容，请持续关注更新</li>
                 </ul>
               </div>
             </div>
           ) : (
             <div className="category-detail">
+              
               <div className="detail-header">
-                <h2>{selectedCategory.title}</h2>
+                <h2>{trainingMaterials.find(cat => cat.id === selectedCategory)?.title || ''}</h2>
                 <button className="back-button" onClick={handleBackToWelcome}>
-                  ← 返回
+                  ← 返回欢迎页
                 </button>
               </div>
               
               <div className="detail-content">
                 <div className="detail-description">
-                  <p>{selectedCategory.description}</p>
+                  <p>{trainingMaterials.find(cat => cat.id === selectedCategory)?.description || ''}</p>
                 </div>
                 
                 <div className="detail-materials">
                   <h3>相关资料</h3>
-                  <ul className="materials-list">
-                    {selectedCategory.subItems.map((item, index) => (
-                      <li key={index} className="material-item">
-                        {item.isPdf ? (
-                          <button 
-                            className="pdf-link"
-                            onClick={() => handlePdfClick(item.url)}
-                          >
-                            📄 {item.name}
-                          </button>
-                        ) : (
-                          <div>
-                            <span className="material-title">{item.name}</span>
-                            {item.subItems && (
-                              <ul className="sub-materials-list">
-                                {item.subItems.map((subItem, subIndex) => (
-                                  <li key={subIndex} className="sub-material-item">
-                                    {subItem.name}
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                          </div>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
+                  {renderSubItems(trainingMaterials.find(cat => cat.id === selectedCategory)?.subItems || [])}
                 </div>
               </div>
             </div>
