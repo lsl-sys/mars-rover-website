@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './TrainingMaterials.css';
 
 // 培训资料数据 - 按照电控、机械、硬件分类
@@ -214,6 +214,7 @@ const TrainingMaterials = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showWelcome, setShowWelcome] = useState(true);
   const [expandedSubItems, setExpandedSubItems] = useState({});
+  const [expandedImage, setExpandedImage] = useState(null); // 用于控制图片放大显示
 
   // 处理分类点击
   const handleCategoryClick = (categoryId) => {
@@ -256,7 +257,10 @@ const TrainingMaterials = () => {
                       alt={item.name} 
                       className="pdf-preview-image"
                       loading="lazy"
+                      onClick={() => setExpandedImage(item.imagePath)}
+                      style={{ cursor: 'pointer' }}
                     />
+                    <p className="image-hint">点击图片可放大查看</p>
                   </div>
                 )}
               </div>
@@ -282,6 +286,32 @@ const TrainingMaterials = () => {
           </li>
         ))}
       </ul>
+    );
+  };
+
+  // 图片放大模态框组件
+  const ImageModal = () => {
+    if (!expandedImage) return null;
+    
+    return (
+      <div className="image-modal" onClick={() => setExpandedImage(null)}>
+        <div className="image-modal-content">
+          <button 
+            className="close-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setExpandedImage(null);
+            }}
+          >
+            ×
+          </button>
+          <img 
+            src={expandedImage} 
+            alt="放大预览" 
+            className="expanded-image"
+          />
+        </div>
+      </div>
     );
   };
 
@@ -369,6 +399,9 @@ const TrainingMaterials = () => {
           )}
         </div>
       </div>
+      
+      {/* 图片放大预览模态框 */}
+      <ImageModal />
     </div>
   );
 };
