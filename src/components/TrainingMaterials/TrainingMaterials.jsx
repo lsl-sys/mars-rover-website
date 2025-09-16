@@ -8,7 +8,11 @@ const trainingMaterials = [
     title: '电控',
     description: '包括嵌入式系统、电机控制、通信协议、传感器应用和电源系统等内容，帮助您掌握火星车的电子控制技术。',
     subItems: [
-      {        name: '电控培训大纲',        isPdf: true,        subItems: [          {            name: 'STM32学习方法',            subItems: [              {                name: '硬件学习路线',                subItems: [                  { name: 'STM32' },                  { name: 'arm32' },                  { name: 'PC' },                  { name: 'C51' }                ]              },              {                name: '软件环境及资料',                subItems: [                  { name: 'STM32' }                ]              },              {                name: '学习方法',                subItems: [                  {                    name: 'b站',                    subItems: [                      { name: '江科大' },                      { name: '正点原子' },                      { name: '罗灰灰' },                      { name: '思岚科技' }                    ]                  },                  {                    name: '源码平台',                    subItems: [                      { name: 'github' },                      { name: 'gitee' }                    ]                  }                ]              },              {                name: '培训内容',                subItems: [                  {                    name: 'MDK软件入门',                    subItems: [                      {                        name: '介绍',                        subItems: [                          { name: 'MDK Core' },                          { name: 'Vision IDE with Editor' },                          { name: 'ARM C/C++ Compiler' },                          { name: 'Pack Installer' },                          { name: 'Vision Debugger' }                        ]                      },                      {                        name: '工程模板',                        subItems: [                          { name: '文化熏陶' }                        ]                      }                    ]                  }                ]              }            ]          },          {            name: 'C语言基础',            subItems: [              {                name: '基础回顾',                subItems: [                  { name: '数据' },                  { name: '循环' },                  { name: '条件' },                  { name: '函数' }                ]              },              {                name: '进阶',                subItems: [                  { name: '指针' },                  { name: 'typedef' },                  { name: 'struct' },                  { name: 'enum' },                  { name: '内存布局' },                  { name: '子函数' }                ]              }            ]          },          {            name: '实战(STM32标准库开发)',            subItems: [              {                name: '基础外设',                subItems: [                  { name: '点灯' },                  { name: '按键输入' },                  { name: '外部中断' },                  { name: '定时器' },                  { name: 'PWM输出' },                  { name: 'ADC' },                  { name: 'RTC' },                  { name: 'PWR' },                  { name: 'WDG/IWDG' }                ]              },              {                name: '通信协议',                subItems: [                  { name: 'UART/USART' },                  { name: 'IC (IIC/SMBUS)' },                  { name: 'SPI' },                  { name: 'CAN' },                  { name: 'RS485' },                  { name: '触摸屏(GT911)' }                ]              }            ]          },          { name: '结课任务' }        ]      },
+      {
+        name: '电控培训大纲',
+        isPdf: true,
+        imagePath: '/photo/电控大纲_00.png'
+      },
       {
         name: '嵌入式系统基础',
         subItems: [
@@ -245,6 +249,16 @@ const TrainingMaterials = () => {
             {item.isPdf ? (
               <div className="pdf-link">
                 📄 {item.name}
+                {item.imagePath && (
+                  <div className="pdf-image-container">
+                    <img 
+                      src={item.imagePath} 
+                      alt={item.name} 
+                      className="pdf-preview-image"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
               </div>
             ) : item.subItems ? (
               <div>

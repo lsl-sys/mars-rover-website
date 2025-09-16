@@ -219,7 +219,29 @@
   color: #333;
 }
 
+/* PDF图片容器样式 - 设置显示、宽度、最大宽度、边距和居中 */
+.pdf-image-container {
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto 0;
+  text-align: center;
+}
 
+/* PDF预览图片样式 - 设置最大宽度、高度、边框、圆角和阴影 */
+.pdf-preview-image {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+/* PDF预览图片悬停效果 - 添加缩放效果 */
+.pdf-preview-image:hover {
+  transform: scale(1.02);
+}
 
 /* 主内容区域样式 - 设置弹性布局、背景色、圆角、内边距和阴影 */
 .materials-main {
