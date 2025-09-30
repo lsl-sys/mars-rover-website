@@ -374,7 +374,7 @@ const TrainingMaterials = () => {
         </div>
       </div>
     </div>
-    
+  )
     {/* 图片放大预览模态框 */}
     {expandedImage && (
       <div 
@@ -399,7 +399,6 @@ const TrainingMaterials = () => {
         </div>
       </div>
     )}
-  );
 };
 
 export default TrainingMaterials;
