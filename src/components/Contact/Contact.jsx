@@ -18,7 +18,7 @@ const Contact = () => {
       type: 'email'
     },
     {
-      title: '重邮-京东未来智能视觉联合研究实践基地总负责人',
+      title: '未来智视科创团队总负责人',
       qq: '2177707887',
       type: 'qq'
     },
@@ -76,7 +76,7 @@ const Contact = () => {
     <div className="contact-container">
       <div className="contact-header">
         <h1>联系我们</h1>
-        <p>欢迎与重邮-京东未来智能视觉联合研究实践基地取得联系，我们将竭诚为您服务</p>
+          <p>欢迎与未来智视科创团队取得联系，我们将竭诚为您服务</p>
       </div>
 
       <div className="contact-content">

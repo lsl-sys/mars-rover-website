@@ -29,9 +29,9 @@ const Layout = () => {
       {/* 导航栏 */}
       <header className="navbar">
         <div className="logo">
-          <img src="/photo/NEWLOGO.jpg" alt="重邮-京东未来智能视觉联合研究实践基地 Logo" />
+          <img src="/photo/NEWLOGO.jpg" alt="未来智视科创团队 Logo" />
           <div className="logo-text">
-            <h1>重邮-京东未来智能视觉联合研究实践基地</h1>
+            <h1>未来智视科创团队</h1>
           </div>
         </div>
         <nav className="nav-links">
@@ -52,7 +52,7 @@ const Layout = () => {
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-info">
-            <p>© {new Date().getFullYear()} 重邮-京东未来智能视觉联合研究实践基地. 保留所有权利.</p>
+            <p>© {new Date().getFullYear()} 未来智视科创团队. 保留所有权利.</p>
             <p>地址：重庆市南岸区崇文路2号重庆邮电大学</p>
           </div>
           <div className="social-links">

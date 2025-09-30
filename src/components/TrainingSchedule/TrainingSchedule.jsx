@@ -406,7 +406,7 @@ const TrainingSchedule = () => {
   return (
     <div className="training-schedule-container">
       <div className="schedule-header">
-        <h1>重邮-京东未来智能视觉联合研究实践基地培训日程</h1>
+        <h1>未来智视科创团队培训日程</h1>
         <p>系统化的培训计划，助您快速掌握机器人技术与智能视觉核心技能</p>
       </div>
       

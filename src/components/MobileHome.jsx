@@ -180,7 +180,7 @@ const MobileHome = () => {
           
           <ScrollReveal delay={400}>
             <p className="mobile-hero-description">
-              加入重邮-京东未来智能视觉联合研究实践基地，
+              加入未来智视科创团队，
               与志同道合的伙伴一起突破技术边界，创造无限可能
             </p>
           </ScrollReveal>
@@ -253,7 +253,7 @@ const MobileHome = () => {
         
         <ScrollReveal delay={200}>
           <p className="mobile-about-description">
-            重邮-京东未来智能视觉联合研究实践基地汇聚机器人技术与智能视觉精英，
+            未来智视科创团队汇聚机器人技术与智能视觉精英，
             以技术创新为驱动，培养面向未来的科技人才。
           </p>
         </ScrollReveal>

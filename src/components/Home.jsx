@@ -124,7 +124,7 @@ const Home = () => {
             <div className="hero-tagline">🚀 机器人技术与太空探索</div>
             <h1 className="hero-title">探索未知<br/>成就未来</h1>
             <p className="hero-description">
-              加入重邮-京东未来智能视觉联合研究实践基地<br/>
+              加入未来智视科创团队<br/>
               与志同道合的伙伴一起<br/>
               突破技术边界，创造无限可能
             </p>
@@ -146,7 +146,7 @@ const Home = () => {
       {/* 组织介绍 */}
       <section className="about-section">
         <h2>关于我们</h2>
-        <p>重邮-京东未来智能视觉联合研究实践基地汇聚机器人技术与智能视觉精英，以技术创新为驱动，培养面向未来的科技人才。</p>
+        <p>未来智视科创团队汇聚机器人技术与智能视觉精英，以技术创新为驱动，培养面向未来的科技人才。</p>
         <div className="team-gallery">
           <img src="/photo/b1.jpg" alt="团队协作" className="team-photo"/>
             <img src="/photo/b2.jpg" alt="技术研讨" className="team-photo"/>
