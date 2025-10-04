@@ -140,7 +140,7 @@ const CCompiler = (props) => {
             symbolTable.variables[varName] = parseFloat(value);
           } else if (value.match(/^".*"$/)) {
             symbolTable.variables[varName] = value.slice(1, -1);
-          } else if (value.match(/^\'.\'$/)) {
+          } else if (value.match(/^'.'$/)) {
             symbolTable.variables[varName] = value.slice(1, -1);
           } else {
             try {
@@ -342,10 +342,27 @@ const CCompiler = (props) => {
       while (i < formatString.length) {
         if (formatString[i] === '%' && i + 1 < formatString.length) {
           i++;
+          
+          // 解析精度格式（如 %.2f 中的 .2）
+          let precision = 6; // 默认精度
+          let precisionMatch = false;
+          
+          // 检查是否有精度指定
+          if (formatString[i] === '.' && i + 1 < formatString.length && /\d/.test(formatString[i + 1])) {
+            i++;
+            let precisionStr = '';
+            while (i < formatString.length && /\d/.test(formatString[i])) {
+              precisionStr += formatString[i];
+              i++;
+            }
+            precision = parseInt(precisionStr) || 6;
+            precisionMatch = true;
+          }
+          
           const formatSpecifier = formatString[i];
           
           if (argIndex >= args.length) {
-            formattedOutput += '%' + formatSpecifier;
+            formattedOutput += '%' + (precisionMatch ? '.' + precision : '') + formatSpecifier;
             i++;
             continue;
           }
@@ -371,7 +388,8 @@ const CCompiler = (props) => {
               formattedOutput += parseInt(argValue) || 0;
               break;
             case 'f': // 浮点数
-              formattedOutput += parseFloat(argValue).toFixed(6).replace(/\.?0+$/g, '');
+              // 使用指定的精度格式化浮点数
+              formattedOutput += parseFloat(argValue).toFixed(precision);
               break;
             case 's': // 字符串
               formattedOutput += argValue !== null && argValue !== undefined ? argValue.toString() : '(null)';
@@ -384,7 +402,7 @@ const CCompiler = (props) => {
               argIndex--; // 不消耗参数
               break;
             default:
-              formattedOutput += '%' + formatSpecifier;
+              formattedOutput += '%' + (precisionMatch ? '.' + precision : '') + formatSpecifier;
               break;
           }
           i++;
@@ -509,7 +527,7 @@ const CCompiler = (props) => {
       parseFunctions(code, symbolTable);
       
       // 找到main函数体
-      const mainStartMatch = code.match(/int\s+main\s*\(\s*\)\s*\{/);
+      const mainStartMatch = code.match(/int\s+main\s*\(\s*(?:void)?\s*\)\s*\{/);
       const mainEndMatch = code.lastIndexOf('}');
       
       if (mainStartMatch && mainEndMatch !== -1) {
@@ -667,8 +685,7 @@ const CCompiler = (props) => {
             }
             
             // 在输出中显示输入提示和使用的输入值
-            simulationOutput += `[输入]: ${inputValues.join(', ')}
-`;
+            simulationOutput += `[输入]: ${inputValues.join(', ')}\n`;
             continue;
           }
           
@@ -1114,9 +1131,9 @@ const CCompiler = (props) => {
     const errors = [];
     
     // 检查main函数
-    if (!code.includes('int main()')) {
-      errors.push('缺少int main()函数声明');
-    }
+      if (!code.match(/int\s+main\s*\(\s*(?:void)?\s*\)/)) {
+        errors.push('缺少main函数声明（应为int main()或int main(void)）');
+      }
     
     // 检查大括号匹配
     const openBraces = (code.match(/\{/g) || []).length;
@@ -1414,49 +1431,49 @@ const CCompiler = (props) => {
             </div>
           </div>
             
-            {/* 示例菜单 */}
-            {showExampleMenu && (
-              <div className="example-menu">
-                {examples.map(example => (
-                  <div 
-                    key={example.id} 
-                    className="example-menu-item"
-                    onClick={() => {
-                      loadSpecificExample(example.id);
-                      setShowExampleMenu(false);
-                    }}
-                  >
-                    {example.name}
-                  </div>
-                ))}
-              </div>
-            )}
+          {/* 示例菜单 */}
+          {showExampleMenu && (
+            <div className="example-menu">
+              {examples.map(example => (
+                <div 
+                  key={example.id} 
+                  className="example-menu-item"
+                  onClick={() => {
+                    loadSpecificExample(example.id);
+                    setShowExampleMenu(false);
+                  }}
+                >
+                  {example.name}
+                </div>
+              ))}
+            </div>
+          )}
             
-            <Editor
-              height="400px"
-              language="c"
-              value={code}
-              onChange={(value) => setCode(value || '')}
-              theme={theme}
-              onMount={handleEditorDidMount}
-              options={{
-                selectOnLineNumbers: true,
-                roundedSelection: false,
-                readOnly: false,
-                cursorStyle: 'line',
-                automaticLayout: true,
-                minimap: {
-                  enabled: true
-                },
-                scrollBeyondLastLine: false,
-                fontSize: 14,
-                lineNumbers: 'on',
-                glyphMargin: true,
-                folding: true,
-                lineDecorationsWidth: 10,
-                lineNumbersMinChars: 3,
-                wordWrap: 'on'
-              }}
+          <Editor
+            height="400px"
+            language="c"
+            value={code}
+            onChange={(value) => setCode(value || '')}
+            theme={theme}
+            onMount={handleEditorDidMount}
+            options={{
+              selectOnLineNumbers: true,
+              roundedSelection: false,
+              readOnly: false,
+              cursorStyle: 'line',
+              automaticLayout: true,
+              minimap: {
+                enabled: true
+              },
+              scrollBeyondLastLine: false,
+              fontSize: 14,
+              lineNumbers: 'on',
+              glyphMargin: true,
+              folding: true,
+              lineDecorationsWidth: 10,
+              lineNumbersMinChars: 3,
+              wordWrap: 'on'
+            }}
           />
           
           {/* 用户输入框 */}
