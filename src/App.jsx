@@ -7,6 +7,7 @@ import TrainingScheduleV2 from './components/TrainingSchedule/TrainingScheduleV2
 import TrainingMaterials from './components/TrainingMaterials/TrainingMaterials'
 import Contact from './components/Contact/Contact'
 import ApplicationStats from './components/Recruitment/ApplicationStats'
+import CCompiler from './components/TrainingMaterials/CCompiler'
 import './App.css'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="materials" element={<TrainingMaterials />} />
           <Route path="contact" element={<Contact />} />
           <Route path="stats" element={<ApplicationStats />} />
+          <Route path="compiler" element={<CCompiler />} />
         </Route>
       </Routes>
     </Router>

@@ -1,0 +1,661 @@
+/* C语言在线编译器容器样式 */
+.c-compiler-container {
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  color: #1e293b;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 编译器头部样式 */
+.compiler-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 1.5rem;
+}
+
+.compiler-header h2 {
+  font-size: 2.25rem;
+  margin: 0 0 0.5rem 0;
+  background: linear-gradient(90deg, #1e40af 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.compiler-header p {
+  font-size: 1.1rem;
+  color: #475569;
+  margin: 0;
+}
+
+/* 编译器导航区域样式 */
+.compiler-navigation {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* 返回培训资料按钮样式 */
+.back-to-materials-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 12px 24px;
+  transition: all 0.3s;
+}
+
+.back-to-materials-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-2px);
+}
+
+.back-to-materials-btn:active {
+  transform: translateY(0);
+}
+
+/* 编译器内容区域样式 */
+.compiler-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* 编辑器区域样式 */
+.editor-section {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.editor-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #1e293b;
+}
+
+.editor-controls {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.control-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.run-btn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.run-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.run-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.clear-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+.clear-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.example-btn {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+}
+
+.example-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* 代码编辑器样式 - Monaco Editor */
+.monaco-editor-container {
+  width: 100%;
+  height: 400px;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+/* 深色模式支持 */
+.c-compiler-container.dark-mode {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #f1f5f9;
+}
+
+.c-compiler-container.dark-mode .editor-section {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.c-compiler-container.dark-mode .editor-header {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+.c-compiler-container.dark-mode .editor-header h3 {
+  color: #f1f5f9;
+}
+
+.c-compiler-container.dark-mode .output-section {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.c-compiler-container.dark-mode .output-section h3 {
+  color: #f1f5f9;
+}
+
+.c-compiler-container.dark-mode .output-area {
+  background: #0f172a;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+.c-compiler-container.dark-mode .error-message {
+  background: #1e1b4b;
+  border-color: #4f46e5;
+}
+
+/* 新功能按钮样式 */
+.copy-btn {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+}
+
+.copy-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.line-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+.line-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.theme-btn {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+}
+
+.theme-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+/* 示例菜单样式 */
+.example-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 5px;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 180px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.example-menu-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #1e293b;
+  border-bottom: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.example-menu-item:last-child {
+  border-bottom: none;
+}
+
+.example-menu-item:hover {
+  background-color: #f8fafc;
+  padding-left: 20px;
+}
+
+/* 清空输入按钮样式 */
+.clear-input-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 8px 16px;
+  margin-left: 10px;
+  transition: all 0.3s ease;
+}
+
+.clear-input-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+/* 深色模式下的按钮和菜单样式 */
+.dark-mode .example-menu {
+  background-color: #334155;
+  border-color: #475569;
+}
+
+.dark-mode .example-menu-item {
+  color: #f1f5f9;
+  border-color: #475569;
+}
+
+.dark-mode .example-menu-item:hover {
+  background-color: #475569;
+}
+
+.dark-mode .clear-input-btn {
+  background: linear-gradient(135deg, #7f1d1d 0%, #6b21a8 100%);
+}
+
+/* 优化Monaco Editor的样式集成 */
+.monaco-editor {
+  border-radius: 0 0 12px 12px !important;
+}
+
+/* 提高界面整体流畅度 */
+.editor-section,
+.output-section {
+  transition: all 0.3s ease;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .c-compiler-container {
+    padding: 1rem;
+  }
+  
+  .editor-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .editor-controls {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .control-btn {
+    flex: 1;
+    min-width: 120px;
+  }
+
+/* 输出区域样式 */
+.output-section {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.output-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  color: #1e293b;
+}
+
+.output-area {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  min-height: 150px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #1e293b;
+  transition: all 0.3s ease;
+}
+
+.output-area:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.output-area pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+.output-area.error {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.03);
+}
+
+/* 加载指示器样式 */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  color: #475569;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(59, 130, 246, 0.3);
+  border-top: 3px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 错误信息样式 */
+.error-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  color: #ef4444;
+  font-size: 0.875rem;
+}
+
+/* 编译器底部样式 */
+.compiler-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.usage-tips {
+  color: #64748b;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.usage-tips strong {
+  color: #334155;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .c-compiler-container {
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .compiler-header h2 {
+    font-size: 1.75rem;
+  }
+
+  .editor-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .editor-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .control-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .code-editor {
+    min-height: 200px;
+    font-size: 0.875rem;
+  }
+
+  .output-area {
+    font-size: 0.875rem;
+  }
+}
+
+/* 暗色主题优化已禁用 - 当前使用浅色主题 */
+
+/* 用户输入区域样式 */
+.user-input-section {
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.user-input-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #334155;
+  font-size: 0.875rem;
+}
+
+.user-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  background: #ffffff;
+  color: #1e293b;
+  transition: all 0.3s ease;
+}
+
+.user-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.user-input::placeholder {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.input-hint {
+  margin-top: 0.5rem;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+/* 响应式设计 - 用户输入区域 */
+@media (max-width: 768px) {
+  .user-input-section {
+    padding: 1rem;
+  }
+  
+  .user-input {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .input-hint {
+    font-size: 0.7rem;
+  }
+}
+
+/* 示例菜单样式 */
+.example-menu {
+  position: absolute;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 180px;
+  max-height: 300px;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+.example-menu-item {
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  color: #334155;
+  transition: all 0.2s ease;
+}
+
+.example-menu-item:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.example-menu-item:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+.example-menu-item:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+/* 代码高亮样式 - 简单的语法高亮效果 */
+.code-editor {
+  background: #ffffff;
+  color: #1e293b;
+}
+
+/* 优化滚动条样式 */
+.output-area::-webkit-scrollbar,
+.code-editor::-webkit-scrollbar,
+.example-menu::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.output-area::-webkit-scrollbar-track,
+.code-editor::-webkit-scrollbar-track,
+.example-menu::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.output-area::-webkit-scrollbar-thumb,
+.code-editor::-webkit-scrollbar-thumb,
+.example-menu::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.output-area::-webkit-scrollbar-thumb:hover,
+.code-editor::-webkit-scrollbar-thumb:hover,
+.example-menu::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* 执行结果中的特殊文本样式 */
+.output-area pre strong {
+  color: #059669;
+  font-weight: 600;
+}
+
+.output-area pre em {
+  color: #d97706;
+  font-style: italic;
+}
+
+.output-area pre .error-text {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+/* 确保示例菜单正确显示 */
+.example-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 5px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  min-width: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.example-menu-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+.example-menu-item:last-child {
+  border-bottom: none;
+}
+
+.example-menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+/* 深色模式下的示例菜单样式 */
+.c-compiler-container.dark .example-menu {
+  background-color: #333;
+  border-color: #555;
+}
+
+.c-compiler-container.dark .example-menu-item {
+  color: #ddd;
+  border-bottom-color: #444;
+}
+
+.c-compiler-container.dark .example-menu-item:hover {
+  background-color: #444;
+}

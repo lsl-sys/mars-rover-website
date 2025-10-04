@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './TrainingMaterials.css';
+import CCompiler from './CCompiler';
 
 // 培训资料数据 - 按照电控、机械、硬件分类
 const trainingMaterials = [
@@ -18,8 +19,8 @@ const trainingMaterials = [
         subItems: [
           { name: '嵌入式系统概述' },
           { name: 'MCU选型与介绍' },
-          { name: '嵌入式C语言编程' },
-          { name: '嵌入式C++编程' }
+              { name: '嵌入式C语言编程', hasCompiler: true },
+              { name: '嵌入式C++编程' }
         ]
       },
       {
@@ -219,6 +220,7 @@ const TrainingMaterials = () => {
   const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 }); // 图片位置
   const [isDragging, setIsDragging] = useState(false); // 是否正在拖动
   const [startDragPosition, setStartDragPosition] = useState({ x: 0, y: 0 }); // 拖动开始时的鼠标位置
+  const [showCompiler, setShowCompiler] = useState(false); // 用于控制是否显示C编译器
 
   // 处理分类点击
   const handleCategoryClick = (categoryId) => {
@@ -305,26 +307,36 @@ const TrainingMaterials = () => {
         {subItems.map((item, index) => (
           <li key={index}>
             {item.isPdf ? (
-              <div className="pdf-link">
-                📄 {item.name}
-                {item.imagePath && (
-                  <div className="pdf-image-container">
-                    <img 
-                      src={item.imagePath} 
-                      alt={item.name} 
-                      className="pdf-preview-image"
-                      loading="lazy"
-                      onClick={() => {
-                        setExpandedImage(item.imagePath);
-                        resetImageScale(); // 点击图片时重置缩放比例和位置
-                      }}
-                      style={{ cursor: 'pointer' }}
-                    />
-                    <p className="image-hint">点击图片可放大查看，使用鼠标滚轮可缩放，鼠标左键可拖动</p>
-                  </div>
-                )}
-              </div>
-            ) : item.subItems ? (
+            <div className="pdf-link">
+              📄 {item.name}
+              {item.imagePath && (
+                <div className="pdf-image-container">
+                  <img 
+                    src={item.imagePath} 
+                    alt={item.name} 
+                    className="pdf-preview-image"
+                    loading="lazy"
+                    onClick={() => {
+                      setExpandedImage(item.imagePath);
+                      resetImageScale(); // 点击图片时重置缩放比例和位置
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  <p className="image-hint">点击图片可放大查看，使用鼠标滚轮可缩放，鼠标左键可拖动</p>
+                </div>
+              )}
+            </div>
+          ) : item.hasCompiler ? (
+            <div className="compiler-link">
+              💻 {item.name}
+              <button 
+                className="open-compiler-btn"
+                onClick={() => setShowCompiler(true)}
+              >
+                打开编译器
+              </button>
+            </div>
+          ) : item.subItems ? (
               <div>
                 <div 
                   className="sub-item-title"
@@ -490,6 +502,21 @@ const TrainingMaterials = () => {
       
       {/* 图片放大预览模态框 */}
       <ImageModal />
+      
+      {/* C语言编译器 */}
+      {showCompiler && (
+          <div className="compiler-modal">
+            <div className="compiler-modal-content">
+              <button 
+                className="close-compiler-btn"
+                onClick={() => setShowCompiler(false)}
+              >
+                ×
+              </button>
+              <CCompiler isEmbedded={true} />
+            </div>
+          </div>
+        )}
     </div>
   );
 };

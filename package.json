@@ -12,6 +12,7 @@
     "deploy:only": "gh-pages -d dist"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
     "axios": "^1.11.0",
     "date-fns": "^4.1.0",
     "formik": "^2.4.6",
