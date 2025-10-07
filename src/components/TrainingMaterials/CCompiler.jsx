@@ -96,408 +96,234 @@ const CCompiler = (props) => {
   const toggleTheme = () => {
     const newTheme = theme === 'vs-dark' ? 'vs-light' : 'vs-dark';
     setTheme(newTheme);
-    
-    // 更新编译器容器的主题类
-    const container = document.querySelector('.c-compiler-container');
-    if (container) {
-      if (newTheme === 'vs-dark') {
-        container.classList.add('dark');
-        container.classList.remove('light');
-      } else {
-        container.classList.add('light');
-        container.classList.remove('dark');
-      }
-    }
   };
 
-  // 符号表 - 用于存储变量和函数
-  const createSymbolTable = () => ({
-    variables: {},
-    functions: {}
-  });
-
-  // 解析变量声明和赋值
-  const parseVariables = (code, symbolTable) => {
-    // 提取所有变量声明和赋值
-    const varDeclarations = code.match(/(?:int|float|double|char|long|short|unsigned|const)\s+\w+(?:\s*\[\d*\])?(?:\s*=\s*[^;]+)?\s*;/g) || [];
-    
-    varDeclarations.forEach(declaration => {
-      // 提取类型和变量名
-      const typeMatch = declaration.match(/^(\w+)\s+(\w+)(?:\s*\[\d*\])?/);
-      if (typeMatch) {
-        const type = typeMatch[1];
-        const varName = typeMatch[2];
-        
-        // 检查是否有初始值
-        const valueMatch = declaration.match(/=\s*([^;]+)/);
-        if (valueMatch) {
-          let value = valueMatch[1].trim();
+  // 评估表达式
+  const evaluateExpression = (expression, symbolTable) => {
+    try {
+      // 简单的表达式评估
+      // 这只是一个简化版，实际的C语言表达式评估会复杂得多
+      
+      // 处理比较运算符
+      if (expression.includes('==')) {
+        const [left, right] = expression.split('==').map(exp => evaluateExpression(exp.trim(), symbolTable));
+        return left === right ? 1 : 0;
+      } else if (expression.includes('!=')) {
+        const [left, right] = expression.split('!=').map(exp => evaluateExpression(exp.trim(), symbolTable));
+        return left !== right ? 1 : 0;
+      } else if (expression.includes('<=')) {
+        const [left, right] = expression.split('<=').map(exp => evaluateExpression(exp.trim(), symbolTable));
+        return left <= right ? 1 : 0;
+      } else if (expression.includes('>=')) {
+        const [left, right] = expression.split('>=').map(exp => evaluateExpression(exp.trim(), symbolTable));
+        return left >= right ? 1 : 0;
+      } else if (expression.includes('<')) {
+        const [left, right] = expression.split('<').map(exp => evaluateExpression(exp.trim(), symbolTable));
+        return left < right ? 1 : 0;
+      } else if (expression.includes('>')) {
+        const [left, right] = expression.split('>').map(exp => evaluateExpression(exp.trim(), symbolTable));
+        return left > right ? 1 : 0;
+      }
+      
+      // 处理算术运算符
+      if (expression.includes('+')) {
+        const [left, right] = expression.split('+').map(exp => evaluateExpression(exp.trim(), symbolTable));
+        return left + right;
+      } else if (expression.includes('-')) {
+        const [left, right] = expression.split('-').map(exp => evaluateExpression(exp.trim(), symbolTable));
+        return left - right;
+      } else if (expression.includes('*')) {
+        const [left, right] = expression.split('*').map(exp => evaluateExpression(exp.trim(), symbolTable));
+        return left * right;
+      } else if (expression.includes('/')) {
+        const [left, right] = expression.split('/').map(exp => evaluateExpression(exp.trim(), symbolTable));
+        return right !== 0 ? Math.floor(left / right) : 0; // 整数除法
+      } else if (expression.match(/^\d+$/)) {
+        return parseInt(expression, 10);
+      } else if (expression.match(/^\d+\.\d+$/)) {
+        return parseFloat(expression);
+      } else if (expression.startsWith('"') && expression.endsWith('"')) {
+        return expression.substring(1, expression.length - 1);
+      } else if (symbolTable.variables[expression]) {
+        return symbolTable.variables[expression];
+      } else if (expression.includes('(') && expression.includes(')')) {
+        // 简单处理函数调用
+        const funcMatch = expression.match(/(\w+)\s*\((.*)\)/);
+        if (funcMatch) {
+          const [, funcName, argsStr] = funcMatch;
           
-          // 处理简单的数值和字符串
-          if (value.match(/^\d+$/)) {
-            symbolTable.variables[varName] = parseInt(value);
-          } else if (value.match(/^\d*\.\d+$/)) {
-            symbolTable.variables[varName] = parseFloat(value);
-          } else if (value.match(/^".*"$/)) {
-            symbolTable.variables[varName] = value.slice(1, -1);
-          } else if (value.match(/^'.'$/)) {
-            symbolTable.variables[varName] = value.slice(1, -1);
-          } else {
-            try {
-              // 处理表达式或变量引用
-              symbolTable.variables[varName] = evaluateExpression(value, symbolTable);
-            } catch (e) {
-              // 设置默认值
-              switch(type) {
-                case 'int':
-                case 'long':
-                case 'short':
-                case 'unsigned':
-                  symbolTable.variables[varName] = 0;
-                  break;
-                case 'float':
-                case 'double':
-                  symbolTable.variables[varName] = 0.0;
-                  break;
-                case 'char':
-                  symbolTable.variables[varName] = '\0';
-                  break;
-                default:
-                  symbolTable.variables[varName] = null;
+          // 处理内置函数
+          if (funcName === 'rand') {
+            return Math.floor(Math.random() * 32768);
+          } else if (funcName === 'abs') {
+            const arg = evaluateExpression(argsStr.trim(), symbolTable);
+            return Math.abs(arg);
+          } else if (symbolTable.functions[funcName]) {
+            // 处理用户定义的函数
+            const func = symbolTable.functions[funcName];
+            const args = argsStr ? argsStr.split(',').map(arg => arg.trim()).filter(arg => arg !== '') : [];
+            
+            // 创建函数调用的临时符号表
+            const funcSymbolTable = {
+              ...symbolTable,
+              variables: { ...symbolTable.variables }
+            };
+            
+            // 处理函数参数
+            if (func.params && args.length === func.params.length) {
+              for (let j = 0; j < args.length; j++) {
+                const paramValue = evaluateExpression(args[j], symbolTable);
+                funcSymbolTable.variables[func.params[j]] = paramValue;
               }
             }
-          }
-        } else {
-          // 设置默认值
-          switch(type) {
-            case 'int':
-            case 'long':
-            case 'short':
-            case 'unsigned':
-              symbolTable.variables[varName] = 0;
-              break;
-            case 'float':
-            case 'double':
-              symbolTable.variables[varName] = 0.0;
-              break;
-            case 'char':
-              symbolTable.variables[varName] = '\0';
-              break;
-            default:
-              symbolTable.variables[varName] = null;
+            
+            // 执行函数体
+            simulateExecution(func.body + '\nint main() {}', funcSymbolTable);
+            return funcSymbolTable.variables['return'] || 0;
           }
         }
       }
-    });
-  };
-
-  // 解析函数定义
-  const parseFunctions = (code, symbolTable) => {
-    const functionRegex = /^(\w+)\s+(\w+)\s*\(([^)]*)\)\s*\{([\s\S]*?)\}\s*$/gm;
-    let match;
-    
-    while ((match = functionRegex.exec(code)) !== null) {
-      const returnType = match[1];
-      const functionName = match[2];
-      const params = match[3].split(',').map(p => p.trim()).filter(p => p);
-      const functionBody = match[4];
       
-      symbolTable.functions[functionName] = {
-        returnType,
-        params,
-        body: functionBody
-      };
-    }
-  };
-
-  // 评估表达式（更完善的版本，支持更多操作符和函数调用）
-  const evaluateExpression = (expression, symbolTable) => {
-    // 去除表达式中的空格
-    let expr = expression.replace(/\s+/g, '');
-    
-    // 处理变量引用
-    expr = expr.replace(/\b([a-zA-Z_][a-zA-Z0-9_]*)\b/g, (match) => {
-      if (symbolTable.variables[match] !== undefined) {
-        return symbolTable.variables[match];
-      }
-      return match;
-    });
-    
-    // 处理函数调用（更完善的版本）
-    const funcCall = expr.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\((.*)\)$/);
-    if (funcCall) {
-      const funcName = funcCall[1];
-      const args = funcCall[2].split(',').map(arg => arg.trim()).filter(arg => arg);
-      
-      // 处理一些内置函数
-      if (funcName === 'abs' && args.length === 1) {
-        return Math.abs(evaluateExpression(args[0], symbolTable));
-      } else if (funcName === 'sqrt' && args.length === 1) {
-        return Math.sqrt(evaluateExpression(args[0], symbolTable));
-      } else if (funcName === 'pow' && args.length === 2) {
-        return Math.pow(
-          evaluateExpression(args[0], symbolTable),
-          evaluateExpression(args[1], symbolTable)
-        );
-      } else if (funcName === 'max' && args.length === 2) {
-        return Math.max(
-          evaluateExpression(args[0], symbolTable),
-          evaluateExpression(args[1], symbolTable)
-        );
-      } else if (funcName === 'min' && args.length === 2) {
-        return Math.min(
-          evaluateExpression(args[0], symbolTable),
-          evaluateExpression(args[1], symbolTable)
-        );
-      } else if (funcName === 'rand') {
-        return Math.floor(Math.random() * 32767);
-      } else if (funcName === 'srand' && args.length === 1) {
-        Math.seedrandom(evaluateExpression(args[0], symbolTable));
-        return 0;
-      } else if (funcName === 'fibonacci' && args.length === 1) {
-        const fib = (n) => n <= 1 ? n : fib(n-1) + fib(n-2);
-        return fib(evaluateExpression(args[0], symbolTable));
-      }
-      
-      // 检查用户定义的函数
-      if (symbolTable.functions[funcName]) {
-        // 创建一个新的作用域
-        const localSymbolTable = {
-          variables: { ...symbolTable.variables },
-          functions: { ...symbolTable.functions }
-        };
-        
-        // 将参数赋值给局部变量
-        const func = symbolTable.functions[funcName];
-        args.forEach((arg, index) => {
-          if (index < func.params.length) {
-            const paramName = func.params[index].split(/\s+/).pop();
-            localSymbolTable.variables[paramName] = evaluateExpression(arg, symbolTable);
-          }
-        });
-        
-        // 执行函数体（更完善的版本）
-        try {
-          const lines = func.body.split(';');
-          let result = 0;
-          
-          for (let line of lines) {
-            line = line.trim();
-            if (!line) continue;
-            
-            // 处理return语句
-            if (line.startsWith('return')) {
-              const returnExpr = line.substring(6).trim();
-              result = evaluateExpression(returnExpr, localSymbolTable);
-              break;
-            }
-            
-            // 处理其他语句
-            simulateExecution([line], localSymbolTable, [], false);
-          }
-          
-          return result;
-        } catch (e) {
-          throw new Error(`函数 ${funcName} 执行错误: ${e.message}`);
-        }
-      }
-    }
-    
-    // 处理基本算术表达式
-    try {
-      // 安全地评估数学表达式
-      // 这里使用了更严格的过滤，类似于LeetCode的处理方式
-      const sanitizedExpr = expr.replace(/[^0-9+\-*\/().]/g, '');
-      
-      // 防止除零错误
-      if (sanitizedExpr.includes('/0') || sanitizedExpr.includes('/ 0')) {
-        throw new Error('除零错误');
-      }
-      
-      // 使用Function构造器来计算表达式
-      const calculate = new Function(`return ${sanitizedExpr};`);
-      return calculate();
+      return 0;
     } catch (e) {
-      throw new Error(`表达式计算错误: ${expression}`);
+      console.error('表达式评估错误:', e);
+      return 0;
     }
   };
 
-  // 处理printf函数调用
+  // 处理printf函数
   const processPrintf = (formatString, args, symbolTable) => {
-    let formattedOutput = '';
+    let result = '';
     let argIndex = 0;
+    let i = 0;
     
     try {
-      // 处理转义字符
-      const unescapeString = (str) => {
-        return str.replace(/\\n/g, '\n')
-                 .replace(/\\t/g, '\t')
-                 .replace(/\\r/g, '\r')
-                 .replace(/\\\\/g, '\\')
-                 .replace(/\\"/g, '"');
-      };
-      
-      // 处理格式化字符串
-      let i = 0;
       while (i < formatString.length) {
         if (formatString[i] === '%' && i + 1 < formatString.length) {
           i++;
+          let formatSpecifier = formatString[i];
+          let precision = 0;
+          let width = 0;
           
-          // 解析精度格式（如 %.2f 中的 .2）
-          let precision = 6; // 默认精度
-          let precisionMatch = false;
-          
-          // 检查是否有精度指定
-          if (formatString[i] === '.' && i + 1 < formatString.length && /\d/.test(formatString[i + 1])) {
+          // 处理宽度和精度
+          if (formatString[i] >= '0' && formatString[i] <= '9') {
+            width = parseInt(formatString[i]);
             i++;
-            let precisionStr = '';
-            while (i < formatString.length && /\d/.test(formatString[i])) {
-              precisionStr += formatString[i];
+          }
+          
+          if (formatString[i] === '.') {
+            i++;
+            if (formatString[i] >= '0' && formatString[i] <= '9') {
+              precision = parseInt(formatString[i]);
               i++;
             }
-            precision = parseInt(precisionStr) || 6;
-            precisionMatch = true;
           }
           
-          const formatSpecifier = formatString[i];
-          
-          if (argIndex >= args.length) {
-            formattedOutput += '%' + (precisionMatch ? '.' + precision : '') + formatSpecifier;
-            i++;
-            continue;
+          // 更新格式说明符
+          if (i < formatString.length && !['%', 'd', 'i', 'o', 'u', 'x', 'X', 'f', 'e', 'E', 'g', 'G', 'c', 's', 'p', 'n'].includes(formatSpecifier)) {
+            formatSpecifier = formatString[i];
           }
           
-          const arg = args[argIndex];
-          argIndex++;
-          
-          // 处理参数值
-          let argValue;
-          if (symbolTable.variables[arg] !== undefined) {
-            argValue = symbolTable.variables[arg];
-          } else {
-            try {
-              argValue = evaluateExpression(arg, symbolTable);
-            } catch (e) {
-              argValue = arg; // 如果无法评估，就使用原始值
-            }
-          }
-          
-          // 根据格式说明符格式化输出
-          switch (formatSpecifier) {
-            case 'd': // 整数
-              formattedOutput += parseInt(argValue) || 0;
-              break;
-            case 'f': // 浮点数
-              // 使用指定的精度格式化浮点数
-              formattedOutput += parseFloat(argValue).toFixed(precision);
-              break;
-            case 's': // 字符串
-              formattedOutput += argValue !== null && argValue !== undefined ? argValue.toString() : '(null)';
-              break;
-            case 'c': // 字符
-              formattedOutput += (typeof argValue === 'string' && argValue.length > 0) ? argValue.charAt(0) : String.fromCharCode(argValue || 0);
-              break;
-            case '%': // 百分号
-              formattedOutput += '%';
-              argIndex--; // 不消耗参数
-              break;
-            default:
-              formattedOutput += '%' + (precisionMatch ? '.' + precision : '') + formatSpecifier;
-              break;
-          }
-          i++;
-        } else {
-          formattedOutput += formatString[i];
-          i++;
-        }
-      }
-    } catch (e) {
-      // 如果处理失败，返回错误信息
-      formattedOutput = '[PRINTF ERROR]';
-    }
-    
-    return formattedOutput;
-  };
-
-  // 处理scanf函数调用
-  const processScanf = (formatString, args, symbolTable, userInputValue) => {
-    try {
-      // 规范化用户输入
-      const normalizeInput = (input) => {
-        // 移除首尾空格
-        let normalized = input.trim();
-        
-        // 对于数值类型，移除多余的空格
-        normalized = normalized.replace(/\s+/g, ' ');
-        
-        return normalized;
-      };
-      
-      let inputValues = normalizeInput(userInputValue).split(/\s+/).filter(val => val !== '');
-      
-      // 处理简单的格式字符串和参数
-      let argIndex = 0;
-      
-      // 处理格式字符串中的每个字符
-      let i = 0;
-      while (i < formatString.length) {
-        // 跳过转义字符
-        if (formatString[i] === '\\' && i + 1 < formatString.length) {
-          i += 2;
-          continue;
-        }
-        
-        // 检查格式说明符
-        if (formatString[i] === '%' && i + 1 < formatString.length) {
-          i++;
-          const type = formatString[i];
-          
-          if (argIndex >= args.length) {
-            i++;
-            continue;
-          }
-          
-          // 获取参数名（去掉&符号）
-          const argName = args[argIndex].replace(/&/g, '');
-          
-          if (argIndex < inputValues.length) {
-            const input = inputValues[argIndex];
+          // 处理格式说明符
+          if (argIndex < args.length) {
+            const argValue = evaluateExpression(args[argIndex], symbolTable);
+            argIndex++;
             
-            // 根据类型转换输入值
-            switch (type) {
-              case 'd': // 整数
-                symbolTable.variables[argName] = parseInt(input) || 0;
-                break;
-              case 'f': // 浮点数
-                symbolTable.variables[argName] = parseFloat(input) || 0.0;
-                break;
-              case 'c': // 字符
-                symbolTable.variables[argName] = input.charAt(0) || '\\0';
-                break;
-              case 's': // 字符串
-                symbolTable.variables[argName] = input;
-                break;
-              default:
-                // 未知类型，存储原始值
-                symbolTable.variables[argName] = input;
-            }
-          } else {
-            // 如果没有足够的输入值，设置默认值
-            switch (type) {
+            switch (formatSpecifier) {
               case 'd':
-                symbolTable.variables[argName] = 0;
+              case 'i':
+                result += Math.floor(Number(argValue));
                 break;
               case 'f':
-                symbolTable.variables[argName] = 0.0;
+                if (precision > 0) {
+                  result += Number(argValue).toFixed(precision);
+                } else {
+                  result += Number(argValue).toFixed(6);
+                }
                 break;
               case 'c':
-                symbolTable.variables[argName] = '\\0';
+                result += String.fromCharCode(Number(argValue));
                 break;
               case 's':
-                symbolTable.variables[argName] = '';
+                result += argValue || '';
+                break;
+              case '%':
+                result += '%';
                 break;
               default:
-                symbolTable.variables[argName] = '';
+                result += `%${formatSpecifier}`;
+            }
+          } else {
+            // 缺少参数
+            result += `%${formatSpecifier}`;
+          }
+        } else if (formatString[i] === '\\' && i + 1 < formatString.length) {
+          i++;
+          switch (formatString[i]) {
+            case 'n':
+              result += '\n';
+              break;
+            case 't':
+              result += '\t';
+              break;
+            case 'r':
+              result += '\r';
+              break;
+            case '"':
+              result += '"';
+              break;
+            case '\\':
+              result += '\\';
+              break;
+            default:
+              result += `\\${formatString[i]}`;
+          }
+        } else {
+          result += formatString[i];
+        }
+        i++;
+      }
+    } catch (e) {
+      console.error('处理printf时出错:', e);
+      result = '[printf错误]';
+    }
+    
+    return result;
+  };
+
+  // 处理scanf函数
+  const processScanf = (formatString, args, symbolTable) => {
+    try {
+      let i = 0;
+      let argIndex = 0;
+      let inputIndex = 0;
+      const inputs = userInput.split(',').map(input => input.trim());
+      
+      while (i < formatString.length && argIndex < args.length) {
+        if (formatString[i] === '%' && i + 1 < formatString.length) {
+          i++;
+          const formatSpecifier = formatString[i];
+          
+          if (argIndex < inputs.length && inputs[argIndex] !== '') {
+            const inputValue = inputs[argIndex];
+            
+            switch (formatSpecifier) {
+              case 'd':
+              case 'i':
+                symbolTable.variables[args[argIndex]] = parseInt(inputValue, 10);
+                break;
+              case 'f':
+                symbolTable.variables[args[argIndex]] = parseFloat(inputValue);
+                break;
+              case 'c':
+                symbolTable.variables[args[argIndex]] = inputValue.charAt(0);
+                break;
+              case 's':
+                symbolTable.variables[args[argIndex]] = inputValue;
+                break;
+              default:
+                // 不支持的格式说明符，忽略
+                break;
             }
           }
           
@@ -516,538 +342,339 @@ const CCompiler = (props) => {
 
   // 模拟执行代码
   const simulateExecution = (code, symbolTable) => {
-    try {
-      // 记录执行时间和内存使用（模拟）
-      const startTime = performance.now();
-      let memoryUsage = 0;
-      let simulationOutput = '';
+    // 记录执行时间和内存使用（模拟）
+    const startTime = performance.now();
+    let memoryUsage = 0;
+    let simulationOutput = '';
+    
+    // 解析变量和函数
+    parseVariables(code, symbolTable);
+    parseFunctions(code, symbolTable);
+    
+    // 找到main函数体
+    const mainStartMatch = code.match(/int\s+main\s*\(\s*(?:void)?\s*\)\s*\{/);
+    const mainEndMatch = code.lastIndexOf('}');
+    
+    if (mainStartMatch && mainEndMatch !== -1) {
+      const mainBody = code.substring(mainStartMatch.index + mainStartMatch[0].length, mainEndMatch);
       
-      // 解析变量和函数
-      parseVariables(code, symbolTable);
-      parseFunctions(code, symbolTable);
+      // 改进的代码行解析，处理多行语句和注释
+      let lines = [];
+      let currentLine = '';
+      let inComment = false;
+      let inString = false;
       
-      // 找到main函数体
-      const mainStartMatch = code.match(/int\s+main\s*\(\s*(?:void)?\s*\)\s*\{/);
-      const mainEndMatch = code.lastIndexOf('}');
-      
-      if (mainStartMatch && mainEndMatch !== -1) {
-        const mainBody = code.substring(mainStartMatch.index + mainStartMatch[0].length, mainEndMatch);
+      for (let i = 0; i < mainBody.length; i++) {
+        const char = mainBody[i];
+        const nextChar = i + 1 < mainBody.length ? mainBody[i + 1] : '';
         
-        // 改进的代码行解析，处理多行语句和注释
-        let lines = [];
-        let currentLine = '';
-        let inComment = false;
-        let inString = false;
-        
-        for (let i = 0; i < mainBody.length; i++) {
-          const char = mainBody[i];
-          const nextChar = i + 1 < mainBody.length ? mainBody[i + 1] : '';
-          
-          // 处理注释
-          if (char === '/' && nextChar === '*' && !inString) {
-            inComment = true;
-            i++;
-            continue;
-          }
-          if (char === '*' && nextChar === '/' && inComment) {
-            inComment = false;
-            i++;
-            continue;
-          }
-          if (inComment) {
-            continue;
-          }
-          
-          // 处理字符串
-          if (char === '"' && (i === 0 || mainBody[i - 1] !== '\\')) {
-            inString = !inString;
-          }
-          
-          currentLine += char;
-          
-          // 处理语句结束
-          if ((char === ';' && !inString && !inComment) || i === mainBody.length - 1) {
-            lines.push(currentLine.trim());
-            currentLine = '';
-          }
+        // 处理注释
+        if (char === '/' && nextChar === '*' && !inString) {
+          inComment = true;
+          i++;
+          continue;
+        } else if (char === '*' && nextChar === '/' && inComment) {
+          inComment = false;
+          i++;
+          continue;
+        } else if (inComment) {
+          continue;
         }
         
-        // 模拟执行
-        let executionSteps = 0;
-        const maxExecutionSteps = 100000; // 防止无限循环
+        // 处理字符串
+        if (char === '"' && (i === 0 || mainBody[i - 1] !== '\\')) {
+          inString = !inString;
+        }
         
-        // 控制流处理结构
-        const controlStack = [];
+        // 处理行结束
+        if (char === ';' && !inString) {
+          currentLine += char;
+          lines.push(currentLine.trim());
+          currentLine = '';
+        } else {
+          currentLine += char;
+        }
+      }
+      
+      // 如果还有未处理的代码行，添加它
+      if (currentLine.trim() !== '') {
+        lines.push(currentLine.trim());
+      }
+      
+      // 执行代码行
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].replace(/\s+/g, ' ').trim();
         
-        for (let i = 0; i < lines.length; i++) {
-          let line = lines[i];
-          
-          // 跳过空行和纯注释行
-          if (!line || line.startsWith('//') || line.match(/^\/\*.*\*\/$/)) {
-            continue;
+        // 跳过空行和注释
+        if (line === '' || line.startsWith('//')) {
+          continue;
+        }
+        
+        // 模拟变量赋值
+        const assignmentMatch = line.match(/(\w+)\s*=\s*(.+);/);
+        if (assignmentMatch) {
+          const [, varName, expression] = assignmentMatch;
+          symbolTable.variables[varName] = evaluateExpression(expression, symbolTable);
+          continue;
+        }
+        
+        // 模拟printf函数调用
+        const printfMatch = line.match(/printf\("([^"]*)",?\s*([^)]*)\);/);
+        if (printfMatch) {
+          const [, formatString, argsStr] = printfMatch;
+          const args = argsStr ? argsStr.split(',').map(arg => arg.trim()).filter(arg => arg !== '') : [];
+          const printfOutput = processPrintf(formatString, args, symbolTable);
+          simulationOutput += printfOutput;
+          continue;
+        }
+        
+        // 模拟scanf函数调用
+        const scanfMatch = line.match(/scanf\("([^"]*)",?\s*([^)]*)\);/);
+        if (scanfMatch) {
+          const [, formatString, argsStr] = scanfMatch;
+          const args = argsStr ? argsStr.split(',').map(arg => {
+            const trimmed = arg.trim();
+            return trimmed.startsWith('&') ? trimmed.substring(1) : trimmed;
+          }).filter(arg => arg !== '') : [];
+          processScanf(formatString, args, symbolTable);
+          continue;
+        }
+        
+        // 模拟if语句
+        const ifMatch = line.match(/if\s*\(([^)]*)\)/);
+        if (ifMatch) {
+          const [, condition] = ifMatch;
+          const conditionValue = evaluateExpression(condition, symbolTable);
+          if (conditionValue) {
+            // 简化处理，只标记当前条件为真
+            symbolTable.ifConditions.push(true);
+          } else {
+            symbolTable.ifConditions.push(false);
           }
-          
-          executionSteps++;
-          if (executionSteps > maxExecutionSteps) {
-            simulationOutput += '\n错误: 执行步骤超过限制，可能存在无限循环';
-            break;
+          continue;
+        }
+        
+        // 模拟else语句
+        if (line.includes('else')) {
+          if (symbolTable.ifConditions.length > 0) {
+            const lastCondition = symbolTable.ifConditions.pop();
+            symbolTable.ifConditions.push(!lastCondition);
           }
+          continue;
+        }
+        
+        // 模拟for循环
+        const forMatch = line.match(/for\s*\(\s*(\w+)\s*=\s*(\d+)\s*;\s*(\w+)\s*(<|>|<=|>=|==|!=)\s*(\d+)\s*;\s*(\w+)(\+\+|--|\+=\d+|-=\d+)?\s*\)/);
+        if (forMatch) {
+          const [, varName, start, loopVar, operator, end] = forMatch;
+          const startValue = parseInt(start, 10);
+          const endValue = parseInt(end, 10);
           
-          // 处理注释部分
-          const commentIndex = line.indexOf('//');
-          if (commentIndex !== -1) {
-            line = line.substring(0, commentIndex).trim();
-          }
+          symbolTable.variables[varName] = startValue;
           
-          // 处理return语句
-          if (line.startsWith('return')) {
-            const returnExpr = line.substring(6).trim().replace(/;/g, '');
-            if (returnExpr) {
-              try {
-                evaluateExpression(returnExpr, symbolTable);
-              } catch (e) {
-                simulationOutput += `\n错误: 返回表达式计算失败: ${e.message}`;
-              }
+          // 提取循环体
+          let loopBody = '';
+          let braceCount = 0;
+          let inLoopBody = false;
+          
+          // 查找for循环后面的大括号
+          for (let j = i + 1; j < lines.length; j++) {
+            const loopLine = lines[j].trim();
+            
+            if (!inLoopBody && loopLine === '{') {
+              inLoopBody = true;
+              braceCount = 1;
+              continue;
             }
-            // 在模拟环境中，我们不真正跳出函数
-            continue;
-          }
-          
-          // 处理printf调用
-          const printfMatch = line.match(/printf\s*\(\s*"([^"\\]*(?:\\.[^"\\]*)*)"\s*(?:,\s*([^)]*))?\s*\);/);
-          if (printfMatch) {
-            const formatString = printfMatch[1];
-            const args = printfMatch[2] ? printfMatch[2].split(',').map(arg => arg.trim()) : [];
             
-            // 处理printf输出
-            const outputLine = processPrintf(formatString, args, symbolTable);
-            simulationOutput += outputLine;
-            continue;
-          }
-          
-          // 处理scanf调用
-          // 处理scanf函数调用
-          const scanfMatch = line.match(/scanf\s*\(\s*"([^"\\]*(?:\\.[^"\\]*)*)"\s*(?:,\s*&?([^)]*))?\s*\);/);
-          if (scanfMatch) {
-            const formatString = scanfMatch[1];
-            const args = scanfMatch[2] ? 
-              scanfMatch[2].split(',').map(arg => {
-                const trimmedArg = arg.trim();
-                // 移除&符号
-                return trimmedArg.startsWith('&') ? trimmedArg.substring(1) : trimmedArg;
-              }) : 
-              [];
-            
-            // 准备用户输入，支持逗号和空格作为分隔符
-            let inputValues = [];
-            if (userInput) {
-              inputValues = userInput.split(/[,\s]+/).map(val => val.trim()).filter(val => val !== '');
-            }
-            
-            // 确保输入值数量至少等于参数数量
-            while (inputValues.length < args.length) {
-              inputValues.push('0'); // 添加默认值
-            }
-            
-            // 处理每个参数对应的输入
-            for (let i = 0; i < args.length; i++) {
-              const varName = args[i];
-              let inputValue = inputValues[i];
+            if (inLoopBody) {
+              braceCount += (loopLine.match(/\{/g) || []).length;
+              braceCount -= (loopLine.match(/\}/g) || []).length;
               
-              // 根据格式说明符处理输入值
-              const formatSpecifiers = formatString.match(/%[dfcs]/g) || [];
-              const formatSpecifier = i < formatSpecifiers.length ? formatSpecifiers[i] : '%d';
+              if (braceCount > 0 && loopLine !== '}' || braceCount > 1 && loopLine === '}') {
+                loopBody += loopLine + '\n';
+              }
               
-              try {
-                switch (formatSpecifier) {
-                  case '%d': // 整数
-                    symbolTable.variables[varName] = parseInt(inputValue) || 0;
-                    break;
-                  case '%f': // 浮点数
-                    symbolTable.variables[varName] = parseFloat(inputValue) || 0.0;
-                    break;
-                  case '%c': // 字符
-                    symbolTable.variables[varName] = inputValue.charAt(0) || ' ';
-                    break;
-                  case '%s': // 字符串
-                    symbolTable.variables[varName] = inputValue;
-                    break;
-                  default: // 默认处理为整数
-                    symbolTable.variables[varName] = parseInt(inputValue) || 0;
-                }
-                
-                // 更新内存使用统计
-                memoryUsage += 4; // 假设每个变量占用4字节
-              } catch (e) {
-                simulationOutput += `\n警告: 变量 ${varName} 赋值失败: ${e.message}`;
-                symbolTable.variables[varName] = 0; // 默认值
-              }
-            }
-            
-            // 在输出中显示输入提示和使用的输入值
-            simulationOutput += `[输入]: ${inputValues.join(', ')}\n`;
-            continue;
-          }
-          
-          // 处理变量赋值
-          const assignmentMatch = line.match(/(\w+)\s*=\s*([^;]+);/);
-          if (assignmentMatch) {
-            const varName = assignmentMatch[1];
-            const value = assignmentMatch[2].trim();
-            
-            try {
-              symbolTable.variables[varName] = evaluateExpression(value, symbolTable);
-              // 更新内存使用统计
-              if (symbolTable.variables[varName] !== undefined) {
-                memoryUsage += 4; // 假设每个变量占用4字节
-              }
-            } catch (e) {
-              simulationOutput += `\n警告: 变量 ${varName} 赋值失败: ${e.message}`;
-              symbolTable.variables[varName] = 0; // 默认值
-            }
-            continue;
-          }
-          
-          // 处理自增自减运算符
-          const incDecMatch = line.match(/(\w+)\s*([+]{2}|-{2})\s*;/);
-          if (incDecMatch) {
-            const varName = incDecMatch[1];
-            const op = incDecMatch[2];
-            
-            if (symbolTable.variables[varName] !== undefined) {
-              if (op === '++') {
-                symbolTable.variables[varName]++;
-              } else {
-                symbolTable.variables[varName]--;
-              }
-            }
-            continue;
-          }
-          
-          // 处理if语句
-          const ifMatch = line.match(/if\s*\(\s*([^)]+)\s*\)\s*(?:\{)?/);
-          if (ifMatch) {
-            const condition = ifMatch[1];
-            
-            try {
-              const conditionResult = evaluateExpression(condition, symbolTable);
-              // 将条件结果转换为布尔值
-              const shouldExecute = !!conditionResult;
-              
-              controlStack.push({
-                type: 'if',
-                conditionResult: shouldExecute,
-                executed: false,
-                elseFound: false,
-                startIndex: i
-              });
-            } catch (e) {
-              simulationOutput += `\n错误: if条件表达式计算失败: ${e.message}`;
-              controlStack.push({ type: 'if', conditionResult: false, executed: false, elseFound: false, startIndex: i });
-            }
-            continue;
-          }
-          
-          // 处理else语句
-          if (line.match(/^else\s*(?:\{)?/)) {
-            // 查找最近的if语句
-            let foundIf = false;
-            for (let j = controlStack.length - 1; j >= 0; j--) {
-              if (controlStack[j].type === 'if' && !controlStack[j].elseFound) {
-                controlStack[j].elseFound = true;
-                controlStack[j].elseBlock = true;
-                foundIf = true;
+              if (braceCount === 0) {
+                i = j; // 跳转到循环体结束后的行
                 break;
               }
             }
-            if (!foundIf) {
-              simulationOutput += '\n警告: else语句没有匹配的if语句';
-            }
-            continue;
           }
           
-          // 处理for循环
-          const forMatch = line.match(/for\s*\(\s*([^;]*);\s*([^;]*);\s*([^\)]*)\)\s*(?:\{)?/);
-          if (forMatch) {
-            const initExpr = forMatch[1].trim();
-            const conditionExpr = forMatch[2].trim();
-            const updateExpr = forMatch[3].trim();
-            
-            // 创建循环控制结构
-            controlStack.push({
-              type: 'for',
-              initExpr: initExpr,
-              conditionExpr: conditionExpr,
-              updateExpr: updateExpr,
-              loopCount: 0,
-              maxLoopCount: 10000,
-              startIndex: i
-            });
-            
-            // 执行初始化表达式
-            if (initExpr) {
-              try {
-                if (initExpr.includes('=')) {
-                  const assignmentMatch = initExpr.match(/(\w+)\s*=\s*(.*)/);
-                  if (assignmentMatch) {
-                    const varName = assignmentMatch[1];
-                    const value = assignmentMatch[2];
-                    symbolTable.variables[varName] = evaluateExpression(value, symbolTable);
-                  }
-                }
-              } catch (e) {
-                simulationOutput += `\n错误: for循环初始化表达式执行失败: ${e.message}`;
-              }
-            }
-            
+          // 模拟for循环
+          let k = startValue;
+          let conditionMet = true;
+          
+          while (conditionMet) {
             // 检查循环条件
-            let shouldContinue = false;
+            if (operator === '<') {
+              conditionMet = k < endValue;
+            } else if (operator === '>') {
+              conditionMet = k > endValue;
+            } else if (operator === '<=') {
+              conditionMet = k <= endValue;
+            } else if (operator === '>=') {
+              conditionMet = k >= endValue;
+            } else if (operator === '==') {
+              conditionMet = k === endValue;
+            } else if (operator === '!=') {
+              conditionMet = k !== endValue;
+            }
+            
+            if (conditionMet) {
+              symbolTable.variables[varName] = k;
+              
+              // 执行循环体内的代码
+              if (loopBody) {
+                const bodyLines = loopBody.trim().split('\n');
+                for (let l = 0; l < bodyLines.length; l++) {
+                  const bodyLine = bodyLines[l].trim();
+                  if (bodyLine === '' || bodyLine.startsWith('//')) {
+                    continue;
+                  }
+                  
+                  // 处理循环体内的赋值语句
+                  const bodyAssignmentMatch = bodyLine.match(/(\w+)\s*=\s*(.+);/);
+                  if (bodyAssignmentMatch) {
+                    const [, bodyVarName, bodyExpression] = bodyAssignmentMatch;
+                    symbolTable.variables[bodyVarName] = evaluateExpression(bodyExpression, symbolTable);
+                    continue;
+                  }
+                  
+                  // 处理循环体内的printf
+                  const bodyPrintfMatch = bodyLine.match(/printf\("([^"]*)",?\s*([^)]*)\);/);
+                  if (bodyPrintfMatch) {
+                    const [, bodyFormatString, bodyArgsStr] = bodyPrintfMatch;
+                    const bodyArgs = bodyArgsStr ? bodyArgsStr.split(',').map(arg => arg.trim()).filter(arg => arg !== '') : [];
+                    const bodyPrintfOutput = processPrintf(bodyFormatString, bodyArgs, symbolTable);
+                    simulationOutput += bodyPrintfOutput;
+                    continue;
+                  }
+                }
+              }
+              
+              k++; // 默认递增，实际应该根据循环的增量部分处理
+            }
+          }
+          continue;
+        }
+        
+        // 模拟while循环
+        const whileMatch = line.match(/while\s*\(([^)]*)\)/);
+        if (whileMatch) {
+          const [, condition] = whileMatch;
+          
+          // 提取循环体
+          let loopBody = '';
+          let braceCount = 0;
+          let inLoopBody = false;
+          
+          // 查找while循环后面的大括号
+          for (let j = i + 1; j < lines.length; j++) {
+            const loopLine = lines[j].trim();
+            
+            if (!inLoopBody && loopLine === '{') {
+              inLoopBody = true;
+              braceCount = 1;
+              continue;
+            }
+            
+            if (inLoopBody) {
+              braceCount += (loopLine.match(/\{/g) || []).length;
+              braceCount -= (loopLine.match(/\}/g) || []).length;
+              
+              if (braceCount > 0 && loopLine !== '}' || braceCount > 1 && loopLine === '}') {
+                loopBody += loopLine + '\n';
+              }
+              
+              if (braceCount === 0) {
+                i = j; // 跳转到循环体结束后的行
+                break;
+              }
+            }
+          }
+          
+          // 模拟while循环执行最多5次（避免死循环）
+          let iterations = 0;
+          const maxIterations = 5;
+          
+          while (evaluateExpression(condition, symbolTable) !== 0 && iterations < maxIterations) {
+            iterations++;
+            
+            // 执行循环体内的代码
+            if (loopBody) {
+              const bodyLines = loopBody.trim().split('\n');
+              for (let l = 0; l < bodyLines.length; l++) {
+                const bodyLine = bodyLines[l].trim();
+                if (bodyLine === '' || bodyLine.startsWith('//')) {
+                  continue;
+                }
+                
+                // 处理循环体内的赋值语句
+                const bodyAssignmentMatch = bodyLine.match(/(\w+)\s*=\s*(.+);/);
+                if (bodyAssignmentMatch) {
+                  const [, bodyVarName, bodyExpression] = bodyAssignmentMatch;
+                  symbolTable.variables[bodyVarName] = evaluateExpression(bodyExpression, symbolTable);
+                  continue;
+                }
+                
+                // 处理循环体内的printf
+                const bodyPrintfMatch = bodyLine.match(/printf\("([^"]*)",?\s*([^)]*)\);/);
+                if (bodyPrintfMatch) {
+                  const [, bodyFormatString, bodyArgsStr] = bodyPrintfMatch;
+                  const bodyArgs = bodyArgsStr ? bodyArgsStr.split(',').map(arg => arg.trim()).filter(arg => arg !== '') : [];
+                  const bodyPrintfOutput = processPrintf(bodyFormatString, bodyArgs, symbolTable);
+                  simulationOutput += bodyPrintfOutput;
+                  continue;
+                }
+              }
+            }
+          }
+          continue;
+        }
+        
+        // 模拟return语句
+        const returnMatch = line.match(/return\s+([^;]+);/);
+        if (returnMatch) {
+          const [, returnValue] = returnMatch;
+          symbolTable.variables['return'] = evaluateExpression(returnValue, symbolTable);
+          continue;
+        }
+        
+        // 模拟函数调用
+        const functionCallMatch = line.match(/(\w+)\s*\(([^)]*)\);/);
+        if (functionCallMatch && !['printf', 'scanf', 'rand'].includes(functionCallMatch[1])) {
+          const [, funcName, argsStr] = functionCallMatch;
+          const args = argsStr ? argsStr.split(',').map(arg => arg.trim()).filter(arg => arg !== '') : [];
+          
+          // 检查函数是否存在
+          if (symbolTable.functions[funcName]) {
             try {
-              shouldContinue = conditionExpr ? !!evaluateExpression(conditionExpr, symbolTable) : true;
+              const func = symbolTable.functions[funcName];
+              
+              // 创建函数调用的临时符号表
+              const funcSymbolTable = {
+                ...symbolTable,
+                variables: { ...symbolTable.variables }
+              };
+              
+              // 处理函数参数
+              if (func.params && args.length === func.params.length) {
+                for (let j = 0; j < args.length; j++) {
+                  const paramValue = evaluateExpression(args[j], symbolTable);
+                  funcSymbolTable.variables[func.params[j]] = paramValue;
+                }
+              }
+              
+              // 执行函数体
+              const funcOutput = simulateExecution(func.body + '\nint main() {}', funcSymbolTable);
+              simulationOutput += funcOutput;
             } catch (e) {
-              simulationOutput += `\n错误: for循环条件表达式执行失败: ${e.message}`;
-              shouldContinue = false;
+              simulationOutput += `\n错误: 函数 ${funcName} 执行失败: ${e.message}`;
             }
-            
-            // 如果条件不满足，跳过循环体
-            if (!shouldContinue) {
-              // 这里需要记录循环已经被跳过
-              controlStack[controlStack.length - 1].skipped = true;
-            }
-            
-            continue;
           }
-          
-          // 处理while循环
-          const whileMatch = line.match(/while\s*\(\s*([^)]+)\s*\)\s*(?:\{)?/);
-          if (whileMatch) {
-            const conditionExpr = whileMatch[1];
-            
-            controlStack.push({
-              type: 'while',
-              conditionExpr: conditionExpr,
-              loopCount: 0,
-              maxLoopCount: 10000,
-              startIndex: i
-            });
-            
-            // 检查循环条件
-            let shouldContinue = false;
-            try {
-              shouldContinue = !!evaluateExpression(conditionExpr, symbolTable);
-            } catch (e) {
-              simulationOutput += `\n错误: while循环条件表达式执行失败: ${e.message}`;
-              shouldContinue = false;
-            }
-            
-            // 如果条件不满足，跳过循环体
-            if (!shouldContinue) {
-              controlStack[controlStack.length - 1].skipped = true;
-            }
-            
-            continue;
-          }
-          
-          // 处理switch语句
-          const switchMatch = line.match(/switch\s*\(\s*([^)]+)\s*\)\s*(?:\{)?/);
-          if (switchMatch) {
-            const switchExpr = switchMatch[1];
-            
-            try {
-              const switchValue = evaluateExpression(switchExpr, symbolTable);
-              controlStack.push({
-                type: 'switch',
-                value: switchValue,
-                caseFound: false,
-                defaultFound: false,
-                startIndex: i
-              });
-            } catch (e) {
-              simulationOutput += `\n错误: switch表达式计算失败: ${e.message}`;
-              controlStack.push({ type: 'switch', value: null, caseFound: false, defaultFound: false, startIndex: i });
-            }
-            
-            continue;
-          }
-          
-          // 处理case语句
-          const caseMatch = line.match(/case\s+([^:]+):/);
-          if (caseMatch) {
-            const caseValue = caseMatch[1].trim();
-            
-            // 查找最近的switch语句
-            let handled = false;
-            for (let j = controlStack.length - 1; j >= 0; j--) {
-              if (controlStack[j].type === 'switch') {
-                const switchControl = controlStack[j];
-                
-                if (!switchControl.caseFound) {
-                  try {
-                    const compareValue = evaluateExpression(caseValue, symbolTable);
-                    if (compareValue === switchControl.value) {
-                      switchControl.caseFound = true;
-                      handled = true;
-                    }
-                  } catch (e) {
-                    simulationOutput += `\n错误: case值计算失败: ${e.message}`;
-                  }
-                }
-                
-                // 如果case匹配或已经有匹配的case，执行当前case
-                if (switchControl.caseFound) {
-                  handled = true;
-                  // 这里应该执行case内的代码，但在简化模型中我们跳过详细处理
-                }
-                
-                break;
-              }
-            }
-            
-            if (!handled) {
-              simulationOutput += '\n警告: case语句没有匹配的switch语句';
-            }
-            
-            continue;
-          }
-          
-          // 处理default语句
-          if (line.match(/default\s*:/)) {
-            // 查找最近的switch语句
-            let handled = false;
-            for (let j = controlStack.length - 1; j >= 0; j--) {
-              if (controlStack[j].type === 'switch' && !controlStack[j].caseFound) {
-                controlStack[j].defaultFound = true;
-                controlStack[j].caseFound = true; // 默认语句后的代码也会执行
-                handled = true;
-                break;
-              }
-            }
-            
-            if (!handled) {
-              simulationOutput += '\n警告: default语句没有匹配的switch语句';
-            }
-            
-            continue;
-          }
-          
-          // 处理break语句
-          if (line.match(/break\s*;/)) {
-            // 查找最近的可中断控制结构
-            let broke = false;
-            for (let j = controlStack.length - 1; j >= 0; j--) {
-              if (['switch', 'for', 'while'].includes(controlStack[j].type)) {
-                controlStack.splice(j); // 移除该控制结构及其内部的所有结构
-                broke = true;
-                break;
-              }
-            }
-            
-            if (!broke) {
-              simulationOutput += '\n警告: break语句不在可中断的控制结构内';
-            }
-            
-            continue;
-          }
-          
-          // 处理continue语句
-          if (line.match(/continue\s*;/)) {
-            // 查找最近的循环控制结构
-            let continued = false;
-            for (let j = controlStack.length - 1; j >= 0; j--) {
-              if (['for', 'while'].includes(controlStack[j].type)) {
-                const loopControl = controlStack[j];
-                
-                // 执行循环更新表达式（仅for循环）
-                if (loopControl.type === 'for' && loopControl.updateExpr) {
-                  try {
-                    // 处理简单的自增自减
-                    if (loopControl.updateExpr.includes('++') || loopControl.updateExpr.includes('--')) {
-                      const varMatch = loopControl.updateExpr.match(/(\w+)\s*([+]{2}|-{2})/);
-                      if (varMatch) {
-                        const varName = varMatch[1];
-                        const op = varMatch[2];
-                        if (symbolTable.variables[varName] !== undefined) {
-                          if (op === '++') {
-                            symbolTable.variables[varName]++;
-                          } else {
-                            symbolTable.variables[varName]--;
-                          }
-                        }
-                      }
-                    }
-                  } catch (e) {
-                    simulationOutput += `\n错误: 循环更新表达式执行失败: ${e.message}`;
-                  }
-                }
-                
-                // 重新检查循环条件
-                try {
-                  if (loopControl.type === 'while') {
-                    loopControl.shouldContinue = !!evaluateExpression(loopControl.conditionExpr, symbolTable);
-                  } else if (loopControl.type === 'for') {
-                    loopControl.shouldContinue = loopControl.conditionExpr ? 
-                      !!evaluateExpression(loopControl.conditionExpr, symbolTable) : true;
-                  }
-                } catch (e) {
-                  simulationOutput += `\n错误: 循环条件表达式执行失败: ${e.message}`;
-                  loopControl.shouldContinue = false;
-                }
-                
-                // 增加循环计数
-                loopControl.loopCount++;
-                if (loopControl.loopCount > loopControl.maxLoopCount) {
-                  simulationOutput += '\n错误: 循环次数超过限制';
-                  loopControl.shouldContinue = false;
-                }
-                
-                continued = true;
-                break;
-              }
-            }
-            
-            if (!continued) {
-              simulationOutput += '\n警告: continue语句不在循环控制结构内';
-            }
-            
-            continue;
-          }
-          
-          // 处理函数调用（非标准库函数）
-          const funcCallMatch = line.match(/([a-zA-Z_][a-zA-Z0-9_]*)\s*\(\s*([^)]*)\s*\)\s*;/);
-          if (funcCallMatch) {
-            const funcName = funcCallMatch[1];
-            const argsStr = funcCallMatch[2];
-            
-            // 跳过标准库函数（已在evaluateExpression中处理）
-            const stdFunctions = ['printf', 'scanf', 'abs', 'sqrt', 'pow', 'rand', 'srand'];
-            if (!stdFunctions.includes(funcName) && symbolTable.functions[funcName]) {
-              try {
-                const func = symbolTable.functions[funcName];
-                const args = argsStr ? argsStr.split(',').map(arg => arg.trim()).filter(arg => arg !== '') : [];
-                
-                // 创建函数调用的临时符号表
-                const funcSymbolTable = {
-                  ...symbolTable,
-                  variables: { ...symbolTable.variables }
-                };
-                
-                // 处理函数参数
-                if (func.params && args.length === func.params.length) {
-                  for (let j = 0; j < args.length; j++) {
-                    const paramValue = evaluateExpression(args[j], symbolTable);
-                    funcSymbolTable.variables[func.params[j]] = paramValue;
-                  }
-                }
-                
-                // 执行函数体
-                const funcOutput = simulateExecution(func.body + '\nint main() {}', funcSymbolTable);
-                simulationOutput += funcOutput;
-              } catch (e) {
-                simulationOutput += `\n错误: 函数 ${funcName} 执行失败: ${e.message}`;
-              }
-            }
-            continue;
-          }
+          continue;
         }
       }
       
@@ -1059,9 +686,80 @@ const CCompiler = (props) => {
       const stats = `\n\n执行成功!\n运行时间: ${executionTime}秒\n内存使用: ${(memoryUsage / 1024).toFixed(2)}KB`;
       
       return simulationOutput + stats;
-    } catch (e) {
-      console.error('模拟执行时出错:', e);
-      return `执行错误: ${e.message}`;
+    }
+    
+    return '未找到main函数';
+  };
+
+  // 创建符号表
+  const createSymbolTable = () => {
+    return {
+      variables: {},
+      functions: {},
+      ifConditions: []
+    };
+  };
+
+  // 解析变量
+  const parseVariables = (code, symbolTable) => {
+    // 简单的变量声明解析
+    const varDeclarations = code.match(/(int|float|double|char)\s+(\w+)(?:\s*=\s*([^;]+))?;/g);
+    if (varDeclarations) {
+      for (let i = 0; i < varDeclarations.length; i++) {
+        const varDecl = varDeclarations[i];
+        const varMatch = varDecl.match(/(\w+)\s+(\w+)(?:\s*=\s*([^;]+))?;/);
+        if (varMatch) {
+          const [, type, varName, value] = varMatch;
+          
+          // 设置默认值
+          let defaultValue = 0;
+          if (type === 'float' || type === 'double') {
+            defaultValue = 0.0;
+          } else if (type === 'char') {
+            defaultValue = '\0';
+          }
+          
+          if (value) {
+            // 尝试计算初始值
+            try {
+              symbolTable.variables[varName] = evaluateExpression(value, symbolTable);
+            } catch (e) {
+              symbolTable.variables[varName] = defaultValue;
+            }
+          } else {
+            symbolTable.variables[varName] = defaultValue;
+          }
+        }
+      }
+    }
+  };
+
+  // 解析函数
+  const parseFunctions = (code, symbolTable) => {
+    // 简单的函数声明和定义解析
+    const functionRegex = /(\w+)\s+(\w+)\s*\(([^)]*)\)\s*\{([^}]*)\}/g;
+    let match;
+    
+    while ((match = functionRegex.exec(code)) !== null) {
+      const [, returnType, funcName, paramsStr, body] = match;
+      
+      // 跳过main函数
+      if (funcName === 'main') {
+        continue;
+      }
+      
+      // 解析参数
+      const params = paramsStr ? paramsStr.split(',').map(param => {
+        const paramParts = param.trim().split(/\s+/);
+        return paramParts[paramParts.length - 1]; // 返回参数名
+      }).filter(param => param !== '') : [];
+      
+      // 存储函数信息
+      symbolTable.functions[funcName] = {
+        returnType,
+        params,
+        body: body.trim()
+      };
     }
   };
 
@@ -1131,9 +829,9 @@ const CCompiler = (props) => {
     const errors = [];
     
     // 检查main函数
-      if (!code.match(/int\s+main\s*\(\s*(?:void)?\s*\)/)) {
-        errors.push('缺少main函数声明（应为int main()或int main(void)）');
-      }
+    if (!code.match(/int\s+main\s*\(\s*(?:void)?\s*\)/)) {
+      errors.push('缺少main函数声明（应为int main()或int main(void)）');
+    }
     
     // 检查大括号匹配
     const openBraces = (code.match(/\{/g) || []).length;
